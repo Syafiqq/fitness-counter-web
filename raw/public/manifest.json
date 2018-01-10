@@ -1,0 +1,12 @@
+{
+  "name": "Konseling 1",
+  "short_name": "K1",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/"
+}
