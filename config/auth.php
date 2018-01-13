@@ -45,6 +45,11 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'admin' => [
+            'driver' => 'token',
+            'provider' => 'firebase'
+        ]
     ],
 
     /*
@@ -69,6 +74,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+
+        'firebase' => [
+            'driver' => 'firebase',
+            'model' => App\User::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
