@@ -1,16 +1,16 @@
 module.exports = {
-    assetsVendorResource: function (negated, mime) {
+    assetsVendorResource: function (negated, ext) {
         return [
-            (negated ? '!' : '') + './node_modules/jquery/dist/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/html5-boilerplate/dist/css/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/html5-boilerplate/dist/js/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/font-awesome/css/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/font-awesome/fonts/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/nprogress/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/ionicons/dist/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/fastclick/lib/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/html5shiv/dist/**' + (mime === null ? '' : '/' + mime),
-            (negated ? '!' : '') + './node_modules/respond.js/dest/**' + (mime === null ? '' : '/' + mime),
+            (negated ? '!' : '') + './node_modules/jquery/dist/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/html5-boilerplate/dist/css/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/html5-boilerplate/dist/js/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/font-awesome/css/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/font-awesome/fonts/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/nprogress/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/ionicons/dist/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/fastclick/lib/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/html5shiv/dist/**' + (ext === null ? '' : '/' + ext),
+            (negated ? '!' : '') + './node_modules/respond.js/dest/**' + (ext === null ? '' : '/' + ext),
         ];
     }
 };
