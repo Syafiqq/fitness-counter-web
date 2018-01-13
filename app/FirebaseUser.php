@@ -10,6 +10,8 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
 
 class FirebaseUser implements AuthenticatableContract
 {
@@ -17,6 +19,42 @@ class FirebaseUser implements AuthenticatableContract
     private $uid;
     private $email;
     private $password;
+    private $connection;
+
+    /**
+     * FirebaseUser constructor.
+     */
+    public function __construct()
+    {
+        $serviceAccount = ServiceAccount::fromJsonFile(resource_path() . env('FIREBASE_SERVICE', '/assets/sdk/fitness-counter-6a479f0be813.json'));
+        $apiKey         = env('FIREBASE_API_KEY', 'AIzaSyD_xXi_xZo25ASGgFODWv9av5lLLPHRWeg');
+
+        $this->connection = (new Factory)
+            ->withServiceAccountAndApiKey($serviceAccount, $apiKey)
+            ->create();
+    }
+
+
+    /**
+     * Fetch user by Credentials
+     *
+     * @param array $credentials
+     * @return AuthenticatableContract
+     */
+    public function fetchUserByCredentials(Array $credentials)
+    {
+        /** @var \Kreait\Firebase\Auth\User $user */
+        $user = $this->connection->getAuth()->getUserByEmailAndPassword($credentials['email'], $credentials['password']);
+
+        if (!is_null($user))
+        {
+            $this->email    = $user->getEmail();
+            $this->password = $credentials['password'];
+            $this->uid      = $user->getUid();
+        }
+
+        return $this;
+    }
 
     /**
      * Get the unique identifier for the user.
@@ -59,6 +97,8 @@ class FirebaseUser implements AuthenticatableContract
         {
             return $this->{$this->getRememberTokenName()};
         }
+
+        return null;
     }
 
     /**
