@@ -46,8 +46,8 @@ return [
             'provider' => 'users',
         ],
 
-        'admin' => [
-            'driver' => 'token',
+        'firebase' => [
+            'driver' => 'session',
             'provider' => 'firebase'
         ]
     ],
