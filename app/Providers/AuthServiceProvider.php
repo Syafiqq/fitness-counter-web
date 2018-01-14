@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
+use App\FirebaseUser;
+use Illuminate\Auth\AuthManager;
+use Illuminate\Auth\SessionGuard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,22 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        /** @var AuthManager $auth */
+        $auth = Auth::getFacadeRoot();
+
+        $this->app->bind('App\FirebaseUser', function ($app) {
+            return new FirebaseUser();
+        });
+
+        // add custom guard provider
+        $auth->provider(
+            'firebase', function ($app, array $config) {
+            return new FirebaseUserProvider($config['model']);
+        });
+
+        // add custom guard
+        $auth->extend('firebase', function ($app, $name, array $config) use ($auth) {
+            return new SessionGuard($name, $auth->createUserProvider($config['provider']), $app['session.store']);
+        });
     }
 }
