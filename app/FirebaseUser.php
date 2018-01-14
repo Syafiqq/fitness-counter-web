@@ -12,13 +12,13 @@ namespace App;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
+use Psy\Exception\RuntimeException;
 
 class FirebaseUser implements AuthenticatableContract
 {
     protected $rememberTokenName = 'remember_token';
     private $uid;
     private $email;
-    private $password;
     private $connection;
 
     /**
@@ -48,9 +48,24 @@ class FirebaseUser implements AuthenticatableContract
 
         if (!is_null($user))
         {
-            $this->email    = $user->getEmail();
-            $this->password = $credentials['password'];
-            $this->uid      = $user->getUid();
+            $this->setCredential($user);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $identifier string
+     * @return $this
+     */
+    public function fetchByUserId($identifier)
+    {
+        /** @var \Kreait\Firebase\Auth\User $user */
+        $user = $this->connection->getAuth()->getUser($identifier);
+
+        if (!is_null($user))
+        {
+            $this->setCredential($user);
         }
 
         return $this;
@@ -73,7 +88,7 @@ class FirebaseUser implements AuthenticatableContract
      */
     public function getAuthIdentifierName()
     {
-        return "email";
+        return "uid";
     }
 
     /**
@@ -83,7 +98,7 @@ class FirebaseUser implements AuthenticatableContract
      */
     public function getAuthPassword()
     {
-        return $this->password;
+        throw new RuntimeException('Not Implemented');
     }
 
     /**
@@ -158,19 +173,13 @@ class FirebaseUser implements AuthenticatableContract
     }
 
     /**
-     * @return mixed
+     * @param \Kreait\Firebase\Auth\User $user
      */
-    public function getPassword()
+    private function setCredential($user)
     {
-        return $this->password;
-    }
-
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
+        $this->connection->asUser($user);
+        $this->email = $user->getEmail();
+        $this->uid   = $user->getUid();
     }
 }
 
