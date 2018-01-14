@@ -17,16 +17,19 @@ use Illuminate\Contracts\Auth\UserProvider;
 class FirebaseUserProvider implements UserProvider
 {
     /**
-     * The Mongo User Model
+     * The Eloquent user model.
+     *
+     * @var string
      */
-    private $model;
+    protected $model;
 
     /**
-     * Create a new mongo user provider.
+     * Create a new database user provider.
      *
-     * @param FirebaseUser $model
+     * @param  string $model
+     * @return void
      */
-    public function __construct(FirebaseUser $model)
+    public function __construct($model)
     {
         $this->model = $model;
     }
@@ -35,11 +38,13 @@ class FirebaseUserProvider implements UserProvider
      * Retrieve a user by their unique identifier.
      *
      * @param  mixed $identifier
-     * @return void
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById($identifier)
     {
-        throw new \RuntimeException('Not Implemented');
+        $model = $this->createModel();
+
+        return $model->fetchByUserId($identifier);
     }
 
     /**
@@ -74,12 +79,17 @@ class FirebaseUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        if (empty($credentials) || !(empty($credentials['email']) || (empty($credentials['password']))))
+        if (empty($credentials) || (count($credentials) === 1 && array_key_exists('password', $credentials)))
         {
             return null;
         }
 
-        return $this->model->fetchUserByCredentials(['email' => $credentials['email'], 'password' => $credentials['password']]);
+        // First we will add each credential element to the query as a where clause.
+        // Then we can execute the query and, if we found a user, return it in a
+        // Eloquent User "model" that will be utilized by the Guard instances.
+        $model = $this->createModel()->fetchUserByCredentials($credentials);
+
+        return $model;
     }
 
     /**
@@ -91,8 +101,42 @@ class FirebaseUserProvider implements UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        //Check user group
         return true;
+    }
+
+    /**
+     * Create a new instance of the model.
+     *
+     * @return FirebaseUser
+     */
+    public function createModel()
+    {
+        $class = '\\' . ltrim($this->model, '\\');
+
+        return new $class;
+    }
+
+    /**
+     * Gets the name of the Eloquent user model.
+     *
+     * @return string
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Sets the name of the Eloquent user model.
+     *
+     * @param  string $model
+     * @return $this
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
     }
 }
 
