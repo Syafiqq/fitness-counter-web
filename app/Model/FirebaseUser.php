@@ -7,7 +7,7 @@
  * Github       : syafiqq
  */
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Kreait\Firebase\Factory;
@@ -46,7 +46,7 @@ class FirebaseUser implements AuthenticatableContract
         /** @var \Kreait\Firebase\Auth\User $user */
         $user = $this->connection->getAuth()->getUserByEmailAndPassword($credentials['email'], $credentials['password']);
 
-        if (!is_null($user))
+        if (!is_null($user) && $this->isRoleValid($user))
         {
             $this->setCredential($user);
         }
@@ -180,6 +180,11 @@ class FirebaseUser implements AuthenticatableContract
         $this->connection->asUser($user);
         $this->email = $user->getEmail();
         $this->uid   = $user->getUid();
+    }
+
+    private function isRoleValid($user)
+    {
+        return true;
     }
 }
 

@@ -10,7 +10,7 @@
 namespace App\Firebase;
 
 
-use App\FirebaseUser;
+use App\Model\FirebaseUser;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 

@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Firebase\FirebaseUserProvider;
-use App\FirebaseUser;
+use App\Model\FirebaseUser;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         /** @var AuthManager $auth */
         $auth = Auth::getFacadeRoot();
 
-        $this->app->bind('App\FirebaseUser', function ($app) {
+        $this->app->bind('App\Model\FirebaseUser', function ($app) {
             return new FirebaseUser();
         });
 
