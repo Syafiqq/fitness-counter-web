@@ -7,7 +7,7 @@
  * Github       : syafiqq
  */
 
-namespace App\Providers;
+namespace App\Firebase;
 
 
 use App\FirebaseUser;

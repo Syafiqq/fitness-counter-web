@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Firebase\FirebaseUserProvider;
 use App\FirebaseUser;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\SessionGuard;
