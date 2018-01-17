@@ -10,12 +10,11 @@
 namespace App\Firebase;
 
 
-use App\Model\FirebaseUser;
+use App\Contracts\Auth\TokenUserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Support\Facades\App;
 
-class FirebaseUserProvider implements UserProvider
+class FirebaseUserProvider implements TokenUserProvider
 {
     /**
      * The Eloquent user model.
@@ -39,7 +38,7 @@ class FirebaseUserProvider implements UserProvider
      * Retrieve a user by their unique identifier.
      *
      * @param  mixed $identifier
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * @return \App\Contracts\Auth\TokenedAuthenticatable|null
      */
     public function retrieveById($identifier)
     {
@@ -76,7 +75,7 @@ class FirebaseUserProvider implements UserProvider
      * Retrieve a user by the given credentials.
      *
      * @param  array $credentials
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * @return \App\Contracts\Auth\TokenedAuthenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
     {
@@ -96,7 +95,7 @@ class FirebaseUserProvider implements UserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param  \App\Contracts\Auth\TokenedAuthenticatable $user
      * @param  array $credentials
      * @return bool
      */
@@ -108,7 +107,7 @@ class FirebaseUserProvider implements UserProvider
     /**
      * Create a new instance of the model.
      *
-     * @return FirebaseUser
+     * @return \App\Contracts\Auth\TokenedAuthenticatable
      */
     public function createModel()
     {
