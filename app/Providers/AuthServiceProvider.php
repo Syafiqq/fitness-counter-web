@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Firebase\FirebaseGuard;
 use App\Firebase\FirebaseUserProvider;
 use App\Model\FirebaseUser;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Auth\SessionGuard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,7 +44,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // add custom guard
         $auth->extend('firebase', function ($app, $name, array $config) use ($auth) {
-            return new SessionGuard($name, $auth->createUserProvider($config['provider']), $app['session.store']);
+            return new FirebaseGuard($name, $auth->createUserProvider($config['provider']), $app['session.store']);
         });
     }
 }
