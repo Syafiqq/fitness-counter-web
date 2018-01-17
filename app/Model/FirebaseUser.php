@@ -9,9 +9,8 @@
 
 namespace App\Model;
 
+use App\Firebase\FirebaseConnection;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
 use Psy\Exception\RuntimeException;
 
 class FirebaseUser implements AuthenticatableContract
@@ -19,19 +18,18 @@ class FirebaseUser implements AuthenticatableContract
     protected $rememberTokenName = 'remember_token';
     private $uid;
     private $email;
-    private $connection;
+    /**
+     * @var FirebaseConnection
+     */
+    private $firebase;
 
     /**
      * FirebaseUser constructor.
+     * @param FirebaseConnection $firebase
      */
-    public function __construct()
+    public function __construct(FirebaseConnection $firebase = null)
     {
-        $serviceAccount = ServiceAccount::fromJsonFile(resource_path() . env('FIREBASE_SERVICE', '/assets/sdk/fitness-counter-6a479f0be813.json'));
-        $apiKey         = env('FIREBASE_API_KEY', 'AIzaSyD_xXi_xZo25ASGgFODWv9av5lLLPHRWeg');
-
-        $this->connection = (new Factory)
-            ->withServiceAccountAndApiKey($serviceAccount, $apiKey)
-            ->create();
+        $this->firebase = $firebase;
     }
 
 
@@ -44,7 +42,7 @@ class FirebaseUser implements AuthenticatableContract
     public function fetchUserByCredentials(Array $credentials)
     {
         /** @var \Kreait\Firebase\Auth\User $user */
-        $user = $this->connection->getAuth()->getUserByEmailAndPassword($credentials['email'], $credentials['password']);
+        $user = $this->firebase->getConnection()->getAuth()->getUserByEmailAndPassword($credentials['email'], $credentials['password']);
 
         if (!is_null($user) && $this->isRoleValid($user))
         {
@@ -61,7 +59,7 @@ class FirebaseUser implements AuthenticatableContract
     public function fetchByUserId($identifier)
     {
         /** @var \Kreait\Firebase\Auth\User $user */
-        $user = $this->connection->getAuth()->getUser($identifier);
+        $user = $this->firebase->getConnection()->getAuth()->getUser($identifier);
 
         if (!is_null($user))
         {
@@ -177,7 +175,7 @@ class FirebaseUser implements AuthenticatableContract
      */
     private function setCredential($user)
     {
-        $this->connection->asUser($user);
+        $this->firebase->getConnection()->asUser($user);
         $this->email = $user->getEmail();
         $this->uid   = $user->getUid();
     }
