@@ -7,7 +7,7 @@
  * Github       : syafiqq
  */
 
-namespace App\Service\Auth;
+namespace App\Firebase;
 
 
 use Illuminate\Auth\Events\Attempting;
@@ -322,7 +322,7 @@ class FirebaseGuard implements StatefulGuard
     /**
      * @return Authenticatable
      */
-    public function getUser(): Authenticatable
+    public function getUser()
     {
         //should regenerate token ID
         return $this->user;
