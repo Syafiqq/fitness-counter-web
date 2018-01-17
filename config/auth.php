@@ -47,7 +47,7 @@ return [
         ],
 
         'firebase' => [
-            'driver' => 'session',
+            'driver' => 'firebase',
             'provider' => 'firebase'
         ]
     ],
