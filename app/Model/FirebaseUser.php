@@ -9,11 +9,11 @@
 
 namespace App\Model;
 
+use App\Contracts\Auth\TokenedAuthenticatable;
 use App\Firebase\FirebaseConnection;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Psy\Exception\RuntimeException;
 
-class FirebaseUser implements AuthenticatableContract
+class FirebaseUser implements TokenedAuthenticatable
 {
     protected $rememberTokenName = 'remember_token';
     private $uid;
@@ -37,7 +37,7 @@ class FirebaseUser implements AuthenticatableContract
      * Fetch user by Credentials
      *
      * @param array $credentials
-     * @return AuthenticatableContract
+     * @return \App\Contracts\Auth\TokenedAuthenticatable
      */
     public function fetchUserByCredentials(Array $credentials)
     {
@@ -54,7 +54,7 @@ class FirebaseUser implements AuthenticatableContract
 
     /**
      * @param $identifier string
-     * @return $this
+     * @return \App\Contracts\Auth\TokenedAuthenticatable
      */
     public function fetchByUserId($identifier)
     {
@@ -189,8 +189,6 @@ class FirebaseUser implements AuthenticatableContract
     {
         return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email]);
     }
-
-
 }
 
 ?>
