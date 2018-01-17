@@ -13,6 +13,7 @@ namespace App\Firebase;
 use App\Model\FirebaseUser;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Support\Facades\App;
 
 class FirebaseUserProvider implements UserProvider
 {
@@ -113,7 +114,7 @@ class FirebaseUserProvider implements UserProvider
     {
         $class = '\\' . ltrim($this->model, '\\');
 
-        return new $class;
+        return App::make($class);
     }
 
     /**
