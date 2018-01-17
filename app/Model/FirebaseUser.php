@@ -184,6 +184,13 @@ class FirebaseUser implements AuthenticatableContract
     {
         return true;
     }
+
+    public function __toString()
+    {
+        return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email]);
+    }
+
+
 }
 
 ?>
