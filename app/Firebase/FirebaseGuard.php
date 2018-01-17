@@ -10,8 +10,8 @@
 namespace App\Firebase;
 
 
+use App\Contracts\Auth\TokenUserProvider;
 use Illuminate\Auth\SessionGuard;
-use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,13 +21,13 @@ class FirebaseGuard extends SessionGuard
      * Create a new authentication guard.
      *
      * @param  string $name
-     * @param  \Illuminate\Contracts\Auth\UserProvider $provider
+     * @param  \App\Contracts\Auth\TokenUserProvider $provider
      * @param  \Illuminate\Contracts\Session\Session $session
      * @param  \Symfony\Component\HttpFoundation\Request $request
      * @return void
      */
     public function __construct($name,
-                                UserProvider $provider,
+                                TokenUserProvider $provider,
                                 Session $session,
                                 Request $request = null)
     {
