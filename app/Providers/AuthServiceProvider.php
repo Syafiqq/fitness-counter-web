@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
         $auth = Auth::getFacadeRoot();
 
         $this->app->bind('App\Model\FirebaseUser', function ($app) {
-            return new FirebaseUser();
+            return new FirebaseUser($app->make('App\Firebase\FirebaseConnection'));
         });
 
         // add custom guard provider
