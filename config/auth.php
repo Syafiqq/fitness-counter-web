@@ -77,7 +77,7 @@ return [
 
         'firebase' => [
             'driver' => 'firebase',
-            'model' => App\FirebaseUser::class,
+            'model' => App\Model\FirebaseUser::class,
         ]
 
         // 'users' => [
