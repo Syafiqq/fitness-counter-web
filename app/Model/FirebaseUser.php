@@ -30,6 +30,10 @@ class FirebaseUser implements TokenedAuthenticatable
      */
     private $token;
     /**
+     * @var string
+     */
+    private $role;
+    /**
      * @var FirebaseConnection
      */
     private $firebase;
@@ -245,14 +249,6 @@ class FirebaseUser implements TokenedAuthenticatable
     }
 
     /**
-     * @param mixed $uid
-     */
-    public function setUid($uid)
-    {
-        $this->uid = $uid;
-    }
-
-    /**
      * @return mixed
      */
     public function getEmail()
@@ -261,11 +257,11 @@ class FirebaseUser implements TokenedAuthenticatable
     }
 
     /**
-     * @param mixed $email
+     * @return string
      */
-    public function setEmail($email)
+    public function getRole(): string
     {
-        $this->email = $email;
+        return $this->role;
     }
 
     /**
