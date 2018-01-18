@@ -11,13 +11,24 @@ namespace App\Model;
 
 use App\Contracts\Auth\TokenedAuthenticatable;
 use App\Firebase\FirebaseConnection;
+use Lcobucci\JWT\Token;
 use Psy\Exception\RuntimeException;
 
 class FirebaseUser implements TokenedAuthenticatable
 {
     protected $rememberTokenName = 'remember_token';
+    /**
+     * @var string
+     */
     private $uid;
+    /**
+     * @var string
+     */
     private $email;
+    /**
+     * @var \Lcobucci\JWT\Token
+     */
+    private $token;
     /**
      * @var FirebaseConnection
      */
@@ -32,7 +43,6 @@ class FirebaseUser implements TokenedAuthenticatable
         $this->firebase = $firebase;
     }
 
-
     /**
      * Fetch user by Credentials
      *
@@ -44,7 +54,7 @@ class FirebaseUser implements TokenedAuthenticatable
         /** @var \Kreait\Firebase\Auth\User $user */
         $user = $this->firebase->getConnection()->getAuth()->getUserByEmailAndPassword($credentials['email'], $credentials['password']);
 
-        if (!is_null($user) && $this->isRoleValid($user))
+        if (!is_null($user) && $this->isRoleValid($credentials['role']))
         {
             $this->setCredential($user);
         }
@@ -139,6 +149,94 @@ class FirebaseUser implements TokenedAuthenticatable
     }
 
     /**
+     * Update user token given saved token
+     *
+     * @param \Lcobucci\JWT\Token $token
+     */
+    public function updateToken($token)
+    {
+        $this->setToken($token);
+    }
+
+    /**
+     * @return bool
+     */
+    public function needUpdateToken()
+    {
+        $need = false;
+        if (!$this->isTokenValid())
+        {
+            $this->createToken();
+            $need = true;
+        }
+
+        if ($this->isTokenExpired())
+        {
+            $this->updateToken($this->generateToken());
+            $need = true;
+        }
+
+        return $need;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTokenExpired()
+    {
+        return $this->token->isExpired();
+    }
+
+    /**
+     * @return \Lcobucci\JWT\Token $token
+     */
+    public function generateToken()
+    {
+        if ($this->firebase != null)
+        {
+            return $this->firebase->getConnection()->getAuth()->createCustomToken($this->uid);
+        }
+        else
+        {
+            throw new RuntimeException('Firebase Connection has not been established yet');
+        }
+    }
+
+    /**
+     * @return \Lcobucci\JWT\Token $token
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTokenValid()
+    {
+        return ($this->token != null) && ($this->token instanceof Token);
+    }
+
+    /**
+     * Update user token given saved token
+     *
+     * @param \Lcobucci\JWT\Token $token
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return void
+     */
+    public function createToken()
+    {
+        $this->setToken($this->generateToken());
+    }
+
+    /**
      * @return mixed
      */
     public function getUid()
@@ -171,6 +269,15 @@ class FirebaseUser implements TokenedAuthenticatable
     }
 
     /**
+     * @param $user
+     * @return bool
+     */
+    private function isRoleValid($user)
+    {
+        return true;
+    }
+
+    /**
      * @param \Kreait\Firebase\Auth\User $user
      */
     private function setCredential($user)
@@ -180,11 +287,9 @@ class FirebaseUser implements TokenedAuthenticatable
         $this->uid   = $user->getUid();
     }
 
-    private function isRoleValid($user)
-    {
-        return true;
-    }
-
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email]);
