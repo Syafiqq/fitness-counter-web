@@ -14,6 +14,77 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 interface TokenedAuthenticatable extends Authenticatable
 {
+    /**
+     * Retrieve a user by their unique identifier.
+     *
+     * @param $identifier string
+     * @return \App\Contracts\Auth\TokenedAuthenticatable
+     */
+    public function fetchByUserId($identifier);
+
+    /**
+     * Retrieve a user by the given credentials.
+     *
+     * @param  array $credentials
+     * @return \App\Contracts\Auth\TokenedAuthenticatable|null
+     */
+    public function fetchUserByCredentials(array $credentials);
+
+    /**
+     * Update user token given saved token
+     *
+     * @param \Lcobucci\JWT\Token $token
+     */
+    public function updateToken($token);
+
+    /**
+     * Check whether token is need to be updated
+     *
+     * @return bool
+     */
+    public function needUpdateToken();
+
+    /**
+     * Check token expiration
+     *
+     * @return bool
+     */
+    public function isTokenExpired();
+
+    /**
+     * Generate new token
+     *
+     * @return \Lcobucci\JWT\Token $token
+     */
+    public function generateToken();
+
+    /**
+     * Update user token given saved token
+     *
+     * @param \Lcobucci\JWT\Token $token
+     */
+    public function setToken($token);
+
+    /**
+     * Get token
+     *
+     * @return \Lcobucci\JWT\Token $token
+     */
+    public function getToken();
+
+    /**
+     * Check token validity
+     *
+     * @return bool
+     */
+    public function isTokenValid();
+
+    /**
+     * Create a new token
+     *
+     * @return void
+     */
+    public function createToken();
 }
 
 ?>
