@@ -13,6 +13,7 @@ use App\Contracts\Auth\FirebaseAuthenticatable;
 use App\Firebase\FirebaseConnection;
 use DateTime;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\App;
 use Kreait\Firebase\Auth\User;
 use Psy\Exception\RuntimeException;
 
@@ -238,6 +239,11 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
      */
     public function getToken()
     {
+        if ($this->needUpdateToken())
+        {
+            $this->save(App::make('session.store'), $this);
+        }
+
         return $this->token;
     }
 
@@ -317,9 +323,10 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
      */
     public function save(Session $session, $user)
     {
+        $this->needUpdateToken();
         $session->put($this->sessionName($user->uid), [
             'uid' => $user->uid,
-            'token' => $user->token = ($user->isTokenValid() && !$user->isTokenExpired() ? $user->token : $user->generateToken()),
+            'token' => $user->token,
             'role' => $user->role ?: $user->getValidRole(),
         ]);
     }
