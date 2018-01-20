@@ -15,6 +15,7 @@ use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Session\Session;
+use Kreait\Firebase\Auth\User;
 use Symfony\Component\HttpFoundation\Request;
 
 class FirebaseGuard extends SessionGuard
@@ -130,7 +131,7 @@ class FirebaseGuard extends SessionGuard
 
     /**
      * @param $id
-     * @param FirebaseAuthenticatable $user
+     * @param FirebaseAuthenticatable|User $user
      */
     protected function updateSessionAndToken($id, $user)
     {
@@ -138,6 +139,7 @@ class FirebaseGuard extends SessionGuard
         {
             $this->updateToken($user);
         }
+        $user->save($this->session, $user);
         parent::updateSession($id);
     }
 
