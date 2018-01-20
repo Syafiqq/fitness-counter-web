@@ -10,15 +10,18 @@
 namespace App\Firebase;
 
 
-use Kreait\Firebase\Auth\User;
-
 class DataMapper
 {
-    static function userRole(User $user, string $role): array
+    /**
+     * @param string $uid
+     * @param string $role
+     * @return array
+     */
+    static function userRole($uid, $role = null): array
     {
         return [
-            PathMapper::USERS_GROUPS . "/{$user->getUid()}/${role}",
-            PathMapper::USERS . "/{$user->getUid()}/roles/${role}",
+            sprintf("%s/%s%s", PathMapper::USERS_GROUPS, $uid, $role ? "/${role}" : ''),
+            sprintf("%s/%s/%s%s", PathMapper::USERS, $uid, 'roles', $role ? "/${role}" : ''),
         ];
     }
 }
