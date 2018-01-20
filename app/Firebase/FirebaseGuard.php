@@ -10,13 +10,25 @@
 namespace App\Firebase;
 
 
+use App\Contracts\Auth\TokenedAuthenticatable;
 use App\Contracts\Auth\TokenUserProvider;
 use Illuminate\Auth\SessionGuard;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 
 class FirebaseGuard extends SessionGuard
 {
+    /**
+     * @var TokenedAuthenticatable
+     */
+    protected $user;
+
+    /**
+     * @var TokenUserProvider
+     */
+    protected $provider;
+
     /**
      * Create a new authentication guard.
      *
@@ -63,11 +75,71 @@ class FirebaseGuard extends SessionGuard
         {
             if ($this->user = $this->provider->retrieveById($id))
             {
+                $this->user->updateToken($this->session->get($this->getToken()));
                 $this->fireAuthenticatedEvent($this->user);
             }
         }
 
+        // If the user is null, but we decrypt a "recaller" cookie we can attempt to
+        // pull the user data on that cookie which serves as a remember cookie on
+        // the application. Once we have a user we can return it to the caller.
+        $recaller = $this->recaller();
+
+        if (is_null($this->user) && !is_null($recaller))
+        {
+            $this->user = $this->userFromRecaller($recaller);
+
+            if ($this->user)
+            {
+                $this->updateSessionAndToken($this->user->getAuthIdentifier(), $this->user);
+
+                $this->fireLoginEvent($this->user, true);
+            }
+        }
+
         return $this->getUser();
+    }
+
+    /**
+     * Log a user into the application.
+     *
+     * @param  \App\Contracts\Auth\TokenedAuthenticatable $user
+     * @param  bool $remember
+     * @return void
+     */
+    public function login(Authenticatable $user, $remember = false)
+    {
+        $this->updateSessionAndToken($user->getAuthIdentifier(), $user);
+
+        // If the user should be permanently "remembered" by the application we will
+        // queue a permanent cookie that contains the encrypted copy of the user
+        // identifier. We will then decrypt this later to retrieve the users.
+        if ($remember)
+        {
+            $this->ensureRememberTokenIsSet($user);
+
+            $this->queueRecallerCookie($user);
+        }
+
+        // If we have an event dispatcher instance set we will fire an event so that
+        // any listeners will hook into the authentication events and run actions
+        // based on the login and logout events fired from the guard instances.
+        $this->fireLoginEvent($user, $remember);
+
+        $this->setUser($user);
+    }
+
+    /**
+     * @param $id
+     * @param TokenedAuthenticatable $user
+     */
+    protected function updateSessionAndToken($id, $user)
+    {
+        if ($user)
+        {
+            $this->updateToken($user);
+        }
+        parent::updateSession($id);
     }
 
     /**
@@ -77,8 +149,28 @@ class FirebaseGuard extends SessionGuard
      */
     public function getUser()
     {
-        //should regenerate token ID
+        if ($this->user)
+        {
+            $this->updateToken($this->user);
+        }
+
         return parent::getUser();
+    }
+
+    private function getToken()
+    {
+        return 'login_' . $this->name . '_token_' . sha1(static::class);
+    }
+
+    /**
+     * @param TokenedAuthenticatable $user
+     */
+    private function updateToken($user)
+    {
+        if ($user->needUpdateToken())
+        {
+            $this->session->put($this->getToken(), $user->getToken());
+        }
     }
 }
 
