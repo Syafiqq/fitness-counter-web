@@ -43,9 +43,8 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
     /**
      * FirebaseUser constructor.
      * @param FirebaseConnection $firebase
-     * @param Session $session
      */
-    public function __construct(FirebaseConnection $firebase, Session $session)
+    public function __construct(FirebaseConnection $firebase)
     {
         $this->firebase = $firebase;
     }
