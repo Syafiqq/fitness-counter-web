@@ -11,18 +11,8 @@
 |
 */
 
-/** @var \Illuminate\Contracts\Auth\StatefulGuard $auth */
-$auth = \Illuminate\Support\Facades\Auth::getFacadeRoot();
-
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () use ($auth) {
-    //return view('welcome');
-    //$result = $auth->attempt(['email' => 'syafiq.rezpector@gmail.com', 'password' => 'password']);
-    $result = \Illuminate\Support\Facades\Auth::check();
-
-    \Illuminate\Support\Facades\Log::debug(\Illuminate\Support\Facades\Session::all());
-    \Illuminate\Support\Facades\Log::debug($result);
-
-    return "Hello";
+Route::get('/', function () {
+    return view('welcome');
 });
