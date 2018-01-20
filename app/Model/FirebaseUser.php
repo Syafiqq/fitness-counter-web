@@ -12,9 +12,10 @@ namespace App\Model;
 use App\Contracts\Auth\TokenedAuthenticatable;
 use App\Firebase\FirebaseConnection;
 use DateTime;
+use Kreait\Firebase\Auth\User;
 use Psy\Exception\RuntimeException;
 
-class FirebaseUser implements TokenedAuthenticatable
+class FirebaseUser extends User implements TokenedAuthenticatable
 {
     protected $rememberTokenName = 'remember_token';
     /**
@@ -268,7 +269,7 @@ class FirebaseUser implements TokenedAuthenticatable
     /**
      * @return mixed
      */
-    public function getUid()
+    public function getUid(): string
     {
         return $this->uid;
     }
