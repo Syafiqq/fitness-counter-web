@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 class FirebaseGuard extends SessionGuard
 {
     /**
-     * @var FirebaseAuthenticatable
+     * @var FirebaseAuthenticatable|User
      */
     protected $user;
 
@@ -76,6 +76,7 @@ class FirebaseGuard extends SessionGuard
             if ($this->user = $this->provider->retrieveById($id))
             {
                 $this->user->updateToken($this->session->get($this->getToken()));
+                $this->user->load($this->session, $this->user);
                 $this->fireAuthenticatedEvent($this->user);
             }
         }
