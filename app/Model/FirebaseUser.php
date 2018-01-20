@@ -274,22 +274,6 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
     }
 
     /**
-     * @return mixed
-     */
-    public function getUid(): string
-    {
-        return $this->uid;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
      * @return string
      */
     public function getRole(): string
