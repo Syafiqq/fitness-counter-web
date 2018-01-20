@@ -79,7 +79,7 @@ class FirebaseUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        if (empty($credentials) || (count($credentials) === 2 && array_key_exists('password', $credentials) && array_key_exists('role', $credentials)))
+        if (empty($credentials) || (count($credentials) === 1 && array_key_exists('password', $credentials)))
         {
             return null;
         }
