@@ -230,7 +230,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
             return $this->generateToken();
         }
 
-        return ['token' => $token->__toString(), 'expiration' => $exp];
+        return ['token' => $token->__toString(), 'expiration' => $exp - (10 * 60)];
     }
 
     /**
