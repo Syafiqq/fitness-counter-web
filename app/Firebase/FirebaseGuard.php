@@ -136,10 +136,6 @@ class FirebaseGuard extends SessionGuard
      */
     protected function updateSessionAndToken($id, $user)
     {
-        if ($user)
-        {
-            $this->updateToken($user);
-        }
         $user->save($this->session, $user);
         parent::updateSession($id);
     }
@@ -151,28 +147,7 @@ class FirebaseGuard extends SessionGuard
      */
     public function getUser()
     {
-        if ($this->user)
-        {
-            $this->updateToken($this->user);
-        }
-
         return parent::getUser();
-    }
-
-    private function getToken()
-    {
-        return 'login_' . $this->name . '_token_' . sha1(static::class);
-    }
-
-    /**
-     * @param FirebaseAuthenticatable $user
-     */
-    private function updateToken($user)
-    {
-        if ($user->needUpdateToken())
-        {
-            $this->session->put($this->getToken(), $user->getToken());
-        }
     }
 }
 
