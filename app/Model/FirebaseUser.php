@@ -12,6 +12,7 @@ namespace App\Model;
 use App\Contracts\Auth\TokenedAuthenticatable;
 use App\Firebase\FirebaseConnection;
 use DateTime;
+use Illuminate\Contracts\Session\Session;
 use Kreait\Firebase\Auth\User;
 use Psy\Exception\RuntimeException;
 
@@ -42,8 +43,9 @@ class FirebaseUser extends User implements TokenedAuthenticatable
     /**
      * FirebaseUser constructor.
      * @param FirebaseConnection $firebase
+     * @param Session $session
      */
-    public function __construct(FirebaseConnection $firebase = null)
+    public function __construct(FirebaseConnection $firebase, Session $session)
     {
         $this->firebase = $firebase;
     }
