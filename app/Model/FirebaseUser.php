@@ -312,14 +312,6 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
     }
 
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email, 'token' => $this->token]);
-    }
-
-    /**
      * @param \Illuminate\Contracts\Session\Session $session
      * @param \Kreait\Firebase\Auth\User|FirebaseUser $user
      * @return void
@@ -356,10 +348,23 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         return 'provider';
     }
 
+    /**
+     * @param $name
+     * @return string
+     */
     private function sessionName($name)
     {
         return 'firebase_' . $name . '_credential_' . sha1(static::class);
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email, 'token' => $this->token, 'role' => $this->role]);
+    }
+
 }
 
 ?>
