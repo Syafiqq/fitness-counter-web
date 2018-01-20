@@ -288,7 +288,7 @@ class FirebaseUser implements TokenedAuthenticatable
      */
     public function __toString()
     {
-        return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email]);
+        return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email, 'token' => $this->token]);
     }
 }
 
