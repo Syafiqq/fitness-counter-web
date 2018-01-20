@@ -10,10 +10,12 @@
 namespace App\Model;
 
 use App\Contracts\Auth\FirebaseAuthenticatable;
+use App\Firebase\DataMapper;
 use App\Firebase\FirebaseConnection;
 use DateTime;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Kreait\Firebase\Auth\User;
 use Psy\Exception\RuntimeException;
 
@@ -335,7 +337,19 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
      */
     public function getValidRole()
     {
-        return 'provider';
+        $role = null;
+        try
+        {
+            /** @var string[] $roles */
+            $roles = $this->firebase->getConnection()->getDatabase()->getReference(DataMapper::userRole($this->uid)[0])->getChildKeys();
+            $role  = count($roles) > 0 ? $roles[0] : $role;
+        }
+        catch (\Exception $e)
+        {
+            Log::debug($e->getMessage());
+        }
+
+        return $role;
     }
 
     /**
