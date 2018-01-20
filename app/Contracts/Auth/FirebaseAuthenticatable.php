@@ -11,6 +11,7 @@ namespace App\Contracts\Auth;
 
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Session\Session;
 
 interface FirebaseAuthenticatable extends Authenticatable
 {
@@ -85,6 +86,20 @@ interface FirebaseAuthenticatable extends Authenticatable
      * @return void
      */
     public function createToken();
+
+    /**
+     * @param \Illuminate\Contracts\Session\Session $session
+     * @param \Kreait\Firebase\Auth\User $user
+     * @return mixed
+     */
+    public function save(Session $session, $user);
+
+    /**
+     * @param \Illuminate\Contracts\Session\Session $session
+     * @param \Kreait\Firebase\Auth\User $user
+     * @return mixed
+     */
+    public function load(Session $session, $user);
 }
 
 ?>
