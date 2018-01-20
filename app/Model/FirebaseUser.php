@@ -11,7 +11,7 @@ namespace App\Model;
 
 use App\Contracts\Auth\TokenedAuthenticatable;
 use App\Firebase\FirebaseConnection;
-use Lcobucci\JWT\Token;
+use DateTime;
 use Psy\Exception\RuntimeException;
 
 class FirebaseUser implements TokenedAuthenticatable
@@ -26,7 +26,7 @@ class FirebaseUser implements TokenedAuthenticatable
      */
     private $email;
     /**
-     * @var \Lcobucci\JWT\Token
+     * @var array
      */
     private $token;
     /**
@@ -155,7 +155,7 @@ class FirebaseUser implements TokenedAuthenticatable
     /**
      * Update user token given saved token
      *
-     * @param \Lcobucci\JWT\Token $token
+     * @param array $token
      */
     public function updateToken($token)
     {
@@ -188,17 +188,25 @@ class FirebaseUser implements TokenedAuthenticatable
      */
     public function isTokenExpired()
     {
-        return $this->token->isExpired();
+        $now = new DateTime();
+
+        $expiresAt = new DateTime();
+        $expiresAt->setTimestamp($this->token['expiration']);
+
+        return $now > $expiresAt;
     }
 
     /**
-     * @return \Lcobucci\JWT\Token $token
+     * @return array $token
      */
     public function generateToken()
     {
         if ($this->firebase != null)
         {
-            return $this->firebase->getConnection()->getAuth()->createCustomToken($this->uid);
+            /** @var \Lcobucci\JWT\Token $token */
+            $token = $this->firebase->getConnection()->getAuth()->createCustomToken($this->uid);
+
+            return $this->simplifyToken($token);
         }
         else
         {
@@ -207,7 +215,24 @@ class FirebaseUser implements TokenedAuthenticatable
     }
 
     /**
-     * @return \Lcobucci\JWT\Token $token
+     * @param \Lcobucci\JWT\Token $token
+     * @return array
+     */
+    private function simplifyToken($token)
+    {
+        /** @var int|bool $exp */
+        $exp = $token->getClaim('exp', false);
+
+        if ($exp === false)
+        {
+            return $this->generateToken();
+        }
+
+        return ['token' => $token->__toString(), 'expiration' => $exp];
+    }
+
+    /**
+     * @return array $token
      */
     public function getToken()
     {
@@ -219,13 +244,13 @@ class FirebaseUser implements TokenedAuthenticatable
      */
     public function isTokenValid()
     {
-        return ($this->token != null) && ($this->token instanceof Token);
+        return ($this->token != null) && (is_array($this->token)) && (key_exists('token', $this->token) && key_exists('expiration', $this->token));
     }
 
     /**
      * Update user token given saved token
      *
-     * @param \Lcobucci\JWT\Token $token
+     * @param array $token
      */
     public function setToken($token)
     {
