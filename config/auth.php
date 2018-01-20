@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'firebase',
         'passwords' => 'users',
     ],
 
@@ -45,6 +45,11 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'firebase' => [
+            'driver' => 'firebase',
+            'provider' => 'firebase'
+        ]
     ],
 
     /*
@@ -69,6 +74,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+
+        'firebase' => [
+            'driver' => 'firebase',
+            'model' => App\Model\FirebaseUser::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
