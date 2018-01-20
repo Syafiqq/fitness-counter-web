@@ -318,6 +318,48 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
     {
         return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email, 'token' => $this->token]);
     }
+
+    /**
+     * @param \Illuminate\Contracts\Session\Session $session
+     * @param \Kreait\Firebase\Auth\User|FirebaseUser $user
+     * @return void
+     */
+    public function save(Session $session, $user)
+    {
+        $session->put($this->sessionName($user->uid), [
+            'uid' => $user->uid,
+            'token' => $user->isTokenValid() && !$user->isTokenExpired() ? $user->token : $user->generateToken(),
+            'role' => $user->role ?: $user->getValidRole(),
+        ]);
+    }
+
+    /**
+     * @param \Illuminate\Contracts\Session\Session $session
+     * @param \Kreait\Firebase\Auth\User|FirebaseUser $user
+     * @return void
+     */
+    public function load(Session $session, $user)
+    {
+        $userData = $session->get($this->sessionName($user->uid), null);
+        if (!is_null($userData))
+        {
+            $user->token = $userData['token'];
+            $user->role  = $userData['role'];
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidRole()
+    {
+        return 'provider';
+    }
+
+    private function sessionName($name)
+    {
+        return 'firebase_' . $name . '_credential_' . sha1(static::class);
+    }
 }
 
 ?>
