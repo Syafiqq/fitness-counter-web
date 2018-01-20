@@ -10,11 +10,11 @@
 namespace App\Firebase;
 
 
-use App\Contracts\Auth\TokenUserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Support\Facades\App;
 
-class FirebaseUserProvider implements TokenUserProvider
+class FirebaseUserProvider implements UserProvider
 {
     /**
      * The Eloquent user model.
