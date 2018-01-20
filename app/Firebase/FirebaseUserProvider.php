@@ -38,7 +38,7 @@ class FirebaseUserProvider implements UserProvider
      * Retrieve a user by their unique identifier.
      *
      * @param  mixed $identifier
-     * @return \App\Contracts\Auth\TokenedAuthenticatable|null
+     * @return \App\Contracts\Auth\FirebaseAuthenticatable|null
      */
     public function retrieveById($identifier)
     {
@@ -75,7 +75,7 @@ class FirebaseUserProvider implements UserProvider
      * Retrieve a user by the given credentials.
      *
      * @param  array $credentials
-     * @return \App\Contracts\Auth\TokenedAuthenticatable|null
+     * @return \App\Contracts\Auth\FirebaseAuthenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
     {
@@ -95,7 +95,7 @@ class FirebaseUserProvider implements UserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param  \App\Contracts\Auth\TokenedAuthenticatable $user
+     * @param  \App\Contracts\Auth\FirebaseAuthenticatable $user
      * @param  array $credentials
      * @return bool
      */
@@ -107,7 +107,7 @@ class FirebaseUserProvider implements UserProvider
     /**
      * Create a new instance of the model.
      *
-     * @return \App\Contracts\Auth\TokenedAuthenticatable
+     * @return \App\Contracts\Auth\FirebaseAuthenticatable
      */
     public function createModel()
     {

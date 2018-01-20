@@ -12,13 +12,13 @@ namespace App\Contracts\Auth;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 
-interface TokenedAuthenticatable extends Authenticatable
+interface FirebaseAuthenticatable extends Authenticatable
 {
     /**
      * Retrieve a user by their unique identifier.
      *
      * @param $identifier string
-     * @return \App\Contracts\Auth\TokenedAuthenticatable
+     * @return \App\Contracts\Auth\FirebaseAuthenticatable
      */
     public function fetchByUserId($identifier);
 
@@ -26,7 +26,7 @@ interface TokenedAuthenticatable extends Authenticatable
      * Retrieve a user by the given credentials.
      *
      * @param  array $credentials
-     * @return \App\Contracts\Auth\TokenedAuthenticatable|null
+     * @return \App\Contracts\Auth\FirebaseAuthenticatable|null
      */
     public function fetchUserByCredentials(array $credentials);
 

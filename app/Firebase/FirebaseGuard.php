@@ -10,7 +10,7 @@
 namespace App\Firebase;
 
 
-use App\Contracts\Auth\TokenedAuthenticatable;
+use App\Contracts\Auth\FirebaseAuthenticatable;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class FirebaseGuard extends SessionGuard
 {
     /**
-     * @var TokenedAuthenticatable
+     * @var FirebaseAuthenticatable
      */
     protected $user;
 
@@ -102,7 +102,7 @@ class FirebaseGuard extends SessionGuard
     /**
      * Log a user into the application.
      *
-     * @param  \App\Contracts\Auth\TokenedAuthenticatable $user
+     * @param  \App\Contracts\Auth\FirebaseAuthenticatable $user
      * @param  bool $remember
      * @return void
      */
@@ -130,7 +130,7 @@ class FirebaseGuard extends SessionGuard
 
     /**
      * @param $id
-     * @param TokenedAuthenticatable $user
+     * @param FirebaseAuthenticatable $user
      */
     protected function updateSessionAndToken($id, $user)
     {
@@ -162,7 +162,7 @@ class FirebaseGuard extends SessionGuard
     }
 
     /**
-     * @param TokenedAuthenticatable $user
+     * @param FirebaseAuthenticatable $user
      */
     private function updateToken($user)
     {

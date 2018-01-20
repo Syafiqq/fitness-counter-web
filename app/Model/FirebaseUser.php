@@ -9,14 +9,14 @@
 
 namespace App\Model;
 
-use App\Contracts\Auth\TokenedAuthenticatable;
+use App\Contracts\Auth\FirebaseAuthenticatable;
 use App\Firebase\FirebaseConnection;
 use DateTime;
 use Illuminate\Contracts\Session\Session;
 use Kreait\Firebase\Auth\User;
 use Psy\Exception\RuntimeException;
 
-class FirebaseUser extends User implements TokenedAuthenticatable
+class FirebaseUser extends User implements FirebaseAuthenticatable
 {
     protected $rememberTokenName = 'remember_token';
     /**
@@ -54,7 +54,7 @@ class FirebaseUser extends User implements TokenedAuthenticatable
      * Fetch user by Credentials
      *
      * @param array $credentials
-     * @return \App\Contracts\Auth\TokenedAuthenticatable
+     * @return \App\Contracts\Auth\FirebaseAuthenticatable
      */
     public function fetchUserByCredentials(Array $credentials)
     {
@@ -71,7 +71,7 @@ class FirebaseUser extends User implements TokenedAuthenticatable
 
     /**
      * @param $identifier string
-     * @return \App\Contracts\Auth\TokenedAuthenticatable
+     * @return \App\Contracts\Auth\FirebaseAuthenticatable
      */
     public function fetchByUserId($identifier)
     {
