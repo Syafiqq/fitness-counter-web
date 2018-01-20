@@ -63,7 +63,7 @@ class FirebaseGuard extends SessionGuard
         // every call to this method because that would be tremendously slow.
         if (!is_null($this->user))
         {
-            return $this->getUser();
+            return $this->user;
         }
 
         $id = $this->session->get($this->getName());
@@ -75,7 +75,6 @@ class FirebaseGuard extends SessionGuard
         {
             if ($this->user = $this->provider->retrieveById($id))
             {
-                $this->user->updateToken($this->session->get($this->getToken()));
                 $this->user->load($this->session, $this->user);
                 $this->fireAuthenticatedEvent($this->user);
             }
@@ -92,13 +91,13 @@ class FirebaseGuard extends SessionGuard
 
             if ($this->user)
             {
-                $this->updateSessionAndToken($this->user->getAuthIdentifier(), $this->user);
+                $this->updateSessionData($this->user->getAuthIdentifier(), $this->user);
 
                 $this->fireLoginEvent($this->user, true);
             }
         }
 
-        return $this->getUser();
+        return $this->user;
     }
 
     /**
@@ -110,7 +109,7 @@ class FirebaseGuard extends SessionGuard
      */
     public function login(Authenticatable $user, $remember = false)
     {
-        $this->updateSessionAndToken($user->getAuthIdentifier(), $user);
+        $this->updateSessionData($user->getAuthIdentifier(), $user);
 
         // If the user should be permanently "remembered" by the application we will
         // queue a permanent cookie that contains the encrypted copy of the user
@@ -134,20 +133,10 @@ class FirebaseGuard extends SessionGuard
      * @param $id
      * @param FirebaseAuthenticatable|User $user
      */
-    protected function updateSessionAndToken($id, $user)
+    protected function updateSessionData($id, $user)
     {
         $user->save($this->session, $user);
         parent::updateSession($id);
-    }
-
-    /**
-     * Return the currently cached user.
-     *
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    public function getUser()
-    {
-        return parent::getUser();
     }
 }
 
