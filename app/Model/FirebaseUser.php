@@ -311,7 +311,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         $session->put($this->sessionName($user->uid), [
             'uid' => $user->uid,
             'token' => $user->token,
-            'role' => $user->role ?: $user->getValidRole(),
+            'role' => $user->role = ($user->role ?: $user->getValidRole()),
         ]);
     }
 
