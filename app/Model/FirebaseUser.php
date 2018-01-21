@@ -63,7 +63,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         /** @var \Kreait\Firebase\Auth\User $user */
         $user = $this->firebase->getConnection()->getAuth()->getUserByEmailAndPassword($credentials['email'], $credentials['password']);
 
-        if (!is_null($user) && $this->isRoleValid($credentials['role']))
+        if (!is_null($user) && $this->isRoleValid($user))
         {
             $this->setCredential($user);
         }
