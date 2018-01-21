@@ -158,11 +158,11 @@ gulp.task('minify-and-watch', function (callback) {
 });
 
 gulp.task('cleaning-generated-file-light', function () {
-    return del(gdel.delLight());
+    return del(gdel.delLight(), {dot: true});
 });
 
 gulp.task('cleaning-generated-file-hard', function () {
-    return del(gdel.delHard());
+    return del(gdel.delHard(), {dot: true});
 });
 
 gulp.task('clean-everything', function (callback) {
