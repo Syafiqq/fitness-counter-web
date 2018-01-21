@@ -34,7 +34,7 @@
         "lodash": "^4.17.4",
         "pump": "^1.0.2",
         "run-sequence": "^2.2.0",
-        "vue": "^2.5.7"
+        "vue": "^2.5.13"
     },
     "dependencies": {
         "fastclick": "^1.0.6",
