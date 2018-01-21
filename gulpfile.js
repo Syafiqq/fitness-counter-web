@@ -34,20 +34,20 @@ elixir(function (mix) {
 gulp.task('move-public-only', function () {
     return gulp.src(['./raw/public/**',
         '!./raw/public/**/*.{js,css,json,png,jpg,jpeg,gif,svg}',
-        '!./raw/public/assets/**'], {dot: true, base: './raw/public/'})
+        '!./raw/public/**'], {dot: true, base: './raw/public/'})
         .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('move-public-assets', function () {
-    return gulp.src(['./raw/public/assets/**',
-        '!./raw/public/assets/**/*.{js,css,json,png,jpg,jpeg,gif,svg}'
-    ], {dot: true, base: './raw/public/assets/'})
-        .pipe(gulp.dest('./public/assets/'));
+    return gulp.src(['./raw/public/**',
+        '!./raw/public/**/*.{js,css,json,png,jpg,jpeg,gif,svg}'
+    ], {dot: true, base: './raw/public/'})
+        .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('move-public-minified-assets', function () {
-    return gulp.src(['./raw/public/assets/**/*.min.{js,css,json}'], {dot: true, base: './raw/public/assets/'})
-        .pipe(gulp.dest('./public/assets/'));
+    return gulp.src(['./raw/public/**/*.min.{js,css,json}'], {dot: true, base: './raw/public/'})
+        .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('minify-public-img', function () {
@@ -115,18 +115,18 @@ gulp.task('minify-resources-views-2', function () {
 gulp.task('move-public-assets-vendor', function () {
     return gulp.src(assets.concat(gpath.assetsVendorResource(true, '*.{js,css,json,png,jpg,jpeg,gif,svg}')),
         {dot: true, base: './node_modules/'})
-        .pipe(gulp.dest('./public/assets/vendor/'));
+        .pipe(gulp.dest('./public/vendor/'));
 });
 
 gulp.task('move-public-minified-assets-vendor', function () {
     return gulp.src(gpath.assetsVendorResource(false, '*.min.{js,css,json}'), {dot: true, base: './node_modules/'})
-        .pipe(gulp.dest('./public/assets/vendor/'));
+        .pipe(gulp.dest('./public/vendor/'));
 });
 
 gulp.task('minify-public-assets-vendor-img', function () {
     return gulp.src(gpath.assetsVendorResource(false, '*.{png,jpg,jpeg,gif,svg}'), {dot: true, base: './node_modules/'})
         .pipe(imagemin([imagemin.gifsicle({interlaced: true}), imagemin.jpegtran({progressive: true}), imagemin.optipng({optimizationLevel: 5})]))
-        .pipe(gulp.dest('./public/assets/vendor/'));
+        .pipe(gulp.dest('./public/vendor/'));
 });
 
 gulp.task('minify-public-assets-vendor-js', function (cb) {
@@ -141,7 +141,7 @@ gulp.task('minify-public-assets-vendor-js', function (cb) {
                 {dot: true, base: './node_modules/'})
                 .pipe(rename({suffix: ".min", extname: ".js"})),
             uglify(),
-            gulp.dest('./public/assets/vendor/')],
+            gulp.dest('./public/vendor/')],
         cb
     );
 });
@@ -151,14 +151,14 @@ gulp.task('minify-public-assets-vendor-css', function () {
         {dot: true, base: './node_modules/'})
         .pipe(rename({suffix: ".min", extname: ".css"}))
         .pipe(cleanCSS({compatibility: 'ie8', rebase: false}))
-        .pipe(gulp.dest('./public/assets/vendor/'));
+        .pipe(gulp.dest('./public/vendor/'));
 });
 
 gulp.task('minify-public-assets-vendor-json', function () {
     return gulp.src(gpath.assetsVendorResource(false, '*.json').concat(gpath.assetsVendorResource(true, '*.min.json')),
         {dot: true, base: './node_modules/'})
         .pipe(rename({suffix: ".min", extname: ".json"}))
-        .pipe(gulp.dest('./public/assets/vendor'));
+        .pipe(gulp.dest('./public/vendor'));
 });
 
 gulp.task('minify-everything-light', function (callback) {
