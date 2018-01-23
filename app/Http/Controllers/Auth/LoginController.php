@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\LoginRequest;
+use App\Model\FirebaseUser;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -18,14 +20,10 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+    use \App\Custom\Illuminate\Foundation\Auth\AuthenticatesUsers
+    {
+        showLoginForm as public getLogin;
+    }
 
     /**
      * Create a new controller instance.
@@ -34,6 +32,38 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        parent::__construct();
     }
+
+    /**
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogin()
+    {
+        return view("layout.auth.login.auth_login_$this->theme");
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  FirebaseUser|mixed $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        return redirect()->route("{$user->getRole()}.dashboard.home");
+    }
+
+    /**
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function postLogin(LoginRequest $request)
+    {
+        return $this->login($request);
+    }
+
+
 }
