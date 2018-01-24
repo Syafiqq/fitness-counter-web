@@ -1,4 +1,4 @@
-@extends('root.root-theme-default')
+@extends('root.root-authenticated-theme-default')
 @section('head-title')
     <title>Dashboard</title>
 @endsection
