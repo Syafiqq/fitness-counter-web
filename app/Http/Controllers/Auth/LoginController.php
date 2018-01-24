@@ -23,6 +23,7 @@ class LoginController extends Controller
     use \App\Custom\Illuminate\Foundation\Auth\AuthenticatesUsers
     {
         showLoginForm as public getLogin;
+        logout as public getLogout;
     }
 
     /**
