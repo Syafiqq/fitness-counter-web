@@ -31,9 +31,9 @@ class RoleSwitchController extends Controller
     {
         /** @var FirebaseUser $user */
         $user = $request->user();
-        if ($user->getRole() !== $role)
+        if ($this->checkRoleEquality($user, $role))
         {
-            if ($user->isRoleValid($role))
+            if ($this->checkRoleValidity($user, $role))
             {
                 $user->setRole($role);
                 App::call(get_class($user) . "@save", [$user]);
@@ -49,6 +49,26 @@ class RoleSwitchController extends Controller
         {
             return redirect()->back()->with('cbk_msg', ['notify' => ["Anda sudah pada role ini"]]);
         }
+    }
+
+    /**
+     * @param FirebaseUser $user
+     * @param $role
+     * @return bool
+     */
+    private function checkRoleEquality($user, $role)
+    {
+        return $user->getRole() !== $role;
+    }
+
+    /**
+     * @param FirebaseUser $user
+     * @param $role
+     * @return bool
+     */
+    private function checkRoleValidity($user, $role)
+    {
+        return $user->isRoleValid($role);
     }
 }
 
