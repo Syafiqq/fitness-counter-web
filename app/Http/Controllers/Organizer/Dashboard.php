@@ -24,7 +24,7 @@ class Dashboard extends Controller
 
     public function getHome()
     {
-        return 'Ini Organizer';
+        return view("layout.organizer.dashboard.home.organizer_dashboard_home_{$this->theme}");
     }
 }
 
