@@ -395,6 +395,10 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         $this->role = $role;
     }
 
+    public function getUid(): string
+    {
+        return $this->uid ?: parent::getUid();
+    }
 }
 
 ?>
