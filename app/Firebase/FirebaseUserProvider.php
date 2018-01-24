@@ -68,7 +68,7 @@ class FirebaseUserProvider implements UserProvider
      */
     public function updateRememberToken(Authenticatable $user, $token)
     {
-        throw new \RuntimeException('Not Implemented');
+
     }
 
     /**
