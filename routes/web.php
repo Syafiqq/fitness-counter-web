@@ -13,9 +13,19 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/auth')->namespace('Auth')->middleware(['web', 'guest'])->group(function () {
-    Route::get('/login', 'LoginController@getLogin')->name('login');
-    Route::post('/login', 'LoginController@postLogin')->name('auth.login.post');
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::prefix('/auth')->namespace('Auth')->middleware(['web'])->group(function () {
+    Route::middleware(['guest'])->group(function () {
+        Route::get('/login', 'LoginController@getLogin')->name('login');
+        Route::post('/login', 'LoginController@postLogin')->name('auth.login.post');
+    });
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/switch/{role}', 'RoleSwitchController@getSwitch')->name('auth.switch.role');
+        Route::get('/logout', 'LoginController@getLogout')->name('logout');
+    });
 });
 $group = 'organizer';
 Route::prefix("/$group")->namespace('Organizer')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
