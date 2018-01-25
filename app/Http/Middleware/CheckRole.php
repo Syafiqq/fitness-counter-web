@@ -18,7 +18,7 @@ class CheckRole
     {
         if (!($request->user()->getRole() === $role))
         {
-            abort(404);
+            return redirect()->back()->with('cbk_msg', ['notify' => ["Anda Tidak Memiliki Hak Akses"]]);
         }
 
         return $next($request);
