@@ -7,14 +7,14 @@ module.exports = {
             '!./resources/views/vendor/**',
             '!./public',
             '!./public/assets',
-            '!./public/assets/vendor',
-            '!./public/assets/vendor/**'
+            '!./public/vendor',
+            '!./public/vendor/**'
         ];
     },
 
     delHard: function () {
         return [
-            './public/assets/vendor/**'
+            './public/vendor/**'
         ];
     }
 };

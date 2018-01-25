@@ -10,31 +10,31 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "@cedx/gulp-php-minify": "^3.1.1",
+        "@cedx/gulp-php-minify": "^7.1.1",
         "axios": "^0.17",
         "bootstrap-sass": "^3.3.7",
         "cross-env": "^5.1",
         "gulp": "^3.9.1",
         "gulp-clean-css": "^3.7.0",
-        "gulp-concat-css": "^2.3.0",
-        "gulp-htmlmin": "^3.0.0",
-        "gulp-imagemin": "^3.4.0",
+        "gulp-concat-css": "^3.0.0",
+        "gulp-htmlmin": "^4.0.0",
+        "gulp-imagemin": "^4.1.0",
         "gulp-json-minify": "^1.2.0",
         "gulp-remove-files": "0.0.3",
         "gulp-rename": "^1.2.2",
         "gulp-shell": "^0.6.3",
         "gulp-trimlines": "^1.0.1",
-        "gulp-uglify": "^2.1.2",
+        "gulp-uglify": "^3.0.0",
         "gulp-using": "^0.1.1",
         "gulp-util": "^3.0.8",
-        "gulp-watch": "^4.3.11",
+        "gulp-watch": "^5.0.0",
         "jquery": "^3.2",
-        "laravel-elixir": "*",
+        "laravel-elixir": "^6.0.0-17",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
-        "pump": "^1.0.2",
+        "pump": "^2.0.0",
         "run-sequence": "^2.2.0",
-        "vue": "^2.5.7"
+        "vue": "^2.5.13"
     },
     "dependencies": {
         "fastclick": "^1.0.6",
@@ -45,6 +45,7 @@
         "ionicons": "^3.0.0",
         "jquery": "^3.2.1",
         "nprogress": "^0.2.0",
-        "respond.js": "^1.4.2"
+      "respond.js": "^1.4.2",
+      "toastr": "^2.1.4"
     }
 }

@@ -62,10 +62,14 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
     {
         /** @var \Kreait\Firebase\Auth\User $user */
         $user = $this->firebase->getConnection()->getAuth()->getUserByEmailAndPassword($credentials['email'], $credentials['password']);
-
-        if (!is_null($user) && $this->isRoleValid($credentials['role']))
+        if (!is_null($user))
         {
             $this->setCredential($user);
+            $this->role = $this->role ?: $this->getValidRole();
+            if (!$this->isRoleValid($this->role))
+            {
+                return null;
+            }
         }
 
         return $this;
@@ -83,6 +87,11 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         if (!is_null($user))
         {
             $this->setCredential($user);
+            $this->role = $this->role ?: $this->getValidRole();
+            if (!$this->isRoleValid($this->role))
+            {
+                return null;
+            }
         }
 
         return $this;
@@ -278,18 +287,30 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
     /**
      * @return string
      */
-    public function getRole(): string
+    public function getRole()
     {
         return $this->role;
     }
 
     /**
-     * @param $user
+     * @param string $role
      * @return bool
      */
-    private function isRoleValid($user)
+    public function isRoleValid($role)
     {
-        return true;
+        $valid = false;
+        try
+        {
+            /** @var string|null $role */
+            $valid = $this->firebase->getConnection()->getDatabase()->getReference(DataMapper::userRole($this->uid, $role)[0])->getValue() ?: false;
+        }
+        catch (\Exception $e)
+        {
+            Log::debug($e->getMessage());
+            $this->isRoleValid($role);
+        }
+
+        return $valid;
     }
 
     /**
@@ -369,6 +390,15 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         return "FirebaseUser" . \GuzzleHttp\json_encode(['uid' => $this->uid, 'email' => $this->email, 'token' => $this->token, 'role' => $this->role]);
     }
 
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    public function getUid(): string
+    {
+        return $this->uid ?: parent::getUid();
+    }
 }
 
 ?>
