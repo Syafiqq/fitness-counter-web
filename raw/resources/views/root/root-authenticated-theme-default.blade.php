@@ -1,4 +1,8 @@
 @extends('root.root-theme-default')
+@section('head-description')
+    @parent
+    <meta name="home" content="{!! url('/') !!}">
+@endsection
 @section('body-content')
     @parent
     @if(\Illuminate\Support\Facades\Auth::check())
