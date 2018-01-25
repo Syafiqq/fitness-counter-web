@@ -21,5 +21,5 @@
 
 @section('body-js-lower-post')
     @parent
-    <script type="text/javascript" src="{{asset('/js/layout/provider/dashboard/home/provider_dashboard_home_default.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/layout/provider/dashboard/home/provider_dashboard_home_default.min.js')}}"></script>
 @endsection
