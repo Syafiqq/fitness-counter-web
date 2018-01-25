@@ -35,6 +35,10 @@ $group = 'provider';
 Route::prefix("/$group")->namespace('Provider')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
     Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
 });
+$group = 'student';
+Route::prefix("/$group")->namespace('Student')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
+    Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
+});
 $group = 'trainer';
 Route::prefix("/$group")->namespace('Trainer')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
     Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
