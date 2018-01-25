@@ -11,7 +11,7 @@
 
 @section('body-content')
     @parent
-
+    Ini Organizer
 @endsection
 
 @section('head-css-post')
