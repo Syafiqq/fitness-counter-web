@@ -30,6 +30,7 @@ Route::prefix('/auth')->namespace('Auth')->middleware(['web'])->group(function (
 $group = 'organizer';
 Route::prefix("/$group")->namespace('Organizer')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
     Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
+    Route::get('/event/create', 'Event@getCreate')->name("{$group}.event.create.get");
 });
 $group = 'provider';
 Route::prefix("/$group")->namespace('Provider')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
