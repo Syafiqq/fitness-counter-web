@@ -1,4 +1,8 @@
 @extends('root.root-authenticated-theme-default')
+<?php
+/** @var \Collective\Html\FormBuilder $form */
+$form = \Collective\Html\FormFacade::getFacadeRoot();
+?>
 @section('head-title')
     @parent
     <title>Event</title>
@@ -11,7 +15,19 @@
 
 @section('body-content')
     @parent
-    <h1>Creaete Event</h1>
+    <div id="app">
+        <h1>Creaete Event</h1>
+        {!! $form->text('event', null, ['placeholder' => 'Event', 'required'=> true, 'v-bind:disabled'=>'is_logged_out']) !!}
+        {!! nl2br(PHP_EOL) !!}
+        {!! $form->text('slug', null, ['placeholder' => 'Slug', 'required'=> true, 'v-bind:disabled'=>'is_logged_out']) !!}
+        {!! nl2br(PHP_EOL) !!}
+        {!! $form->button('Submit', ['type' => 'Submit', 'v-bind:disabled'=>'is_logged_out']) !!}
+    </div>
+@endsection
+
+@section('head-js-post')
+    @parent
+    @include('component.js.vue')
 @endsection
 
 @section('head-css-post')
