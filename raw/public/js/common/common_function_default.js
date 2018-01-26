@@ -10,13 +10,13 @@
     {
         if ((sessionFlashdata['notify'] !== undefined))
         {
-            apiResponseNotify(sessionFlashdata['notify']);
+            DoNotify(sessionFlashdata['notify']);
         }
     }
 
 })(jQuery);
 
-function apiResponseNotify(response)
+function DoNotify(response)
 {
     for (var i = -1, is = response.length; ++i < is;)
     {
