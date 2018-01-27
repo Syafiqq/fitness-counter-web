@@ -17,8 +17,6 @@ if (!is_null($session->get('cbk_msg')))
     @parent
     {{-- Generated App --}}
     <link rel="stylesheet" href="{{asset('/css/app.min.css')}}">
-    {{-- Toastr --}}
-    <link rel="stylesheet" href="{{asset('/vendor/toastr/build/toastr.min.css')}}">
     {{-- CommonStyle --}}
     <link rel="stylesheet" href="{{asset('/css/common/common_style_default.min.css')}}">
 @endsection
@@ -36,8 +34,6 @@ if (!is_null($session->get('cbk_msg')))
     <script type="text/javascript" src="{{asset('/vendor/html5shiv/dist/html5shiv.min.js')}}"></script>
     {{-- RespondJS --}}
     <script type="text/javascript" src="{{asset('/vendor/respond.js/dest/respond.min.js')}}"></script>
-    {{-- Toastr --}}
-    <script type="text/javascript" src="{{asset('/vendor/toastr/build/toastr.min.js')}}"></script>
     {{-- CommonFunction --}}
     <script type="text/javascript" src="{{asset('/js/common/common_function_default.min.js')}}"></script>
 @endsection
