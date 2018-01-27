@@ -28,15 +28,14 @@
         <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-app.min.js')}}"></script>
         <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-auth.min.js')}}"></script>
         <script type="text/javascript">
-            var config = {
+            firebase.initializeApp({
                 apiKey: "AIzaSyD_xXi_xZo25ASGgFODWv9av5lLLPHRWeg",
                 authDomain: "fitness-counter-research.firebaseapp.com",
                 databaseURL: "https://fitness-counter-research.firebaseio.com",
                 projectId: "fitness-counter-research",
                 storageBucket: "fitness-counter-research.appspot.com",
                 messagingSenderId: "691550840999"
-            };
-            firebase.initializeApp(config);
+            });
             firebase.auth().signInWithCustomToken("{!! \Illuminate\Support\Facades\Auth::user()->getToken()['token'] !!}").catch(function (error) {
                 console.log(error.code, error.message);
             });
