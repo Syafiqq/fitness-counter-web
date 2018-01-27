@@ -9,6 +9,8 @@ window._ = require('lodash');
 try
 {
     window.$ = window.jQuery = require('jquery');
+    window.FastClick = require('fastclick');
+    window.FastClick(document.body);
     window.NProgress = require('nprogress');
     window.toastr    = require('toastr');
 } catch (e)
