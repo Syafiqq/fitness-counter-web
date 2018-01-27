@@ -5,7 +5,6 @@
             data: {},
             methods: {
                 testModal: function () {
-                    this.$refs.modal.open();
                 }
             }
         });

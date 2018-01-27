@@ -12,8 +12,7 @@
 @section('body-content')
     @parent
     <div id="app">
-        <sweet-modal ref="modal">This is an alert.</sweet-modal>
-        <button @click="testModal">TestModal</button>
+
     </div>
 @endsection
 
