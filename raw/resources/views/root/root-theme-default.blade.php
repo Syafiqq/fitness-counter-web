@@ -15,8 +15,8 @@ if (!is_null($session->get('cbk_msg')))
 
 @section('head-css-pre')
     @parent
-    {{-- Font Awesome --}}
-    <link rel="stylesheet" href="{{asset('/vendor/font-awesome/css/font-awesome.min.css')}}">
+    {{-- Generated App --}}
+    <link rel="stylesheet" href="{{asset('/css/app.min.css')}}">
     {{-- Ionicons --}}
     <link rel="stylesheet" href="{{asset('/vendor/ionicons/dist/css/ionicons.min.css')}}">
     {{-- Toastr --}}
