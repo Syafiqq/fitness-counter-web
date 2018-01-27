@@ -27,6 +27,7 @@
     @auth
         <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-app.min.js')}}"></script>
         <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-auth.min.js')}}"></script>
+        @stack('additional-firebase-library')
         <script type="text/javascript">
             firebase.initializeApp({
                 apiKey: "AIzaSyD_xXi_xZo25ASGgFODWv9av5lLLPHRWeg",
