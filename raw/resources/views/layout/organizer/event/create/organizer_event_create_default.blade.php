@@ -17,11 +17,11 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
     @parent
     <div id="app">
         <h1>Creaete Event</h1>
-        {!! $form->text('event', null, ['placeholder' => 'Event', 'required'=> true, 'v-bind:disabled'=>'is_logged_out']) !!}
+        {!! $form->text('event', null, ['placeholder' => 'Event', 'v-model'=>'f_event', 'required'=> true, 'v-bind:disabled'=>'is_logged_out']) !!}
         {!! nl2br(PHP_EOL) !!}
-        {!! $form->text('slug', null, ['placeholder' => 'Slug', 'required'=> true, 'v-bind:disabled'=>'is_logged_out']) !!}
+        {!! $form->text('slug', null, ['placeholder' => 'Slug', 'v-model'=>'f_slug', 'required'=> true, 'v-bind:disabled'=>'is_logged_out']) !!}
         {!! nl2br(PHP_EOL) !!}
-        {!! $form->button('Submit', ['type' => 'Submit', 'v-bind:disabled'=>'is_logged_out']) !!}
+        {!! $form->button('Submit', ['type' => 'Submit', 'v-on:click'=> 'createEvent', 'v-bind:disabled'=>'is_logged_out']) !!}
     </div>
 @endsection
 
