@@ -10,6 +10,7 @@ try
 {
     window.$ = window.jQuery = require('jquery');
     window.NProgress = require('nprogress');
+    window.toastr    = require('toastr');
 } catch (e)
 {
 }
