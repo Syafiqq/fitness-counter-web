@@ -1,5 +1,14 @@
 (function ($) {
     $(function () {
+        var app = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                testModal: function () {
+                    this.$refs.modal.open();
+                }
+            }
+        });
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
