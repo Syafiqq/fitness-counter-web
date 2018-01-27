@@ -5,7 +5,6 @@
  */
 
 require('./bootstrap');
-import SweetModal from 'sweet-modal-vue/src/plugin.js'
 
 window.Vue = require('vue');
 
@@ -15,4 +14,3 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.use(SweetModal);
