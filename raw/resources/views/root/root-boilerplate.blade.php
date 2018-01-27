@@ -40,9 +40,6 @@
 @endsection
 
 @section('body-js-lower-pre')
-    {{-- Jquery --}}
-    <script type="text/javascript" src="{{asset('/vendor/jquery/dist/jquery.min.js')}}"></script>
-    <script type="text/javascript">window.jQuery || document.write('<script src="{{asset('/vendor/jquery/dist/jquery.min.js')}}"><\/script>')</script>
     {{-- Plugins --}}
     <script type="text/javascript" src="{{asset('/vendor/html5-boilerplate/dist/js/plugins.min.js')}}"></script>
 @endsection
