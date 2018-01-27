@@ -19,8 +19,6 @@ if (!is_null($session->get('cbk_msg')))
     <link rel="stylesheet" href="{{asset('/css/app.min.css')}}">
     {{-- Toastr --}}
     <link rel="stylesheet" href="{{asset('/vendor/toastr/build/toastr.min.css')}}">
-    {{-- NProgress --}}
-    <link rel="stylesheet" href="{{asset('/vendor/nprogress/nprogress.min.css')}}">
     {{-- CommonStyle --}}
     <link rel="stylesheet" href="{{asset('/css/common/common_style_default.min.css')}}">
 @endsection
@@ -30,6 +28,8 @@ if (!is_null($session->get('cbk_msg')))
     <script type="text/javascript">
         {!! 'var sessionFlashdata = ' . json_encode($flashdata)!!}
     </script>
+    {{-- Generated App --}}
+    <script type="text/javascript" src="{{asset('/js/app.min.js')}}"></script>
     {{-- FastClick --}}
     <script type="text/javascript" src="{{asset('/vendor/fastclick/lib/fastclick.min.js')}}"></script>
     {{-- HTML5Shiv --}}
@@ -38,8 +38,6 @@ if (!is_null($session->get('cbk_msg')))
     <script type="text/javascript" src="{{asset('/vendor/respond.js/dest/respond.min.js')}}"></script>
     {{-- Toastr --}}
     <script type="text/javascript" src="{{asset('/vendor/toastr/build/toastr.min.js')}}"></script>
-    {{-- NProgress --}}
-    <script type="text/javascript" src="{{asset('/vendor/nprogress/nprogress.min.js')}}"></script>
     {{-- CommonFunction --}}
     <script type="text/javascript" src="{{asset('/js/common/common_function_default.min.js')}}"></script>
 @endsection
