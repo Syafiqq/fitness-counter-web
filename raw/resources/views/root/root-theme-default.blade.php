@@ -17,8 +17,6 @@ if (!is_null($session->get('cbk_msg')))
     @parent
     {{-- Generated App --}}
     <link rel="stylesheet" href="{{asset('/css/app.min.css')}}">
-    {{-- Ionicons --}}
-    <link rel="stylesheet" href="{{asset('/vendor/ionicons/dist/css/ionicons.min.css')}}">
     {{-- Toastr --}}
     <link rel="stylesheet" href="{{asset('/vendor/toastr/build/toastr.min.css')}}">
     {{-- NProgress --}}
