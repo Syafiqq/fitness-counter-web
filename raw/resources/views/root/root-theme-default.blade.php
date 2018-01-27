@@ -28,8 +28,6 @@ if (!is_null($session->get('cbk_msg')))
     </script>
     {{-- Generated App --}}
     <script type="text/javascript" src="{{asset('/js/app.min.js')}}"></script>
-    {{-- FastClick --}}
-    <script type="text/javascript" src="{{asset('/vendor/fastclick/lib/fastclick.min.js')}}"></script>
     {{-- HTML5Shiv --}}
     <script type="text/javascript" src="{{asset('/vendor/html5shiv/dist/html5shiv.min.js')}}"></script>
     {{-- RespondJS --}}
