@@ -21,11 +21,6 @@ class Event extends Controller
     {
         parent::__construct();
     }
-
-    public function getCreate()
-    {
-        return view("layout.organizer.event.create.organizer_event_create_{$this->theme}");
-    }
 }
 
 ?>
