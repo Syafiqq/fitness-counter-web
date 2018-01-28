@@ -8,6 +8,7 @@
 var PathMapper =
         {
             USERS: 'users',
+            EVENTS: 'events',
             GROUPS: 'groups',
             USERS_GROUPS: 'users_groups',
         };
