@@ -28,8 +28,6 @@ if (!is_null($session->get('cbk_msg')))
     </script>
     {{-- Generated App --}}
     <script type="text/javascript" src="{{asset('/js/app.min.js')}}"></script>
-    {{-- RespondJS --}}
-    <script type="text/javascript" src="{{asset('/vendor/respond.js/dest/respond.min.js')}}"></script>
     {{-- CommonFunction --}}
     <script type="text/javascript" src="{{asset('/js/common/common_function_default.min.js')}}"></script>
 @endsection
