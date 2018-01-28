@@ -173,6 +173,7 @@ gulp.task('minify-everything-light', function (callback) {
 gulp.task('minify-everything-hard', function (callback) {
     runSequence('move-public-assets-vendor', 'move-public-minified-assets-vendor',
         ['minify-public-assets-vendor-img', 'minify-public-assets-vendor-js', 'minify-public-assets-vendor-css', 'minify-public-assets-vendor-json'],
+        'generate-asset',
         callback);
 });
 
@@ -181,6 +182,8 @@ gulp.task('minify-everything', function (callback) {
         'minify-everything-hard',
         callback);
 });
+
+gulp.task('generate-asset', shell.task('npm run prod'));
 
 gulp.task('remove-unnecessary-file-1', function () {
     return gulp.src([
