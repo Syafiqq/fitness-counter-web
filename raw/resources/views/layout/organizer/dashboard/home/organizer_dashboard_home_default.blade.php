@@ -12,8 +12,14 @@
 @section('body-content')
     @parent
     <div id="app">
-        <sweet-modal ref="modal">This is an alert.</sweet-modal>
-        <button @click="testModal">TestModal</button>
+        <sweet-modal ref="modal" title="Buat Event Baru">
+            <input type="text" name="event" placeholder="Event" v-model="f_event" required :disabled="is_logged_out">
+            <br>
+            <input type="text" name="slug" placeholder="Event-ID" v-model="f_slug" required :disabled="is_logged_out">
+            <br>
+            <button slot="button" @click="eventFormCommit" :disabled="is_logged_out">Submit</button>
+        </sweet-modal>
+        <button @click="eventFormOpen">Buat Event Baru</button>
     </div>
 @endsection
 
