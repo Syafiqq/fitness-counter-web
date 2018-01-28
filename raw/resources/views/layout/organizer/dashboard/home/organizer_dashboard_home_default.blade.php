@@ -13,11 +13,11 @@
     @parent
     <div id="app">
         <sweet-modal ref="modal" title="Buat Event Baru">
-            <input type="text" name="event" placeholder="Event" v-model="f_event" required :disabled="is_logged_out">
+            <input type="text" name="event" placeholder="Event" v-model="f_event" required :disabled="is_process">
             <br>
-            <input type="text" name="slug" placeholder="Event-ID" v-model="f_slug" required :disabled="is_logged_out">
+            <input type="text" name="slug" placeholder="Event-ID" v-model="f_slug" required :disabled="is_process">
             <br>
-            <button slot="button" @click="eventFormCommit" :disabled="is_logged_out">Submit</button>
+            <button slot="button" @click="eventFormCommit" :disabled="is_process">Serror === undefinedgubmit</button>
         </sweet-modal>
         <button @click="eventFormOpen">Buat Event Baru</button>
     </div>
@@ -36,3 +36,7 @@
     @parent
     <script type="text/javascript" src="{{asset('/js/layout/organizer/dashboard/home/organizer_dashboard_home_default.min.js')}}"></script>
 @endsection
+
+@push('additional-firebase-library')
+    <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-database.min.js')}}"></script>
+@endpush
