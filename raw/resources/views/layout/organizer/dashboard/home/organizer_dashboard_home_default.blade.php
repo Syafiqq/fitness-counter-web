@@ -12,13 +12,13 @@
 @section('body-content')
     @parent
     <div id="app">
-
+        <sweet-modal ref="modal">This is an alert.</sweet-modal>
+        <button @click="testModal">TestModal</button>
     </div>
 @endsection
 
 @section('head-js-post')
     @parent
-    @include('component.js.vue')
 @endsection
 
 @section('head-css-post')
