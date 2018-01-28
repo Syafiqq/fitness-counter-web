@@ -5,4 +5,12 @@
  * Email        : syafiq.rezpector@gmail.com
  * Github       : syafiqq
  */
-var DataMapper = {};
+var DataMapper = {
+    Event: function (uid, id = undefined) {
+        id = id === undefined ? '' : '/' + id;
+        return {
+            global: PathMapper.EVENTS + id,
+            local: PathMapper.USERS + '/' + uid + '/' + PathMapper.EVENTS + id,
+        };
+    }
+};
