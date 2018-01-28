@@ -17,7 +17,7 @@
             <br>
             <input type="text" name="slug" placeholder="Event-ID" v-model="f_slug" required :disabled="is_process">
             <br>
-            <button slot="button" @click="eventFormCommit" :disabled="is_process">Serror === undefinedgubmit</button>
+            <button slot="button" @click="eventFormCommit" :disabled="is_process">Submit</button>
         </sweet-modal>
         <button @click="eventFormOpen">Buat Event Baru</button>
     </div>
