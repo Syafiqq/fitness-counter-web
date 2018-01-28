@@ -20,6 +20,16 @@
             <button slot="button" @click="eventFormCommit" :disabled="is_process">Submit</button>
         </sweet-modal>
         <button @click="eventFormOpen">Buat Event Baru</button>
+        <hr>
+        <ol>
+            <list-event
+                    v-for="(value, key) in l_events"
+                    :event="value"
+                    :event_id="key"
+                    :key="key"
+            >
+            </list-event>
+        </ol>
     </div>
 @endsection
 
