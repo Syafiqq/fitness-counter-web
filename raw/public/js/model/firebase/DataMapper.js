@@ -9,8 +9,8 @@ var DataMapper = {
     Event: function (uid, id = undefined) {
         id = id === undefined ? '' : '/' + id;
         return {
-            global: PathMapper.EVENTS + id,
-            local: PathMapper.USERS + '/' + uid + '/' + PathMapper.EVENTS + id,
+            events: PathMapper.EVENTS + id,
+            user: PathMapper.USERS + '/' + uid + '/' + PathMapper.EVENTS + id,
         };
     }
 };
