@@ -1,11 +1,18 @@
 (function ($) {
     $(function () {
+        Vue.component('list-event', {
+            props: ['event', 'event_id'],
+            template: '<li><a :href="this.$parent.home +\'/organizer/events/\' + event_id">{{event.event}}</a></li>',
+        });
+
         var app = new Vue({
             el: '#app',
             data: {
                 is_process: true,
                 f_event: '',
                 f_slug: '',
+                l_events: {},
+                home: $('meta[name=home]').attr("content"),
             },
             methods: {
                 eventFormCommit: function () {
@@ -49,6 +56,13 @@
                 },
                 eventFormOpen: function () {
                     this.$refs.modal.open();
+                },
+                eventListInitial: function () {
+                    var eventsRef = firebase.database().ref(DataMapper.Event(firebase.auth().currentUser.uid)['user']);
+                    eventsRef.on('child_added', function (data) {
+                        Vue.set(app.l_events, data.key, data.val())
+                    });
+
                 }
             }
         });
@@ -57,6 +71,7 @@
             {
                 console.log(user.email);
                 app.is_process = false;
+                app.eventListInitial();
             } else
             {
                 // User is signed out.
