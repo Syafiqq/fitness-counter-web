@@ -34,6 +34,7 @@
         @stack('additional-firebase-library')
         <script type="text/javascript" src="{{asset('/js/model/firebase/PathMapper.min.js')}}"></script>
         <script type="text/javascript" src="{{asset('/js/model/firebase/DataMapper.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('/js/model/firebase/PojsoMapper.min.js')}}"></script>
         <script type="text/javascript">
             firebase.initializeApp({
                 apiKey: "AIzaSyD_xXi_xZo25ASGgFODWv9av5lLLPHRWeg",
