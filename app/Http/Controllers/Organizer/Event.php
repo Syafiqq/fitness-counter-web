@@ -21,6 +21,11 @@ class Event extends Controller
     {
         parent::__construct();
     }
+
+    public function getOverview()
+    {
+        return 'HAHAHAH';
+    }
 }
 
 ?>
