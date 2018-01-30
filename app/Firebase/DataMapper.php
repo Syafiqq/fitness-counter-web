@@ -24,6 +24,21 @@ class DataMapper
             sprintf("%s/%s/%s%s", PathMapper::USERS, $uid, 'roles', $role ? "/${role}" : ''),
         ];
     }
+
+    /**
+     * @param $uid string
+     * @param $event_id string
+     * @return array
+     */
+    static function event($uid, $event_id)
+    {
+        $event_id = is_null($event_id) ? '' : "/${event_id}";
+
+        return [
+            sprintf("%s%s", PathMapper::EVENTS, $event_id),
+            sprintf("%s/%s/%s%s", PathMapper::USERS, $uid, 'events', PathMapper::EVENTS, $event_id),
+        ];
+    }
 }
 
 ?>
