@@ -2,7 +2,7 @@
     $(function () {
         Vue.component('list-event', {
             props: ['event', 'event_id'],
-            template: '<li><a :href="this.$parent.home +\'/organizer/events/\' + event_id">{{event.event}}</a></li>',
+            template: '<li><a :href="this.$parent.home +\'/organizer/event/\' + event_id">{{event.event}}</a></li>',
         });
 
         var app = new Vue({
