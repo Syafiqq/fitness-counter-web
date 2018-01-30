@@ -13,6 +13,7 @@ namespace App\Firebase;
 class PathMapper
 {
     const USERS = "users";
+    const EVENTS = "events";
     const GROUPS = "groups";
     const USERS_GROUPS = "users_groups";
 }
