@@ -1,12 +1,7 @@
-@extends('root.root-authenticated-theme-default')
+@extends('layout.organizer.event.organizer-event-root-default')
 @section('head-title')
     @parent
     <title>Overview</title>
-@endsection
-
-@section('head-meta')
-    @parent
-    <meta name="event" content="{!! $meta['event'] !!}">
 @endsection
 
 @section('head-description')
