@@ -22,9 +22,13 @@ class Event extends Controller
         parent::__construct();
     }
 
-    public function getOverview()
+    public function getOverview($event)
     {
-        return 'HAHAHAH';
+        $meta = [
+            'event' => $event
+        ];
+
+        return view("layout.organizer.event.overview.organizer_event_overview_{$this->theme}", compact('meta'));
     }
 }
 
