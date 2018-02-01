@@ -1,6 +1,5 @@
 @extends('root.root-authenticated-theme-default')
 @section('head-title')
-    @parent
     <title>Dashboard</title>
 @endsection
 

@@ -1,6 +1,5 @@
 @extends('layout.organizer.event.organizer-event-root-default')
 @section('head-title')
-    @parent
     <title>Overview</title>
 @endsection
 
