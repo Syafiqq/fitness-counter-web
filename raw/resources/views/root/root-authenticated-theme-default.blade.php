@@ -1,5 +1,5 @@
 @extends('root.root-theme-default')
-@section('head-description')
+@section('head-meta')
     @parent
     <meta name="home" content="{!! url('/') !!}">
     @auth
