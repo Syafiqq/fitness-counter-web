@@ -12,10 +12,6 @@
     Event Overview
 @endsection
 
-@section('head-js-post')
-    @parent
-@endsection
-
 @section('head-css-post')
     @parent
     <link rel="stylesheet" href="{{asset('/css/layout/organizer/event/overview/organizer_event_overview_default.min.css')}}">

@@ -31,10 +31,6 @@
     </div>
 @endsection
 
-@section('head-js-post')
-    @parent
-@endsection
-
 @section('head-css-post')
     @parent
     <link rel="stylesheet" href="{{asset('/css/layout/organizer/dashboard/home/organizer_dashboard_home_default.min.css')}}">
