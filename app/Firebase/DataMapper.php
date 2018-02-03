@@ -17,11 +17,16 @@ class DataMapper
      * @param string $role
      * @return array
      */
-    static function userRole($uid, $role = null): array
+    static function userRole($uid = null, $role = null): array
     {
+        $uid  = is_null($uid) ? '' : "/${uid}";
+        $role = is_null($role) ? '' : "/${role}";
+
         return [
-            sprintf("%s/%s%s", PathMapper::USERS_GROUPS, $uid, $role ? "/${role}" : ''),
-            sprintf("%s/%s/%s%s", PathMapper::USERS, $uid, 'roles', $role ? "/${role}" : ''),
+            // @formatter:off
+            'users_groups'   => sprintf("%s%s%s",      PathMapper::USERS_GROUPS, $role, $uid),
+            'users'          => sprintf("%s%s/%s%s",   PathMapper::USERS, $uid, 'roles', $role),
+            // @formatter:on
         ];
     }
 
