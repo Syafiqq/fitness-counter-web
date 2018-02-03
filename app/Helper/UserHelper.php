@@ -28,7 +28,7 @@ class UserHelper
         try
         {
             /** @var string|null $role */
-            $roles = $connection->getConnection()->getDatabase()->getReference(DataMapper::userRole($user->getUid())[0])->getValue() ?: [];
+            $roles = $connection->getConnection()->getDatabase()->getReference(DataMapper::userRole($user->getUid())['users'])->getValue() ?: [];
         }
         catch (\Exception $e)
         {

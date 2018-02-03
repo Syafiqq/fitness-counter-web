@@ -302,7 +302,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         try
         {
             /** @var string|null $role */
-            $valid = $this->firebase->getConnection()->getDatabase()->getReference(DataMapper::userRole($this->uid, $role)[0])->getValue() ?: false;
+            $valid = $this->firebase->getConnection()->getDatabase()->getReference(DataMapper::userRole($this->uid, $role)['users_groups'])->getValue() ?: false;
         }
         catch (\Exception $e)
         {
@@ -362,7 +362,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         try
         {
             /** @var string[] $roles */
-            $roles = $this->firebase->getConnection()->getDatabase()->getReference(DataMapper::userRole($this->uid)[0])->getChildKeys();
+            $roles = $this->firebase->getConnection()->getDatabase()->getReference(DataMapper::userRole($this->uid)['users'])->getChildKeys();
             $role  = count($roles) > 0 ? $roles[0] : $role;
         }
         catch (\Exception $e)
