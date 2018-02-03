@@ -4,7 +4,6 @@
 @endsection
 
 @section('head-description')
-    @parent
     <meta name="description" content="Dashboard">
 @endsection
 
