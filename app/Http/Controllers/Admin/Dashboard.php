@@ -13,4 +13,9 @@ class Dashboard extends Controller
     {
         parent::__construct();
     }
+
+    public function getHome()
+    {
+        return view("layout.admin.dashboard.home.admin_dashboard_home_{$this->theme}");
+    }
 }
