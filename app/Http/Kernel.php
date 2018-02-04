@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'role' => \App\Http\Middleware\CheckRole::class,
-        'event.valid' => \App\Http\Middleware\ValidEvent::class
+        'event.valid' => \App\Http\Middleware\ValidEvent::class,
+        'extract.email.role' => \App\Http\Middleware\ExtractEmailRole::class
     ];
 }
