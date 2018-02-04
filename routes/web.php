@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::prefix('/auth')->namespace('Auth')->middleware(['web'])->group(function () {
     Route::middleware(['guest'])->group(function () {
         Route::get('/login', 'LoginController@getLogin')->name('login');
-        Route::post('/login', 'LoginController@postLogin')->name('auth.login.post');
+        Route::post('/login', 'LoginController@postLogin')->name('auth.login.post')->middleware(['extract.email.role']);
     });
     Route::middleware(['auth'])->group(function () {
         Route::get('/switch/{role}', 'RoleSwitchController@getSwitch')->name('auth.switch.role');
