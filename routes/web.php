@@ -27,3 +27,7 @@ Route::prefix('/auth')->namespace('Auth')->middleware(['web'])->group(function (
         Route::get('/logout', 'LoginController@getLogout')->name('logout');
     });
 });
+$group = 'admin';
+Route::prefix("/$group")->namespace('Admin')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
+    Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
+});
