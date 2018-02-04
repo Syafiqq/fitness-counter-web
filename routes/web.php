@@ -27,23 +27,3 @@ Route::prefix('/auth')->namespace('Auth')->middleware(['web'])->group(function (
         Route::get('/logout', 'LoginController@getLogout')->name('logout');
     });
 });
-$group = 'organizer';
-Route::prefix("/$group")->namespace('Organizer')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
-    Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
-    Route::prefix("/event/{event}")->middleware(['event.valid'])->group(function () use ($group) {
-        Route::get('/', 'Event@getOverview')->name("{$group}.event.overview");
-    });
-});
-$group = 'provider';
-Route::prefix("/$group")->namespace('Provider')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
-    Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
-});
-$group = 'student';
-Route::prefix("/$group")->namespace('Student')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
-    Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
-});
-$group = 'trainer';
-Route::prefix("/$group")->namespace('Trainer')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
-    Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
-});
-
