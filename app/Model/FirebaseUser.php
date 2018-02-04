@@ -65,7 +65,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         if (!is_null($user))
         {
             $this->setCredential($user);
-            $this->role = $this->role ?: $this->getValidRole();
+            $this->role = $this->role ?: $credentials['role'] ?? $this->getValidRole();
             if (!$this->isRoleValid($this->role))
             {
                 return null;
