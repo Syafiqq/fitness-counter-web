@@ -13,4 +13,9 @@ class Event extends Controller
     {
         parent::__construct();
     }
+
+    public function getOverview()
+    {
+        return view("layout.admin.event.overview.admin_event_overview_{$this->theme}");
+    }
 }
