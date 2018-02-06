@@ -20,9 +20,9 @@
                     NProgress.start();
                     app.is_process = true;
 
-                    var event    = PojsoMapper.Event(app.f_event, app.f_slug);
-                    var computed = {};
-                    var mapping  = DataMapper.Event(
+                    var event   = PojsoMapper.Event(app.f_event, app.f_slug, firebase.auth().currentUser.uid);
+                    var query   = {};
+                    var mapping = DataMapper.Event(
                         firebase.auth().currentUser.uid,
                         firebase.database().ref().child(DataMapper.Event(firebase.auth().currentUser.uid)['events']).push().key);
                     $.each(mapping, function (key, value) {
@@ -30,19 +30,18 @@
                         {
                             case 'events' :
                             {
-                                computed[value]        = Object.assign({}, event);
-                                computed[value]['uid'] = firebase.auth().currentUser.uid;
+                                query[value] = event['events']
                             }
                                 break;
                             default :
                             {
-                                computed[value] = Object.assign({}, event);
+                                query[value] = event['users']
                             }
                                 break;
                         }
                     });
 
-                    return firebase.database().ref().update(computed, function (error) {
+                    return firebase.database().ref().update(query, function (error) {
                         if (error !== undefined)
                         {
                             DoNotify(['Pembuatan Event berhasil'])
@@ -58,9 +57,11 @@
                     this.$refs.modal.open();
                 },
                 eventListInitial: function () {
-                    var eventsRef = firebase.database().ref(DataMapper.Event(firebase.auth().currentUser.uid)['user']);
-                    eventsRef.on('child_added', function (data) {
-                        Vue.set(app.l_events, data.key, data.val())
+                    var events = firebase.database().ref(DataMapper.Event(firebase.auth().currentUser.uid)['users']);
+                    events.on('child_added', function (eventOverview) {
+                        firebase.database().ref(DataMapper.Event(firebase.auth().currentUser.uid, eventOverview.key)['events']).once('value').then(function (event) {
+                            Vue.set(app.l_events, event.key, event.val())
+                        });
                     });
                 }
             }
