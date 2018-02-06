@@ -10,7 +10,7 @@ var DataMapper = {
         id = id === undefined ? '' : '/' + id;
         return {
             events: PathMapper.EVENTS + id,
-            user: PathMapper.USERS + '/' + uid + '/' + PathMapper.EVENTS + id,
+            users: PathMapper.USERS + '/' + uid + '/' + PathMapper.EVENTS + id,
         };
     }
 };
