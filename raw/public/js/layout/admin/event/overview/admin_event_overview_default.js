@@ -1,5 +1,14 @@
 (function ($) {
     $(function () {
+        var app = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                addNewPreset: function () {
+                    console.log("ABC");
+                }
+            }
+        });
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {

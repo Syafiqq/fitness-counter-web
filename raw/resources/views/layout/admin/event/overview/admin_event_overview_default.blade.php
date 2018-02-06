@@ -9,8 +9,10 @@
 
 @section('body-content')
     @parent
-    Event Overview
-@endsection
+    <div id="app">
+        <button @click="addNewPreset"> Buat Counter Baru</button>
+        <hr>
+    </div>@endsection
 
 @section('head-css-post')
     @parent
