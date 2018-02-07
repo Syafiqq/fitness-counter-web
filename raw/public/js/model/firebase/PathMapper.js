@@ -9,6 +9,7 @@ var PathMapper =
         {
             USERS: 'users',
             EVENTS: 'events',
+            PRESETS: 'presets',
             GROUPS: 'groups',
             USERS_GROUPS: 'users_groups',
         };
