@@ -34,3 +34,7 @@ Route::prefix("/$group")->namespace('Admin')->middleware(['web', 'auth', "role:$
         Route::get('/', 'Event@getOverview')->name("{$group}.event.overview");
     });
 });
+$group = 'registrar';
+Route::prefix("/$group")->namespace('Registrar')->middleware(['web', 'auth', "role:$group"])->group(function () use ($group) {
+    Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
+});
