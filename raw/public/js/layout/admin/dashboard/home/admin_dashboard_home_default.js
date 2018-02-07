@@ -13,6 +13,7 @@
                 f_slug: '',
                 l_events: {},
                 home: $('meta[name=home]').attr("content"),
+                role: $('meta[name=user-role]').attr("content"),
             },
             methods: {
                 eventFormCommit: function () {
@@ -20,25 +21,20 @@
                     NProgress.start();
                     app.is_process = true;
 
-                    var event   = PojsoMapper.Event(app.f_event, app.f_slug, firebase.auth().currentUser.uid);
-                    var query   = {};
-                    var mapping = DataMapper.Event(
+                    var eventKey = firebase.database().ref().child(DataMapper.Event()['events']).push().key;
+                    var event    = PojsoMapper.Event(app.f_event, app.f_slug, firebase.auth().currentUser.uid);
+                    var query    = {};
+                    var mapping  = DataMapper.Event(
                         firebase.auth().currentUser.uid,
-                        firebase.database().ref().child(DataMapper.Event(firebase.auth().currentUser.uid)['events']).push().key);
+                        app.role,
+                        eventKey
+                    );
                     $.each(mapping, function (key, value) {
                         switch (key)
-                        {
-                            case 'events' :
-                            {
-                                query[value] = event['events']
-                            }
-                                break;
-                            default :
-                            {
-                                query[value] = event['users']
-                            }
-                                break;
-                        }
+                        {// @formatter:off
+                            case 'events' : {query[value] = event['events']} break;
+                            case 'users' : {query[value] = event['users']} break;
+                        }// @formatter:on
                     });
 
                     return firebase.database().ref().update(query, function (error) {
@@ -57,9 +53,10 @@
                     this.$refs.modal.open();
                 },
                 eventListInitial: function () {
-                    var events = firebase.database().ref(DataMapper.Event(firebase.auth().currentUser.uid)['users']);
+                    var events = firebase.database().ref(DataMapper.Event(firebase.auth().currentUser.uid, app.role)['users']);
                     events.on('child_added', function (eventOverview) {
-                        firebase.database().ref(DataMapper.Event(firebase.auth().currentUser.uid, eventOverview.key)['events']).once('value').then(function (event) {
+                        console.log(eventOverview.key, eventOverview.val());
+                        firebase.database().ref(DataMapper.Event(null, null, eventOverview.key)['events']).once('value').then(function (event) {
                             Vue.set(app.l_events, event.key, event.val())
                         });
                     });
