@@ -2,10 +2,37 @@
     $(function () {
         var app = new Vue({
             el: '#app',
-            data: {},
+            data: {
+                home: $('meta[name=home]').attr("content"),
+                event: $('meta[name=event]').attr("content"),
+            },
             methods: {
                 addNewPreset: function () {
-                    console.log("ABC");
+                    NProgress.start();
+                    var presetKey = firebase.database().ref().child(DataMapper.Preset(null, null)['presets']).push().key;
+                    var query     = {};
+                    var mapping   = DataMapper.Preset(
+                        app.event,
+                        presetKey);
+                    var presets   = PojsoMapper.Preset(firebase.auth().currentUser.uid, app.event, presetKey);
+                    $.each(mapping, function (key, value) {
+                        switch (key)
+                        {// @formatter:off
+                            case 'presets' : {query[value] = presets[key]} break;
+                            case 'users_event_presets' : {query[value] = true} break;
+                            case 'users_event_preset' : {query[value] = presets['users']} break;
+                        }// @formatter:on
+                    });
+                    return firebase.database().ref().update(query, function (error) {
+                        if (error !== undefined)
+                        {
+                            DoNotify(['Pembuatan Counter berhasil'])
+                        } else
+                        {
+                            DoNotify([error])
+                        }
+                        NProgress.done();
+                    });
                 }
             }
         });
