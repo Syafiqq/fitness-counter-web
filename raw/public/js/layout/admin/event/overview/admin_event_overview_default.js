@@ -5,6 +5,7 @@
             data: {
                 home: $('meta[name=home]').attr("content"),
                 event: $('meta[name=event]').attr("content"),
+                role: $('meta[name=user-role]').attr("content"),
             },
             methods: {
                 addNewPreset: function () {
@@ -14,7 +15,7 @@
                     var mapping   = DataMapper.Preset(
                         app.event,
                         presetKey);
-                    var presets   = PojsoMapper.Preset(firebase.auth().currentUser.uid, app.event, presetKey);
+                    var presets   = PojsoMapper.Preset(app.event, presetKey);
                     $.each(mapping, function (key, value) {
                         switch (key)
                         {// @formatter:off
