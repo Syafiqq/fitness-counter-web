@@ -12,5 +12,11 @@ var PojsoMapper = {
             events: {event: event, slug: slug, uid: uid, createdAt: firebase.database.ServerValue.TIMESTAMP},
             users: true,
         }
+    },
+    Preset: function (uid, preset) {
+        return {
+            presets: {uid: uid, createAt: firebase.database.ServerValue.TIMESTAMP},
+            users: preset
+        }
     }
 };
