@@ -12,5 +12,14 @@ var DataMapper = {
             events: PathMapper.EVENTS + id,
             users: PathMapper.USERS + '/' + uid + '/' + PathMapper.EVENTS + id,
         };
+    },
+    Preset: function (uid = '-', event = '-', id = '-') {
+        uid   = uid.length > 0 ? '/' + uid : uid;
+        event = event.length > 0 ? '/' + event : event;
+        id    = id.length > 0 ? '/' + id : id;
+        return {
+            presets: PathMapper.PRESETS + id,
+            users: PathMapper.USERS + uid + '/' + PathMapper.EVENTS + event + '/preset',
+        };
     }
 };
