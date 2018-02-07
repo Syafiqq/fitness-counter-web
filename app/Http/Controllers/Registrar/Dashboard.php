@@ -10,4 +10,9 @@ class Dashboard extends Controller
     {
         parent::__construct();
     }
+
+    public function getHome()
+    {
+        return view("layout.registrar.dashboard.home.registrar_dashboard_home_{$this->theme}");
+    }
 }
