@@ -9,7 +9,7 @@
 var PojsoMapper = {
     Event: function (event, slug, uid) {
         return {
-            events: {event: event, slug: slug, uid: uid, createdAt: firebase.database.ServerValue.TIMESTAMP},
+            events: {event: event, slug: slug, admin: uid, createdAt: firebase.database.ServerValue.TIMESTAMP},
             users: true,
         }
     },
