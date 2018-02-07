@@ -6,13 +6,16 @@
  * Github       : syafiqq
  */
 var DataMapper = {
-    Event: function (uid, id = undefined) {
-        id = id === undefined ? '' : '/' + id;
+    Event: function (uid = null, role = null, id = null) {
+        uid  = uid === null ? '' : '/' + uid;
+        role = role === null ? '' : '/' + role;
+        id   = id === null ? '' : '/' + id;
         return {
             events: PathMapper.EVENTS + id,
-            users: PathMapper.USERS + '/' + uid + '/' + PathMapper.EVENTS + id,
+            users: PathMapper.USERS + uid + role + '/' + PathMapper.EVENTS + id,
         };
-    },
+    }
+    ,
     Preset: function (event = null, id = null) {
         event = event == null ? '' : '/' + event;
         id    = id == null ? '' : '/' + id;
@@ -22,4 +25,5 @@ var DataMapper = {
             users_event_preset: PathMapper.EVENTS + event + '/preset_active',
         };
     }
-};
+}
+;
