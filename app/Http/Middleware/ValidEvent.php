@@ -25,7 +25,7 @@ class ValidEvent
         $event      = $request->route('event') ?: sha1(ValidEvent::class);
         /** @var FirebaseUser $user */
         $user  = Auth::user();
-        $valid = $connection->getConnection()->getDatabase()->getReference(DataMapper::event($user->getUid(), $event)[0])->getValue() !== null;
+        $valid = $connection->getConnection()->getDatabase()->getReference(DataMapper::event($user->getUid(), $user->getRole(), $event)['users'])->getValue() ?: false;
         if (!$valid)
         {
             return redirect()->back()->with('cbk_msg', ['notify' => ["Event Tidak Valid"]]);
