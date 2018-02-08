@@ -12,6 +12,8 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected $theme;
+    protected $meta = [];
+    protected $data = [];
 
     /**
      * Controller constructor.
