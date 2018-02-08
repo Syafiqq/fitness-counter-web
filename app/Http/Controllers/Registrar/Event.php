@@ -11,8 +11,10 @@ class Event extends Controller
         parent::__construct();
     }
 
-    public function getOverview()
+    public function getOverview($event)
     {
-        return view("layout.registrar.event.overview.registrar_event_overview_{$this->theme}");
+        $this->meta['event'] = $event;
+
+        return view("layout.registrar.event.overview.registrar_event_overview_{$this->theme}", ['meta' => $this->meta]);
     }
 }
