@@ -14,10 +14,11 @@ class CreatePresetQueue extends Migration
     public function up()
     {
         Schema::create('preset_queue', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('preset', 20);
             $table->string('participant', 20);
             $table->timestamp('created_at')->useCurrent();
-            $table->primary(['preset', 'participant']);
+            $table->index(['preset', 'participant']);
         });
     }
 
