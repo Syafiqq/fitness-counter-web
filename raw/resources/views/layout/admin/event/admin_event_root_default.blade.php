@@ -2,5 +2,5 @@
 
 @section('head-meta')
     @parent
-    <meta name="event" content="{!! $meta['event'] !!}">
+    @include('layout.common.event.event_meta')
 @endsection
