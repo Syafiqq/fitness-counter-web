@@ -1,4 +1,4 @@
-@extends('layout.admin.event.admin_event_root_default')
+@extends('layout.registrar.event.registrar_event_root_default')
 @section('head-title')
     <title>Overview</title>
 @endsection
