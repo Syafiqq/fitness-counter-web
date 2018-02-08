@@ -24,8 +24,8 @@ class DataMapper
 
         return [
             // @formatter:off
-            'users_groups'   => sprintf("%s%s%s",      PathMapper::USERS_GROUPS, $role, $uid),
-            'users'          => sprintf("%s%s/%s%s",   PathMapper::USERS, $uid, 'roles', $role),
+            'users_groups'   => PathMapper::USERS_GROUPS . $role . $uid,
+            'users'          => PathMapper::USERS . $uid . '/roles' . $role,
             // @formatter:on
         ];
     }
