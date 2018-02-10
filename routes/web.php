@@ -39,5 +39,6 @@ Route::prefix("/$group")->namespace('Registrar')->middleware(['web', 'auth', "ro
     Route::get('/home', 'Dashboard@getHome')->name("{$group}.dashboard.home");
     Route::prefix("/event/{event}")->middleware(['event.valid'])->group(function () use ($group) {
         Route::get('/', 'Event@getOverview')->name("{$group}.event.overview");
+        Route::post('/queue/add', 'Event@postQueueAddApi')->name("{$group}.event.queue.add")->middleware(['filter.request:json']);
     });
 });
