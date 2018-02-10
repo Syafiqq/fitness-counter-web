@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'event.valid' => \App\Http\Middleware\ValidEvent::class,
-        'extract.email.role' => \App\Http\Middleware\ExtractEmailRole::class
+        'extract.email.role' => \App\Http\Middleware\ExtractEmailRole::class,
+        'filter.request' => \App\Http\Middleware\FilterRequest::class
     ];
 }
