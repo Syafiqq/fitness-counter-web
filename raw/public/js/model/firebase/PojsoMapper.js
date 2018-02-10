@@ -18,5 +18,8 @@ var PojsoMapper = {
             presets: {event: event, createAt: firebase.database.ServerValue.TIMESTAMP},
             users: preset
         }
+    },
+    JsonResponse: function (code = 200, status = 'Empty Status', data = null) {
+        return {code: code, status: status, data: data}
     }
 };
