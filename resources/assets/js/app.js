@@ -6,9 +6,11 @@
 
 require('./bootstrap');
 import SweetModal from 'sweet-modal-vue/src/plugin.js'
+import VueSweetalert2 from 'vue-sweetalert2';
 
 window.Vue = require('vue');
 window.Vue.use(SweetModal);
+window.Vue.use(VueSweetalert2);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
