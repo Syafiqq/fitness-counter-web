@@ -47,6 +47,7 @@
         "nprogress": "^0.2.0",
         "respond.js": "^1.4.2",
         "sweet-modal-vue": "^2.0.0",
-        "toastr": "^2.1.4"
+        "toastr": "^2.1.4",
+        "vue-sweetalert2": "^1.2.4"
     }
 }
