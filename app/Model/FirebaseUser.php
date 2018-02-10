@@ -330,8 +330,8 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
      */
     public function save(Session $session, $user)
     {
-        $this->needUpdateToken();
-        $session->put($this->sessionName($user->uid), [
+        $user->needUpdateToken();
+        $session->put($user->sessionName($user->uid), [
             'uid' => $user->uid,
             'token' => $user->token,
             'role' => $user->role = ($user->role ?: $user->getValidRole()),
