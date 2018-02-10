@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Firebase\PopoMapper;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -31,7 +34,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -42,12 +45,34 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $exception)
     {
+        if ($request->wantsJson())
+        {
+            $statusCode = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
+            switch (get_class($exception))
+            {
+                case ModelNotFoundException::class :
+                    return response()->json(PopoMapper::jsonResponse(404, 'Resource Not Found'), 404);
+                default :
+                    return response()->json(PopoMapper::jsonResponse($statusCode, $exception->getMessage()), $statusCode);
+            }
+        }
+
         return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->wantsJson())
+        {
+            return response()->json(PopoMapper::jsonResponse(401, 'Unauthenticated'), 401);
+        }
+
+        return parent::unauthenticated($request, $exception);
     }
 }
