@@ -24,6 +24,12 @@ var DataMapper = {
             users_event_presets: PathMapper.EVENTS + event + '/presets' + id,
             users_event_preset: PathMapper.EVENTS + event + '/preset_active',
         };
+    },
+    PresetQueue: function (preset = null, queue = null) {
+        preset = preset == null ? '' : '/' + preset;
+        queue  = queue == null ? '' : '/' + queue;
+        return {
+            presets: PathMapper.PRESETS + preset + '/queues' + queue
+        }
     }
-}
-;
+};
