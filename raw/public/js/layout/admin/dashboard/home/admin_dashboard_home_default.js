@@ -20,14 +20,24 @@
                     NProgress.configure({parent: '.sweet-modal', showSpinner: false});
                     NProgress.start();
                     app.is_process = true;
+                    var eventKey   = firebase.database().ref().child(DataMapper.Event()['events']).push().key;
                     createNewEvent(firebase, {
                         event: this.f_event,
                         slug: this.f_slug,
                         role: this.role
-                    }).then(function (error) {
+                    }, eventKey).then(function (error) {
                         if (error == null)
                         {
-                            DoNotify(['Pembuatan Event berhasil'])
+                            createNewPreset(firebase, {event: eventKey}).then(function () {
+                                DoNotify(['Pembuatan Event berhasil']);
+                                if (error == null)
+                                {
+                                    DoNotify(['Pembuatan Counter berhasil'])
+                                } else
+                                {
+                                    DoNotify([error])
+                                }
+                            });
                         }
                         else
                         {
