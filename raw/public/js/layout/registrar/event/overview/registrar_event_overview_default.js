@@ -48,15 +48,12 @@
                                                 resolve(response.data);
                                             };
                                             var registerCallback = undefined;
-                                            if (response.data != null && 'code' in response.data)
+                                            if (response.data != null && 'code' in response.data && response.data.code === 200)
                                             {
-                                                if (response.data.code === 200)
-                                                {
-                                                    registerCallback = createNewPresetQueue(firebase, {
-                                                        queue: response.data.data.queue,
-                                                        participant: app.f_participant
-                                                    }, app.preset)
-                                                }
+                                                registerCallback = createNewPresetQueue(firebase, {
+                                                    queue: response.data.data.queue,
+                                                    participant: app.f_participant
+                                                }, app.preset)
                                             }
                                             if (registerCallback != null)
                                             {
@@ -71,13 +68,9 @@
                                         })
                                         .catch(function (error) {
                                             var responseData = null;
-                                            if (error.response != null && error.response.data != null)
+                                            if (error.response != null && error.response.data != null && error.response.data.code === 422)
                                             {
-                                                if (error.response.data.code === 422)
-                                                {
-                                                    DoNotify(error.response.data.data);
-                                                }
-                                                responseData = error.response.data;
+                                                DoNotify(responseData = error.response.data.data);
                                             }
                                             else
                                             {
@@ -115,7 +108,6 @@
                                 app.is_process = false;
                             }
                         });
-
                     }
                     else
                     {
