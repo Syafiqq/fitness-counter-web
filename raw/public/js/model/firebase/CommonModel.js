@@ -42,3 +42,21 @@ function createNewPreset(firebase, data, presetKey = firebase.database().ref().c
     });
     return firebase.database().ref().update(query)
 }
+
+function createNewPresetQueue(firebase, data, preset)
+{
+    if (typeof data.queue === 'number' && isFinite(data.queue))
+    {
+        var query   = {};
+        var mapping = DataMapper.PresetQueue(preset, data.queue);
+        var presets = PojsoMapper.PresetQueue(data.participant);
+        _.forEach(mapping, function (value, key) {
+            switch (key)
+            {// @formatter:off
+                case 'presets' : {query[value + "/participant"] = presets[key]['participant']} break;
+            }// @formatter:on
+        });
+        return firebase.database().ref().update(query);
+    }
+    return null;
+}
