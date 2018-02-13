@@ -13,22 +13,7 @@
                 uid: undefined,
             },
             methods: {
-                registerPreset: function (queue) {
-                    if (typeof queue === 'number' && isFinite(queue))
-                    {
-                        var query   = {};
-                        var mapping = DataMapper.PresetQueue(this.preset, queue);
-                        var presets = PojsoMapper.PresetQueue(this.f_participant);
-                        _.forEach(mapping, function (value, key) {
-                            switch (key)
-                            {// @formatter:off
-                                case 'presets' : {query[value + "/participant"] = presets[key]['participant']} break;
-                            }// @formatter:on
-                        });
-                        return firebase.database().ref().update(query);
-                    }
-                    return null;
-                },
+
                 openModal: function () {
                     if (app.preset != null && app.f_participant != null)
                     {
@@ -67,7 +52,10 @@
                                             {
                                                 if (response.data.code === 200)
                                                 {
-                                                    registerCallback = app.registerPreset(response.data.data.queue)
+                                                    registerCallback = createNewPresetQueue(firebase, {
+                                                        queue: response.data.data.queue,
+                                                        participant: app.f_participant
+                                                    }, app.preset)
                                                 }
                                             }
                                             if (registerCallback != null)
