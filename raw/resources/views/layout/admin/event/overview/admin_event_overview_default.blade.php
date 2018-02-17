@@ -12,9 +12,7 @@
     <div id="app">
         <button @click="addNewPreset"> Buat Counter Baru</button>
         <hr>
-        <div id="people">
-            <v-client-table :data="queues" :columns="qt_columns" :options="qt_options"></v-client-table>
-        </div>
+        <v-client-table :data="queues" :columns="qt_columns" :options="qt_options"></v-client-table>
     </div>@endsection
 
 @section('head-css-post')
