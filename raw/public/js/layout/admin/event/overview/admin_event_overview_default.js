@@ -38,7 +38,10 @@
         function listParticipant(event)
         {
             firebase.database().ref(DataMapper.Event(null, null, event)['events'] + '/preset_active').once('value').then(function (preset) {
-                console.log(preset.val())
+                var queueRef = firebase.database().ref(DataMapper.PresetQueue(preset.val())['presets']);
+                queueRef.on('child_added', function (queue) {
+                    console.log(PojsoMapper.CompactPresetQueue(queue.key, queue.val())['presets'])
+                });
             });
         }
 
