@@ -9,7 +9,11 @@
                 qt_columns: ['queue', 'participant'],
                 queues: [],
                 qt_options: {
-                    // see the qt_options API
+                    headings: {
+                        queue: 'Antrian',
+                        participant: 'Nomor Peserta',
+                    },
+                    sortable: ['queue', 'participant'],
                 }
             },
             methods: {
