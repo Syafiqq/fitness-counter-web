@@ -32,5 +32,10 @@ var PojsoMapper = {
         return {
             presets: preset,
         }
+    },
+    UserManagement: function (uid, firebaseRef) {
+        return {
+            registrar: {name: firebaseRef.name, uid: uid, participate: false}
+        }
     }
 };
