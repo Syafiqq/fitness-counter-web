@@ -26,7 +26,3 @@
     @parent
     <script type="text/javascript" src="{{asset('/js/layout/admin/event/overview/admin_event_overview_default.min.js')}}"></script>
 @endsection
-
-@push('additional-firebase-library')
-    <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-database.min.js')}}"></script>
-@endpush
