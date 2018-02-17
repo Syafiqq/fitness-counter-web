@@ -10,7 +10,10 @@
 @section('body-content')
     @parent
     <div id="app">
-        <v-client-table :data="registrar" :columns="qt_columns" :options="qt_options"></v-client-table>
+        <v-client-table :data="registrar" :columns="qt_columns" :options="qt_options">
+            <input slot="participate" slot-scope="props" type="checkbox" id="checkbox" v-model="props.row.participate" @click="check(props.row.uid, props.row.participate)">
+        </v-client-table>
+        <button @click="save">Save</button>
     </div>
 @endsection
 
