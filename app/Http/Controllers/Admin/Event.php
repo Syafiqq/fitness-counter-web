@@ -22,4 +22,13 @@ class Event extends Controller
 
         return view("layout.admin.event.overview.admin_event_overview_{$this->theme}", compact('meta'));
     }
+
+    public function getManagementRegistrar($event)
+    {
+        $meta = [
+            'event' => $event
+        ];
+
+        return view("layout.admin.event.management.registrar.admin_event_management_registrar_{$this->theme}", compact('meta'));
+    }
 }
