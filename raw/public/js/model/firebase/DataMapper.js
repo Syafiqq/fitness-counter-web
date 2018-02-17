@@ -6,6 +6,12 @@
  * Github       : syafiqq
  */
 var DataMapper = {
+    Users: function (uid = null) {
+        uid = uid === null ? '' : '/' + uid;
+        return {
+            users: PathMapper.USERS + uid,
+        };
+    },
     Event: function (uid = null, role = null, id = null) {
         uid  = uid === null ? '' : '/' + uid;
         role = role === null ? '' : '/' + role;
