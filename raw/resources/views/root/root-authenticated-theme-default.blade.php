@@ -10,6 +10,7 @@
     @include('layout.common.preloader.common_preloader_default')
     @parent
     @auth
+        @stack('pre-add-auth-header-menu')
         <?php
         $roles = \Illuminate\Support\Facades\App::call(\App\Helper\UserHelper::class . "::getUserRole", [\Illuminate\Support\Facades\Auth::user()]);
         foreach ($roles as $krole => &$role)
