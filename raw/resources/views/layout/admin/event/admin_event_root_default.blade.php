@@ -2,6 +2,7 @@
 
 @push('pre-add-auth-header-menu')
     {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.overview', 'Overview', [$meta['event']], []) !!}
+    {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.management.registrar', 'Management Registrar', [$meta['event']], []) !!}
 @endpush
 
 @section('head-meta')
