@@ -34,10 +34,19 @@
                 }
             }
         });
+
+        function listParticipant(event)
+        {
+            firebase.database().ref(DataMapper.Event(null, null, event)['events'] + '/preset_active').once('value').then(function (preset) {
+                console.log(preset.val())
+            });
+        }
+
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
                 console.log(user.email);
+                listParticipant(app.event);
             } else
             {
                 // User is signed out.
