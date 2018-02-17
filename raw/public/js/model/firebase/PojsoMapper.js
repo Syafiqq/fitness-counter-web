@@ -33,9 +33,19 @@ var PojsoMapper = {
             presets: preset,
         }
     },
-    UserManagement: function (uid, firebaseRef) {
+    UserManagement: function (uid, event, role, firebaseRef) {
+        var participate;
+        try
+        {
+            participate = firebaseRef[role]['events'][event] == null ? false : firebaseRef[role]['events'][event];
+        }
+        catch (TypeError)
+        {
+            participate = false;
+        }
+
         return {
-            registrar: {name: firebaseRef.name, uid: uid, participate: false}
+            registrar: {name: firebaseRef.name, uid: uid, participate: participate}
         }
     }
 };
