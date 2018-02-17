@@ -8,3 +8,7 @@
     @parent
     @include('layout.common.event.event_meta')
 @endsection
+
+@push('additional-firebase-library')
+    <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-database.min.js')}}"></script>
+@endpush
