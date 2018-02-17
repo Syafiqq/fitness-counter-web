@@ -26,5 +26,11 @@ var PojsoMapper = {
         return {
             presets: {participant: participant}
         }
+    },
+    CompactPresetQueue: function (queue = '-', preset = {}) {
+        preset['queue'] = queue;
+        return {
+            presets: preset,
+        }
     }
 };
