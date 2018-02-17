@@ -10,6 +10,7 @@
 @section('body-content')
     @parent
     <div id="app">
+        <v-client-table :data="registrar" :columns="qt_columns" :options="qt_options"></v-client-table>
     </div>
 @endsection
 
