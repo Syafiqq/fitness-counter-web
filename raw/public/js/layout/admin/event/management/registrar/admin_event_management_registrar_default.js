@@ -21,7 +21,7 @@
                     NProgress.start();
                     var query = {};
                     _.forEach(this.registrar, function (value) {
-                        query[DataMapper.Event(value.uid, 'registrar', app.event)['users']] = value.participate
+                        query[DataMapper.Event(value.uid, 'registrar', app.event)['users']] = value.participate === false ? null : value.participate
                     });
                     firebase.database().ref().update(query).then(function (error) {
                         if (error == null)
