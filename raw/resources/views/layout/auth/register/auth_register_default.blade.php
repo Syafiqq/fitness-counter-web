@@ -34,3 +34,6 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
     <script type="text/javascript" src="{{asset('/js/layout/auth/register/auth_register_default.min.js')}}"></script>
 @endsection
 
+@push('additional-firebase-library')
+    <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-database.min.js')}}"></script>
+@endpush
