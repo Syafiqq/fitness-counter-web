@@ -10,6 +10,15 @@ var DataMapper = {
         uid = uid === null ? '' : '/' + uid;
         return {
             users: PathMapper.USERS + uid,
+            user_name: PathMapper.USERS + uid + '/name',
+        };
+    },
+    UserRole: function (uid = null, role = null) {
+        uid  = uid === null ? '' : '/' + uid;
+        role = role === null ? '' : '/' + role;
+        return {
+            users: PathMapper.USERS + uid + '/roles' + role,
+            users_groups: PathMapper.USERS_GROUPS + role + uid,
         };
     },
     Event: function (uid = null, role = null, id = null) {
