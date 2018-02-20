@@ -60,3 +60,22 @@ function createNewPresetQueue(firebase, data, preset)
     }
     return null;
 }
+
+function createNewUser(firebase, data, uid)
+{
+    var query = {};
+    _.forEach(DataMapper.Users(uid), function (value, key) {
+        switch (key)
+        {// @formatter:off
+            case 'user_name' : {query[value] = data.name} break;
+        }// @formatter:on
+    });
+    _.forEach(DataMapper.UserRole(uid, data.role), function (value, key) {
+        switch (key)
+        {// @formatter:off
+            case 'users' : {query[value] = true} break;
+            case 'users_groups' : {query[value] = true} break;
+        }// @formatter:on
+    });
+    return firebase.database().ref().update(query)
+}
