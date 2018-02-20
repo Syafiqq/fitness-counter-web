@@ -12,7 +12,10 @@ if (!is_null($session->get('cbk_msg')))
     $flashdata = array_merge($flashdata, $session->get('cbk_msg'));
 }
 ?>
-
+@section('head-meta')
+    @parent
+    <meta name="home" content="{!! url('/') !!}">
+@endsection
 @section('head-css-pre')
     @parent
     {{-- Generated App --}}
