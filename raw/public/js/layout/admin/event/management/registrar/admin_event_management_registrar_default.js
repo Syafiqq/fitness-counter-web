@@ -43,7 +43,7 @@
         function listRegistrar()
         {
             firebase.database().ref(DataMapper.Users()['users']).orderByChild('roles/registrar').equalTo(true).on("child_added", function (snapshot) {
-                app.registrar.push(PojsoMapper.UserManagement(snapshot.key, app.event, 'registrar', snapshot.val()).registrar)
+                app.registrar.push(PojsoMapper.UserManagement(snapshot.key, app.event, 'registrar', snapshot.val()).role)
             });
         }
 
