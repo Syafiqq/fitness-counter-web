@@ -35,6 +35,7 @@ Route::prefix("/$group")->namespace('Admin')->middleware(['web', 'auth', "role:$
         Route::get('/', 'Event@getOverview')->name("{$group}.event.overview");
         Route::prefix('/management')->group(function () use ($group) {
             Route::get('/registrar', 'Event@getManagementRegistrar')->name("{$group}.event.management.registrar");
+            Route::get('/tester', 'Event@getManagementTester')->name("{$group}.event.management.tester");
         });
     });
 });
