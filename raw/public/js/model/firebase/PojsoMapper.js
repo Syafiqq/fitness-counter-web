@@ -45,7 +45,7 @@ var PojsoMapper = {
         }
 
         return {
-            registrar: {name: firebaseRef.name, uid: uid, participate: participate}
+            role: {name: firebaseRef.name, uid: uid, participate: participate}
         }
     }
 };
