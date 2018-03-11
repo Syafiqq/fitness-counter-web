@@ -9,6 +9,7 @@ const uglify      = require('gulp-uglify');
 const htmlmin     = require('gulp-htmlmin');
 const imagemin    = require('gulp-imagemin');
 const jsonMinify  = require('gulp-json-minify');
+const shell       = require('gulp-shell');
 //noinspection JSAnnotator
 const {phpMinify} = require('@cedx/gulp-php-minify');
 const elixir      = require('laravel-elixir');
