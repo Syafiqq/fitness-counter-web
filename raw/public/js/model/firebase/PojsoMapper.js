@@ -19,15 +19,22 @@ var PojsoMapper = {
             users: preset
         }
     },
-    JsonResponse: function (code = 200, status = 'Empty Status', data = null) {
+    JsonResponse: function (code, status, data) {
+        code   = typeof code === 'undefined' ? 200 : code;
+        status = typeof status === 'undefined' ? 'Empty Status' : status;
+        data   = typeof data === 'undefined' ? null : data;
         return {code: code, status: status, data: data}
     },
-    PresetQueue: function (participant = '-') {
+    PresetQueue: function (participant) {
+        participant = typeof participant === 'undefined' ? '-' : participant;
         return {
             presets: {participant: participant}
         }
     },
-    CompactPresetQueue: function (queue = '-', preset = {}) {
+    CompactPresetQueue: function (queue, preset) {
+        queue  = typeof queue === 'undefined' ? '-' : queue;
+        preset = typeof preset === 'undefined' ? {} : preset;
+
         preset['queue'] = queue;
         return {
             presets: preset,

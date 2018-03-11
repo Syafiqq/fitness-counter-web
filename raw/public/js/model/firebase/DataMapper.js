@@ -6,43 +6,43 @@
  * Github       : syafiqq
  */
 var DataMapper = {
-    Users: function (uid = null) {
-        uid = uid === null ? '' : '/' + uid;
+    Users: function (uid) {
+        uid = typeof uid === 'undefined' ? '' : (uid === null ? '' : '/' + uid);
         return {
             users: PathMapper.USERS + uid,
             user_name: PathMapper.USERS + uid + '/name',
         };
     },
-    UserRole: function (uid = null, role = null) {
-        uid  = uid === null ? '' : '/' + uid;
-        role = role === null ? '' : '/' + role;
+    UserRole: function (uid, role) {
+        uid  = typeof uid === 'undefined' ? '' : (uid === null ? '' : '/' + uid);
+        role = typeof role === 'undefined' ? '' : (role === null ? '' : '/' + role);
         return {
             users: PathMapper.USERS + uid + '/roles' + role,
             users_groups: PathMapper.USERS_GROUPS + role + uid,
         };
     },
-    Event: function (uid = null, role = null, id = null) {
-        uid  = uid === null ? '' : '/' + uid;
-        role = role === null ? '' : '/' + role;
-        id   = id === null ? '' : '/' + id;
+    Event: function (uid, role, id) {
+        uid  = typeof uid === 'undefined' ? '' : (uid === null ? '' : '/' + uid);
+        role = typeof role === 'undefined' ? '' : (role === null ? '' : '/' + role);
+        id   = typeof id === 'undefined' ? '' : (id === null ? '' : '/' + id);
         return {
             events: PathMapper.EVENTS + id,
             users: PathMapper.USERS + uid + role + '/' + PathMapper.EVENTS + id,
         };
     }
     ,
-    Preset: function (event = null, id = null) {
-        event = event == null ? '' : '/' + event;
-        id    = id == null ? '' : '/' + id;
+    Preset: function (event, id) {
+        event = typeof event === 'undefined' ? '' : (event == null ? '' : '/' + event);
+        id    = typeof id === 'undefined' ? '' : (id == null ? '' : '/' + id);
         return {
             presets: PathMapper.PRESETS + id,
             users_event_presets: PathMapper.EVENTS + event + '/presets' + id,
             users_event_preset: PathMapper.EVENTS + event + '/preset_active',
         };
     },
-    PresetQueue: function (preset = null, queue = null) {
-        preset = preset == null ? '' : '/' + preset;
-        queue  = queue == null ? '' : '/' + queue;
+    PresetQueue: function (preset, queue) {
+        preset = typeof preset === 'undefined' ? '' : (preset == null ? '' : '/' + preset);
+        queue  = typeof queue === 'undefined' ? '' : (queue == null ? '' : '/' + queue);
         return {
             presets: PathMapper.PRESETS + preset + '/queues' + queue
         }

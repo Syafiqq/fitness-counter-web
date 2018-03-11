@@ -5,8 +5,9 @@
  * Email        : syafiq.rezpector@gmail.com
  * Github       : syafiqq
  */
-function createNewEvent(firebase, data, eventKey = firebase.database().ref().child(DataMapper.Event()['events']).push().key)
+function createNewEvent(firebase, data, eventKey)
 {
+    eventKey    = typeof eventKey === 'undefined' ? firebase.database().ref().child(DataMapper.Event()['events']).push().key : eventKey;
     var event   = PojsoMapper.Event(data.event, data.slug, firebase.auth().currentUser.uid);
     var query   = {};
     var mapping = DataMapper.Event(
@@ -25,8 +26,9 @@ function createNewEvent(firebase, data, eventKey = firebase.database().ref().chi
     return firebase.database().ref().update(query);
 }
 
-function createNewPreset(firebase, data, presetKey = firebase.database().ref().child(DataMapper.Preset(null, null)['presets']).push().key)
+function createNewPreset(firebase, data, presetKey)
 {
+    presetKey   = typeof presetKey === 'undefined' ? firebase.database().ref().child(DataMapper.Preset(null, null)['presets']).push().key : presetKey;
     var query   = {};
     var mapping = DataMapper.Preset(
         data.event,

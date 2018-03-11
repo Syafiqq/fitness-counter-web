@@ -24,8 +24,8 @@
                             showCancelButton: true,
                             confirmButtonText: 'Ya',
                             showLoaderOnConfirm: true,
-                            preConfirm: () => {
-                                return new Promise((resolve) => {
+                            preConfirm: function () {
+                                return new Promise(function (resolve) {
                                     NProgress.configure({parent: '.swal2-modal', showSpinner: false});
                                     NProgress.start();
                                     axios.post(
@@ -57,7 +57,7 @@
                                             }
                                             if (registerCallback != null)
                                             {
-                                                registerCallback.then(() => {
+                                                registerCallback.then(function () {
                                                     resolveCallback(response);
                                                 });
                                             }
@@ -82,7 +82,7 @@
                                         });
                                 })
                             },
-                        }).then((result) => {
+                        }).then(function (result) {
                             console.log(result);
                             result = result.value;
                             if (result != null && 'code' in result)
