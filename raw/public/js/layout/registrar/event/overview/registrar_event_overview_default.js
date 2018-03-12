@@ -17,6 +17,7 @@
                 openModal: function () {
                     if (app.preset != null && app.f_participant != null)
                     {
+                        var stamp      = null;
                         app.is_process = true;
                         this.$swal({
                             title: 'Peserta : [' + app.f_participant + ']',
@@ -31,8 +32,10 @@
                                     axios.post(
                                         app.home + '/' + app.role + '/event/' + app.event + '/queue/add'
                                         , {
+                                            event: app.event,
                                             preset: app.preset,
-                                            participant: app.f_participant
+                                            participant: app.f_participant,
+                                            stamp: stamp = moment().format('YYYY-MM-DD')
                                         }
                                         , {
                                             headers: {
@@ -48,7 +51,7 @@
                                                 resolve(response.data);
                                             };
                                             var registerCallback = undefined;
-                                            if (response.data != null && 'code' in response.data && response.data.code === 200)
+                                            if (response.data != null && 'code' in response.data && response.data.code === 200 && response.data.data.queue !== 0)
                                             {
                                                 registerCallback = createNewPresetQueue(firebase, {
                                                     queue: response.data.data.queue,
@@ -89,10 +92,21 @@
                             {
                                 if (result.code === 200)
                                 {
-                                    app.$swal({
-                                        type: 'success',
-                                        title: 'Nomor Antrian Anda: ' + result.data.queue
-                                    });
+                                    if (result.data.queue === 0)
+                                    {
+                                        app.$swal({
+                                            type: 'error',
+                                            title: 'Oops...',
+                                            text: 'Anda sudah mengikuti event ini sebelumnya',
+                                        })
+                                    }
+                                    else
+                                    {
+                                        app.$swal({
+                                            type: 'success',
+                                            title: 'Nomor Antrian Anda: ' + result.data.queue
+                                        });
+                                    }
                                 }
                                 else
                                 {
