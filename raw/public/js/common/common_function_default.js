@@ -23,3 +23,11 @@ function DoNotify(response)
         toastr.info(response[i]);
     }
 }
+
+function removeCurtain()
+{
+    if (!document.body.classList.contains("loaded"))
+    {
+        document.body.className += 'loaded';
+    }
+}
