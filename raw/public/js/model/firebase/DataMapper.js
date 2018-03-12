@@ -40,11 +40,12 @@ var DataMapper = {
             users_event_preset: PathMapper.EVENTS + event + '/preset_active',
         };
     },
-    PresetQueue: function (preset, queue) {
+    PresetQueue: function (preset, stamp, queue) {
         preset = typeof preset === 'undefined' ? '' : (preset == null ? '' : '/' + preset);
+        stamp  = typeof stamp === 'undefined' ? '' : (stamp == null ? '' : '/' + stamp);
         queue  = typeof queue === 'undefined' ? '' : (queue == null ? '' : '/' + queue);
         return {
-            presets: PathMapper.PRESETS + preset + '/queues' + queue
+            presets: PathMapper.PRESETS + preset + '/queues' + stamp + queue
         }
     }
 };
