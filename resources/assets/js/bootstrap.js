@@ -13,6 +13,7 @@ try
     window.FastClick(document.body);
     window.NProgress = require('nprogress');
     window.toastr    = require('toastr');
+    window.moment    = require('moment');
 } catch (e)
 {
 }
