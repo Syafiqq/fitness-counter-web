@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PresetQueueRequest;
 use App\Model\PresetModel;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 
 class Event extends Controller
 {
@@ -37,7 +38,17 @@ class Event extends Controller
             $model->save();
             $currentPreset = $model;
         }
+        else if (!$currentPreset->getAttribute(PresetModel::CREATED_AT)->isSameDay(Carbon::createFromFormat('Y-m-d', $request->get('stamp'))))
+        {
+            $currentPreset->setAttribute(PresetModel::ID, -1);
+        }
 
-        return response()->json(PopoMapper::jsonResponse(200, 'success', ['queue' => $model->where(PresetModel::PRESET, $request->get('preset', '-'))->where(PresetModel::ID, '<=', $currentPreset->getAttribute(PresetModel::ID))->count()]), 200);
+        $queue = $model
+            ->where(PresetModel::PRESET, $request->get('preset', '-'))
+            ->where(PresetModel::ID, '<=', $currentPreset->getAttribute(PresetModel::ID))
+            ->whereDate(PresetModel::CREATED_AT, '=', $request->get('stamp'))
+            ->count();
+
+        return response()->json(PopoMapper::jsonResponse(200, 'success', ['queue' => $queue]), 200);
     }
 }
