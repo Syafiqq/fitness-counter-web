@@ -50,7 +50,7 @@ function createNewPresetQueue(firebase, data, preset)
     if (typeof data.queue === 'number' && isFinite(data.queue))
     {
         var query   = {};
-        var mapping = DataMapper.PresetQueue(preset, data.queue);
+        var mapping = DataMapper.PresetQueue(preset, data.stamp, data.queue);
         var presets = PojsoMapper.PresetQueue(data.participant);
         _.forEach(mapping, function (value, key) {
             switch (key)
