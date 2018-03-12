@@ -17,6 +17,7 @@ class PresetModel extends Model
 
     protected $table = 'preset_queue';
     protected $primaryKey = 'id';
+    protected $dates = [PresetModel::CREATED_AT];
     public $timestamps = false;
     protected $guarded = ['id', 'preset', 'participant'];
 }
