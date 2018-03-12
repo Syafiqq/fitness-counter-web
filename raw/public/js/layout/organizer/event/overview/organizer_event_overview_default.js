@@ -9,7 +9,7 @@
                 // User is signed out.
                 // ...
             }
-            document.body.className += 'loaded';
+            removeCurtain();
         });
     });
     /*
