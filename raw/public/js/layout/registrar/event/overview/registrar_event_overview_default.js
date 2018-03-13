@@ -35,7 +35,7 @@
                                             event: app.event,
                                             preset: app.preset,
                                             participant: app.f_participant,
-                                            stamp: (stamp = stamp == null ? moment() : stamp).format('YYYY-MM-DD')
+                                            stamp: (stamp = stamp == null ? moment('2018-03-18', 'YYYY-MM-DD') : stamp).format('YYYY-MM-DD')
                                         }
                                         , {
                                             headers: {
@@ -56,7 +56,7 @@
                                                 registerCallback = createNewPresetQueue(firebase, {
                                                     queue: response.data.data.queue,
                                                     participant: app.f_participant,
-                                                    stamp: (stamp = stamp == null ? moment() : stamp).format('YYYYMMDD')
+                                                    stamp: (stamp = stamp == null ? moment('2018-03-18', 'YYYY-MM-DD') : stamp).format('YYYYMMDD')
                                                 }, app.preset)
                                             }
                                             if (registerCallback != null)

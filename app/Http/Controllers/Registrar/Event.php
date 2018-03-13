@@ -35,6 +35,7 @@ class Event extends Controller
         {
             $model->setAttribute(PresetModel::PRESET, $request->get('preset', '-'));
             $model->setAttribute(PresetModel::PARTICIPANT, $request->get('participant', '-'));
+            $model->setAttribute(PresetModel::CREATED_AT, $request->get('stamp'));
             $model->save();
             $currentPreset = $model;
         }
