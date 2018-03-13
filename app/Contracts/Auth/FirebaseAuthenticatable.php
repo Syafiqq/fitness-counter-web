@@ -33,14 +33,14 @@ interface FirebaseAuthenticatable extends Authenticatable
 
     /**
      * @param \Illuminate\Contracts\Session\Session $session
-     * @param \Kreait\Firebase\Auth\User $user
+     * @param \Kreait\Firebase\Auth\UserRecord $user
      * @return mixed
      */
     public function save(Session $session, $user);
 
     /**
      * @param \Illuminate\Contracts\Session\Session $session
-     * @param \Kreait\Firebase\Auth\User $user
+     * @param \Kreait\Firebase\Auth\UserRecord $user
      * @return mixed
      */
     public function load(Session $session, $user);
