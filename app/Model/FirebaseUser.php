@@ -302,6 +302,7 @@ class FirebaseUser extends UserRecord implements FirebaseAuthenticatable
         {
             /** @var string|null $role */
             $valid = $this->firebase->getConnection()->getDatabase()->getReference(DataMapper::userRole($this->uid, $role)['users_groups'])->getValue() ?: false;
+            $valid = $role == 'tester' ? false : $role;
         }
         catch (\Exception $e)
         {
