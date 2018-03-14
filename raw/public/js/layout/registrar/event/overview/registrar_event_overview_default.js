@@ -17,7 +17,6 @@
                 openModal: function () {
                     if (app.preset != null && app.f_participant != null)
                     {
-                        var stamp      = null;
                         app.is_process = true;
                         this.$swal({
                             title: 'Peserta : [' + app.f_participant + ']',
@@ -27,6 +26,7 @@
                             showLoaderOnConfirm: true,
                             preConfirm: function () {
                                 return new Promise(function (resolve) {
+                                    var _stamp = moment('2018-03-18', 'YYYY-MM-DD').format('YYYY-MM-DD');
                                     NProgress.configure({parent: '.swal2-modal', showSpinner: false});
                                     NProgress.start();
                                     axios.post(
@@ -35,7 +35,7 @@
                                             event: app.event,
                                             preset: app.preset,
                                             participant: app.f_participant,
-                                            stamp: (stamp = stamp == null ? moment('2018-03-18', 'YYYY-MM-DD') : stamp).format('YYYY-MM-DD')
+                                            stamp: _stamp
                                         }
                                         , {
                                             headers: {
@@ -56,7 +56,7 @@
                                                 registerCallback = createNewPresetQueue(firebase, {
                                                     queue: response.data.data.queue,
                                                     participant: app.f_participant,
-                                                    stamp: (stamp = stamp == null ? moment('2018-03-18', 'YYYY-MM-DD') : stamp).format('YYYYMMDD')
+                                                    stamp: (_stamp = _stamp == null ? moment('2018-03-18', 'YYYY-MM-DD') : _stamp).format('YYYYMMDD')
                                                 }, app.preset)
                                             }
                                             if (registerCallback != null)
