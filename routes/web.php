@@ -14,6 +14,12 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    /*$participants = [];
+    foreach (range(1, 3000) as $k)
+    {
+        $participants["$k"] = ['name' => "Peserta $k", 'no' => "$k", 'gender' => rand(0, 1) == 0 ? 'p' : 'l'];
+    }
+    echo json_encode($participants);*/
     return view('welcome');
 })->middleware(['web', 'guest']);
 
