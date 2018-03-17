@@ -4,6 +4,7 @@
     {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.overview', 'Overview', [$meta['event']], []) !!}
     {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.management.registrar', 'Management Registrar', [$meta['event']], []) !!}
     {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.management.tester', 'Management Tester', [$meta['event']], []) !!}
+    {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.report.evaluation', 'Report Penilaian', [$meta['event']], []) !!}
 @endpush
 
 @section('head-meta')
