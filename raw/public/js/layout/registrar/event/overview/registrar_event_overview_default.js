@@ -5,7 +5,7 @@
             data: {
                 is_process: true,
                 f_participant: undefined,
-                f_same: 0,
+                f_same: undefined,
                 preset: undefined,
                 home: $('meta[name=home]').attr("content"),
                 event: $('meta[name=event]').attr("content"),
@@ -16,12 +16,12 @@
             methods: {
 
                 openModal: function () {
-                    if (app.preset != null && app.f_participant != null)
+                    if (app.preset != null && app.f_participant != null && app.f_same != null)
                     {
                         app.is_process = true;
                         this.$swal({
-                            title: 'Peserta : [' + app.f_participant + ']',
-                            text: 'Apakah Anda Ingin Mendaftarkan Peserta : ' + app.f_participant,
+                            title: 'Peserta : [' + app.f_participant + '] - [' + (Number(app.f_same) === 0 ? 'Tidak ' : '') + 'Mirip]',
+                            html: 'Apakah Anda Ingin Mendaftarkan Peserta : <strong>' + app.f_participant + '</strong><br> Dengan Wajah :<strong>' + (Number(app.f_same) === 0 ? 'Tidak' : '') + ' Mirip</strong>',
                             showCancelButton: true,
                             confirmButtonText: 'Ya',
                             showLoaderOnConfirm: true,
@@ -54,7 +54,7 @@
                                             var registerCallback = undefined;
                                             if (response.data != null && 'code' in response.data && response.data.code === 200 && response.data.data.queue !== 0)
                                             {
-                                                response.data.data.same = app.f_same;
+                                                response.data.data.same = Number(app.f_same);
                                                 response.data.data.date = (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYY-MM-DD');
                                                 registerCallback = createNewPresetQueue(firebase, {
                                                     queue: response.data.data.queue,

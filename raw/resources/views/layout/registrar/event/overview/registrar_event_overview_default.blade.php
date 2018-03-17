@@ -13,10 +13,10 @@
         <input type="text " placeholder="No. Peserta" v-model="f_participant" required :disabled="is_process">
         <br>
         <input type="radio" id="one" value="1" v-model="f_same">
-        <label for="one">Wajah Sama</label>
+        <label for="one">Wajah Mirip</label>
         <br>
         <input type="radio" id="two" value="0" v-model="f_same">
-        <label for="two">Wajah Tidak Sama</label>
+        <label for="two">Wajah Tidak Mirip</label>
         <br>
         <button @click="openModal" :disabled="is_process">Daftarkan</button>
     </div>
