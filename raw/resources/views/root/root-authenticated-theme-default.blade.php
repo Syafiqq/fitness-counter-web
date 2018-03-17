@@ -12,6 +12,7 @@
         @stack('pre-add-auth-header-menu')
         <?php
         $roles = \Illuminate\Support\Facades\App::call(\App\Helper\UserHelper::class . "::getUserRole", [\Illuminate\Support\Facades\Auth::user()]);
+        unset($roles['tester']);
         foreach ($roles as $krole => &$role)
         {
             $role = ucfirst($krole);
