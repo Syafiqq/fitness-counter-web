@@ -13,7 +13,8 @@
         <button @click="addNewPreset"> Buat Counter Baru</button>
         <hr>
         <v-client-table :data="queues" :columns="qt_columns" :options="qt_options"></v-client-table>
-    </div>@endsection
+    </div>
+@endsection
 
 @section('head-css-post')
     @parent
