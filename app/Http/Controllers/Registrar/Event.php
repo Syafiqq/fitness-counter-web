@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Registrar;
 
+use App\Firebase\DataMapper;
+use App\Firebase\FirebaseConnection;
 use App\Firebase\PopoMapper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PresetQueueRequest;
@@ -23,7 +25,12 @@ class Event extends Controller
         return view("layout.registrar.event.overview.registrar_event_overview_{$this->theme}", ['meta' => $this->meta]);
     }
 
-    public function postQueueAddApi(PresetQueueRequest $request)
+    /**
+     * @param FirebaseConnection $firebase
+     * @param PresetQueueRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function postQueueAddApi(FirebaseConnection $firebase, PresetQueueRequest $request)
     {
         /** @var PresetModel|Builder $model */
         $model         = new PresetModel();
@@ -35,7 +42,7 @@ class Event extends Controller
         {
             $model->setAttribute(PresetModel::PRESET, $request->get('preset', '-'));
             $model->setAttribute(PresetModel::PARTICIPANT, $request->get('participant', '-'));
-            $model->setAttribute(PresetModel::CREATED_AT, $request->get('stamp'));
+            $model->setAttribute(PresetModel::CREATED_AT, $request->get('stamp', Carbon::now()->format('Y-m-d')));
             $model->save();
             $currentPreset = $model;
         }
@@ -50,6 +57,13 @@ class Event extends Controller
             ->whereDate(PresetModel::CREATED_AT, '=', $request->get('stamp'))
             ->count();
 
-        return response()->json(PopoMapper::jsonResponse(200, 'success', ['queue' => $queue]), 200);
+        $participant          = $firebase
+            ->getConnection()
+            ->getDatabase()
+            ->getReference(DataMapper::event(null, null, $request->get('event', '-'))['events'] . "/participant/" . $request->get('participant', '-'))
+            ->getValue() ?: [];
+        $participant['queue'] = $queue;
+
+        return response()->json(PopoMapper::jsonResponse(200, 'success', $participant), 200);
     }
 }
