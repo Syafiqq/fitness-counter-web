@@ -43,15 +43,6 @@ var PojsoMapper = {
             }
         }
     },
-    CompactPresetQueue: function (queue, preset) {
-        queue  = typeof queue === 'undefined' ? '-' : queue;
-        preset = typeof preset === 'undefined' ? {} : preset;
-
-        preset['queue'] = queue;
-        return {
-            presets: preset,
-        }
-    },
     UserManagement: function (uid, event, role, firebaseRef) {
         var participate;
         try
