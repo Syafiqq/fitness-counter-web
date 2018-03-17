@@ -5,6 +5,7 @@
             data: {
                 is_process: true,
                 f_participant: undefined,
+                f_same: 0,
                 preset: undefined,
                 home: $('meta[name=home]').attr("content"),
                 event: $('meta[name=event]').attr("content"),
@@ -26,7 +27,7 @@
                             showLoaderOnConfirm: true,
                             preConfirm: function () {
                                 return new Promise(function (resolve) {
-                                    var _stamp = moment('2018-03-13', 'YYYY-MM-DD').format('YYYY-MM-DD');
+                                    var _stamp = moment('2018-03-13', 'YYYY-MM-DD');
                                     NProgress.configure({parent: '.swal2-modal', showSpinner: false});
                                     NProgress.start();
                                     axios.post(
@@ -35,7 +36,7 @@
                                             event: app.event,
                                             preset: app.preset,
                                             participant: app.f_participant,
-                                            stamp: _stamp
+                                            stamp: (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYY-MM-DD')
                                         }
                                         , {
                                             headers: {
@@ -53,9 +54,11 @@
                                             var registerCallback = undefined;
                                             if (response.data != null && 'code' in response.data && response.data.code === 200 && response.data.data.queue !== 0)
                                             {
+                                                response.data.data.same = app.f_same;
+                                                response.data.data.date = (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYY-MM-DD');
                                                 registerCallback = createNewPresetQueue(firebase, {
                                                     queue: response.data.data.queue,
-                                                    participant: app.f_participant,
+                                                    participant: response.data.data,
                                                     stamp: (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYYMMDD')
                                                 }, app.preset)
                                             }
