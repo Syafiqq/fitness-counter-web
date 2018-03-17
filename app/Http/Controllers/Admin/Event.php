@@ -40,4 +40,13 @@ class Event extends Controller
 
         return view("layout.admin.event.management.tester.admin_event_management_tester_{$this->theme}", compact('meta'));
     }
+
+    public function getEvaluationReport($event)
+    {
+        $meta = [
+            'event' => $event
+        ];
+
+        return view("layout.admin.event.report.evaluation.admin_event_report_evaluation_{$this->theme}", compact('meta'));
+    }
 }
