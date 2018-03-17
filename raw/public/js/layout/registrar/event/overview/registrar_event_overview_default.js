@@ -26,7 +26,7 @@
                             showLoaderOnConfirm: true,
                             preConfirm: function () {
                                 return new Promise(function (resolve) {
-                                    var _stamp = moment('2018-03-18', 'YYYY-MM-DD').format('YYYY-MM-DD');
+                                    var _stamp = moment('2018-03-13', 'YYYY-MM-DD').format('YYYY-MM-DD');
                                     NProgress.configure({parent: '.swal2-modal', showSpinner: false});
                                     NProgress.start();
                                     axios.post(
@@ -56,7 +56,7 @@
                                                 registerCallback = createNewPresetQueue(firebase, {
                                                     queue: response.data.data.queue,
                                                     participant: app.f_participant,
-                                                    stamp: (_stamp = _stamp == null ? moment('2018-03-18', 'YYYY-MM-DD') : _stamp).format('YYYYMMDD')
+                                                    stamp: (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYYMMDD')
                                                 }, app.preset)
                                             }
                                             if (registerCallback != null)
