@@ -17,7 +17,9 @@
             $role = ucfirst($krole);
         }
         ?>
-        {!! \Collective\Html\FormFacade::select('role', $roles, \Illuminate\Support\Facades\Auth::user()->getRole(), ['id' => 'role-changer']) !!}
+        @if($roles > 1)
+            {!! \Collective\Html\FormFacade::select('role', $roles, \Illuminate\Support\Facades\Auth::user()->getRole(), ['id' => 'role-changer']) !!}
+        @endif
         {!! link_to_route('logout', 'Logout', [], ['style'=> 'margin-left:10px;']) !!}
         <hr>
     @endauth
