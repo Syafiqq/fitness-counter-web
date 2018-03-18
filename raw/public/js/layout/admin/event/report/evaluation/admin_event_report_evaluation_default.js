@@ -59,6 +59,7 @@
                 result['pno'] = 'no' in process ? process['no'] : '-';
                 result['pnm'] = 'name' in process ? process['name'] : '-';
                 result['pqu'] = 'queue' in process ? process['queue'] : '-';
+                result['pgd'] = 'gender' in process ? process['gender'] : null;
             }
             if ('illinois' in queue)
             {
