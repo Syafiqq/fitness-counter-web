@@ -9,7 +9,29 @@
 
 @section('body-content')
     @parent
-    Ini Evaluation Report
+    <div id="app">
+        <button @click="calculateScore">Hitung Skor</button>
+        <hr>
+        <table>
+            <thead>
+            <tr>
+                <th>Singkatan</th>
+                <th>Keterangan</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{-- @formatter:off --}}
+            <tr><td>I</td>  <td>Illinois</td>                 </tr>
+            <tr><td>PU</td> <td>Push Up</td>                  </tr>
+            <tr><td>R</td>  <td>Run 1600m</td>                </tr>
+            <tr><td>SU</td> <td>Sit Up</td>                   </tr>
+            <tr><td>T</td>  <td>Lempar tangkap bola</td>      </tr>
+            <tr><td>VJ</td> <td>Vertical Jump</td>            </tr>
+            {{-- @formatter:on --}}
+            </tbody>
+        </table>
+        <v-client-table :data="queues" :columns="qt_columns" :options="qt_options"></v-client-table>
+    </div>
 @endsection
 
 @section('head-css-post')
