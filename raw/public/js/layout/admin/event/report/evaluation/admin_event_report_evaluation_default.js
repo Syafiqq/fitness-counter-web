@@ -32,17 +32,39 @@
             },
             methods: {
                 calculateScore: function () {
-                    /*NProgress.start();
-                    createNewPreset(firebase, {event: this.event}).then(function (error) {
-                        if (error == null)
+                    _.forEach(this.queues, function (queue) {
+                        var raw = app.vault[queue['pdk']][queue['pqu']];
+                        if ('illinois' in raw && 'elapsed' in raw['illinois'])
                         {
-                            DoNotify(['Pembuatan Counter berhasil'])
-                        } else
-                        {
-                            DoNotify([error])
+                            raw['illinois']['result'] = evaluatorIllinois(queue['pgd'], raw['illinois']['elapsed']);
+                            queue['ils']              = raw['illinois']['result'] == null ? '-' : raw['illinois']['result'];
                         }
-                        NProgress.done();
-                    });*/
+                        if ('push' in raw && 'counter' in raw['push'])
+                        {
+                            raw['push']['result'] = evaulatorPushUp(queue['pgd'], raw['push']['counter']);
+                            queue['pus']          = raw['push']['result'] == null ? '-' : raw['push']['result'];
+                        }
+                        if ('run' in raw && 'elapsed' in raw['run'])
+                        {
+                            raw['run']['result'] = evaluatorRun(queue['pgd'], raw['run']['elapsed']);
+                            queue['rns']         = raw['run']['result'] == null ? '-' : raw['run']['result'];
+                        }
+                        if ('sit' in raw && 'counter' in raw['sit'])
+                        {
+                            raw['sit']['result'] = evaluatorSitUp(queue['pgd'], raw['sit']['counter']);
+                            queue['sts']         = raw['sit']['result'] == null ? '-' : raw['sit']['result'];
+                        }
+                        if ('throwing' in raw && 'counter' in raw['throwing'])
+                        {
+                            raw['throwing']['result'] = evaluatorThrowingBall(queue['pgd'], raw['throwing']['counter']);
+                            queue['tws']              = raw['throwing']['result'] == null ? '-' : raw['throwing']['result'];
+                        }
+                        if ('vertical' in raw && 'deviation' in raw['vertical'])
+                        {
+                            raw['vertical']['result'] = evaluatorVerticalJump(queue['pgd'], raw['vertical']['deviation']);
+                            queue['vts']              = raw['vertical']['result'] == null ? '-' : raw['vertical']['result'];
+                        }
+                    });
                 }
             }
         });
