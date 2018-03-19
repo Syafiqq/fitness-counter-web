@@ -30,7 +30,9 @@
             {{-- @formatter:on --}}
             </tbody>
         </table>
-        <v-client-table :data="queues" :columns="qt_columns" :options="qt_options"></v-client-table>
+        <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
+            <button slot="edit" slot-scope="props" @click="editParticipant(props.row.pno)">Edit</button>
+        </v-client-table>
     </div>
 @endsection
 
