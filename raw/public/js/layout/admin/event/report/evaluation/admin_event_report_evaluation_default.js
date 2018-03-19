@@ -10,9 +10,10 @@
                 preset: undefined,
                 is_process: true,
                 vault: {},
-                qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts'],
+                qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'edit'],
                 queues: [],
                 qt_options: {
+                    uniqueKey: 'pno',
                     headings: {
                         pno: 'No',
                         pnm: 'Nama',
@@ -28,11 +29,14 @@
                         tws: 'T Skor',
                         vtd: 'VJ Selisih',
                         vts: 'VJ Skor',
+                        edit: 'Edit',
                     },
                     sortable: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts'],
                 }
             },
             methods: {
+                editParticipant: function (pno) {
+                },
                 calculateScore: function () {
                     var that = this;
                     NProgress.start();
