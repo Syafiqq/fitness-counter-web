@@ -6,6 +6,7 @@
 
 require('./bootstrap');
 import SweetModal from 'sweet-modal-vue/src/plugin.js'
+import VModal from 'vue-js-modal'
 import VueSweetalert2 from 'vue-sweetalert2';
 import {ClientTable} from 'vue-tables-2';
 
@@ -14,6 +15,7 @@ window.Vue = require('vue');
 window.Vue.use(SweetModal);
 window.Vue.use(VueSweetalert2);
 window.Vue.use(ClientTable, {}, false, 'bulma', 'default');
+window.Vue.use(VModal);
 
 
 /**
