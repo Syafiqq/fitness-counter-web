@@ -8,6 +8,7 @@
                 event: $('meta[name=event]').attr("content"),
                 role: $('meta[name=user-role]').attr("content"),
                 preset: undefined,
+                is_process: true,
                 vault: {},
                 qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts'],
                 queues: [],
@@ -33,51 +34,77 @@
             },
             methods: {
                 calculateScore: function () {
-                    var query = {};
-                    _.forEach(this.queues, function (queue) {
-                        var raw       = app.vault[queue['pdk']][queue['pqu']];
-                        var commonKey = DataMapper.PresetQueue(app.preset, queue['pdk'], queue['pqu'])['presets'];
+                    var that = this;
+                    NProgress.start();
+                    this.$swal({
+                        title: 'Tunggu Sebentar',
+                        onOpen: () => {
+                            this.$swal.showLoading();
+                            return new Promise(function (resolve) {
+                                var query = {};
+                                _.forEach(app.queues, function (queue) {
+                                    var raw       = app.vault[queue['pdk']][queue['pqu']];
+                                    var commonKey = DataMapper.PresetQueue(app.preset, queue['pdk'], queue['pqu'])['presets'];
 
-                        if ('illinois' in raw && 'elapsed' in raw['illinois'])
-                        {
-                            raw['illinois']['result']             = evaluatorIllinois(queue['pgd'], raw['illinois']['elapsed']);
-                            queue['ils']                          = raw['illinois']['result'] == null ? '-' : raw['illinois']['result'];
-                            query[commonKey + '/illinois/result'] = raw['illinois']['result'];
-                        }
-                        if ('push' in raw && 'counter' in raw['push'])
-                        {
-                            raw['push']['result']             = evaulatorPushUp(queue['pgd'], raw['push']['counter']);
-                            queue['pus']                      = raw['push']['result'] == null ? '-' : raw['push']['result'];
-                            query[commonKey + '/push/result'] = raw['push']['result'];
-                        }
-                        if ('run' in raw && 'elapsed' in raw['run'])
-                        {
-                            raw['run']['result']             = evaluatorRun(queue['pgd'], raw['run']['elapsed']);
-                            queue['rns']                     = raw['run']['result'] == null ? '-' : raw['run']['result'];
-                            query[commonKey + '/run/result'] = raw['run']['result'];
-                        }
-                        if ('sit' in raw && 'counter' in raw['sit'])
-                        {
-                            raw['sit']['result']             = evaluatorSitUp(queue['pgd'], raw['sit']['counter']);
-                            queue['sts']                     = raw['sit']['result'] == null ? '-' : raw['sit']['result'];
-                            query[commonKey + '/sit/result'] = raw['sit']['result'];
-                        }
-                        if ('throwing' in raw && 'counter' in raw['throwing'])
-                        {
-                            raw['throwing']['result']             = evaluatorThrowingBall(queue['pgd'], raw['throwing']['counter']);
-                            queue['tws']                          = raw['throwing']['result'] == null ? '-' : raw['throwing']['result'];
-                            query[commonKey + '/throwing/result'] = raw['throwing']['result'];
-                        }
-                        if ('vertical' in raw && 'deviation' in raw['vertical'])
-                        {
-                            raw['vertical']['result']             = evaluatorVerticalJump(queue['pgd'], raw['vertical']['deviation']);
-                            queue['vts']                          = raw['vertical']['result'] == null ? '-' : raw['vertical']['result'];
-                            query[commonKey + '/vertical/result'] = raw['vertical']['result'];
-                        }
+                                    if ('illinois' in raw && 'elapsed' in raw['illinois'])
+                                    {
+                                        raw['illinois']['result']             = evaluatorIllinois(queue['pgd'], raw['illinois']['elapsed']);
+                                        queue['ils']                          = raw['illinois']['result'] == null ? '-' : raw['illinois']['result'];
+                                        query[commonKey + '/illinois/result'] = raw['illinois']['result'];
+                                    }
+                                    if ('push' in raw && 'counter' in raw['push'])
+                                    {
+                                        raw['push']['result']             = evaulatorPushUp(queue['pgd'], raw['push']['counter']);
+                                        queue['pus']                      = raw['push']['result'] == null ? '-' : raw['push']['result'];
+                                        query[commonKey + '/push/result'] = raw['push']['result'];
+                                    }
+                                    if ('run' in raw && 'elapsed' in raw['run'])
+                                    {
+                                        raw['run']['result']             = evaluatorRun(queue['pgd'], raw['run']['elapsed']);
+                                        queue['rns']                     = raw['run']['result'] == null ? '-' : raw['run']['result'];
+                                        query[commonKey + '/run/result'] = raw['run']['result'];
+                                    }
+                                    if ('sit' in raw && 'counter' in raw['sit'])
+                                    {
+                                        raw['sit']['result']             = evaluatorSitUp(queue['pgd'], raw['sit']['counter']);
+                                        queue['sts']                     = raw['sit']['result'] == null ? '-' : raw['sit']['result'];
+                                        query[commonKey + '/sit/result'] = raw['sit']['result'];
+                                    }
+                                    if ('throwing' in raw && 'counter' in raw['throwing'])
+                                    {
+                                        raw['throwing']['result']             = evaluatorThrowingBall(queue['pgd'], raw['throwing']['counter']);
+                                        queue['tws']                          = raw['throwing']['result'] == null ? '-' : raw['throwing']['result'];
+                                        query[commonKey + '/throwing/result'] = raw['throwing']['result'];
+                                    }
+                                    if ('vertical' in raw && 'deviation' in raw['vertical'])
+                                    {
+                                        raw['vertical']['result']             = evaluatorVerticalJump(queue['pgd'], raw['vertical']['deviation']);
+                                        queue['vts']                          = raw['vertical']['result'] == null ? '-' : raw['vertical']['result'];
+                                        query[commonKey + '/vertical/result'] = raw['vertical']['result'];
+                                    }
+                                });
+                                var callback = firebase.database().ref().update(query);
+                                if (callback != null && typeof (callback) !== 'boolean')
+                                {
+                                    console.log(callback);
+                                    callback.then(function (result) {
+                                        console.log(result);
+                                        app.is_process = false;
+                                        NProgress.done();
+                                        that.$swal({
+                                            type: 'success',
+                                            title: 'Perhitungan selesai',
+                                        })
+                                    })
+                                }
+                            })
+                        },
+                        preConfirm: function () {
+
+                        },
+                    }).then(function (result) {
+                        console.log("swal result" + result)
                     });
-                    //console.log(query);
-
-                    firebase.database().ref().update(query);
                 }
             }
         });
