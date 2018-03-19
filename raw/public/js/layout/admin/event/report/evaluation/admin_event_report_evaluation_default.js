@@ -7,6 +7,7 @@
                 home: $('meta[name=home]').attr("content"),
                 event: $('meta[name=event]').attr("content"),
                 role: $('meta[name=user-role]').attr("content"),
+                preset: undefined,
                 vault: {},
                 qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts'],
                 queues: [],
@@ -32,39 +33,51 @@
             },
             methods: {
                 calculateScore: function () {
+                    var query = {};
                     _.forEach(this.queues, function (queue) {
-                        var raw = app.vault[queue['pdk']][queue['pqu']];
+                        var raw       = app.vault[queue['pdk']][queue['pqu']];
+                        var commonKey = DataMapper.PresetQueue(app.preset, queue['pdk'], queue['pqu'])['presets'];
+
                         if ('illinois' in raw && 'elapsed' in raw['illinois'])
                         {
-                            raw['illinois']['result'] = evaluatorIllinois(queue['pgd'], raw['illinois']['elapsed']);
-                            queue['ils']              = raw['illinois']['result'] == null ? '-' : raw['illinois']['result'];
+                            raw['illinois']['result']             = evaluatorIllinois(queue['pgd'], raw['illinois']['elapsed']);
+                            queue['ils']                          = raw['illinois']['result'] == null ? '-' : raw['illinois']['result'];
+                            query[commonKey + '/illinois/result'] = raw['illinois']['result'];
                         }
                         if ('push' in raw && 'counter' in raw['push'])
                         {
-                            raw['push']['result'] = evaulatorPushUp(queue['pgd'], raw['push']['counter']);
-                            queue['pus']          = raw['push']['result'] == null ? '-' : raw['push']['result'];
+                            raw['push']['result']             = evaulatorPushUp(queue['pgd'], raw['push']['counter']);
+                            queue['pus']                      = raw['push']['result'] == null ? '-' : raw['push']['result'];
+                            query[commonKey + '/push/result'] = raw['push']['result'];
                         }
                         if ('run' in raw && 'elapsed' in raw['run'])
                         {
-                            raw['run']['result'] = evaluatorRun(queue['pgd'], raw['run']['elapsed']);
-                            queue['rns']         = raw['run']['result'] == null ? '-' : raw['run']['result'];
+                            raw['run']['result']             = evaluatorRun(queue['pgd'], raw['run']['elapsed']);
+                            queue['rns']                     = raw['run']['result'] == null ? '-' : raw['run']['result'];
+                            query[commonKey + '/run/result'] = raw['run']['result'];
                         }
                         if ('sit' in raw && 'counter' in raw['sit'])
                         {
-                            raw['sit']['result'] = evaluatorSitUp(queue['pgd'], raw['sit']['counter']);
-                            queue['sts']         = raw['sit']['result'] == null ? '-' : raw['sit']['result'];
+                            raw['sit']['result']             = evaluatorSitUp(queue['pgd'], raw['sit']['counter']);
+                            queue['sts']                     = raw['sit']['result'] == null ? '-' : raw['sit']['result'];
+                            query[commonKey + '/sit/result'] = raw['sit']['result'];
                         }
                         if ('throwing' in raw && 'counter' in raw['throwing'])
                         {
-                            raw['throwing']['result'] = evaluatorThrowingBall(queue['pgd'], raw['throwing']['counter']);
-                            queue['tws']              = raw['throwing']['result'] == null ? '-' : raw['throwing']['result'];
+                            raw['throwing']['result']             = evaluatorThrowingBall(queue['pgd'], raw['throwing']['counter']);
+                            queue['tws']                          = raw['throwing']['result'] == null ? '-' : raw['throwing']['result'];
+                            query[commonKey + '/throwing/result'] = raw['throwing']['result'];
                         }
                         if ('vertical' in raw && 'deviation' in raw['vertical'])
                         {
-                            raw['vertical']['result'] = evaluatorVerticalJump(queue['pgd'], raw['vertical']['deviation']);
-                            queue['vts']              = raw['vertical']['result'] == null ? '-' : raw['vertical']['result'];
+                            raw['vertical']['result']             = evaluatorVerticalJump(queue['pgd'], raw['vertical']['deviation']);
+                            queue['vts']                          = raw['vertical']['result'] == null ? '-' : raw['vertical']['result'];
+                            query[commonKey + '/vertical/result'] = raw['vertical']['result'];
                         }
                     });
+                    //console.log(query);
+
+                    firebase.database().ref().update(query);
                 }
             }
         });
@@ -88,38 +101,38 @@
                 var process   = queue.illinois;
                 var elapsed   = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
                 result['ile'] = elapsed != null ? elapsed.format('m:ss') : '-';
-                result['ils'] = 'score' in process ? process['score'] : '-';
+                result['ils'] = 'result' in process ? process['result'] : '-';
             }
             if ('push' in queue)
             {
                 var process   = queue.push;
                 result['puc'] = 'counter' in process ? process['counter'] : '-';
-                result['pus'] = 'score' in process ? process['score'] : '-';
+                result['pus'] = 'result' in process ? process['result'] : '-';
             }
             if ('run' in queue)
             {
                 var process   = queue.run;
                 var elapsed   = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
                 result['rne'] = elapsed != null ? elapsed.format('m:ss') : '-';
-                result['rns'] = 'score' in process ? process['score'] : '-';
+                result['rns'] = 'result' in process ? process['result'] : '-';
             }
             if ('sit' in queue)
             {
                 var process   = queue.sit;
                 result['stc'] = 'counter' in process ? process['counter'] : '-';
-                result['sts'] = 'score' in process ? process['score'] : '-';
+                result['sts'] = 'result' in process ? process['result'] : '-';
             }
             if ('throwing' in queue)
             {
                 var process   = queue.throwing;
                 result['twc'] = 'counter' in process ? process['counter'] : '-';
-                result['tws'] = 'score' in process ? process['score'] : '-';
+                result['tws'] = 'result' in process ? process['result'] : '-';
             }
             if ('vertical' in queue)
             {
                 var process   = queue.vertical;
                 result['vtd'] = 'deviation' in process ? process['deviation'] : '-';
-                result['vts'] = 'score' in process ? process['score'] : '-';
+                result['vts'] = 'result' in process ? process['result'] : '-';
             }
             return result;
         }
@@ -127,6 +140,7 @@
         function listParticipant(event)
         {
             firebase.database().ref(DataMapper.Event(null, null, event)['events'] + '/preset_active').once('value').then(function (preset) {
+                app.preset = preset.val();
                 firebase.database().ref(DataMapper.PresetQueue(preset.val())['presets']).on('child_added', function (datedQueue) {
                     if (!(datedQueue.key in app.vault))
                     {
