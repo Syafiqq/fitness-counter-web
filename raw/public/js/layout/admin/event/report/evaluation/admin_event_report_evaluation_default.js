@@ -14,7 +14,8 @@
                     oVal: {},
                     pVal: {
                         illinois: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        push: {start: '-', counter: 0}
+                        push: {start: '-', counter: 0},
+                        run: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}}
                     }
                 },
                 vault: {},
@@ -49,6 +50,10 @@
                 },
                 editPushEvaluator: function () {
                     return evaulatorPushUp(this.processed.aVal['pgd'], (Number(this.processed.pVal.push.counter)));
+                },
+                editRunEvaluator: function () {
+                    var elapsed = this.processed.pVal.run.elapsed;
+                    return evaluatorRun(this.processed.aVal['pgd'], (Number(elapsed.m) * 60000) + (Number(elapsed.s) * 1000) + Number(elapsed.SSS));
                 },
             },
             methods: {
@@ -171,51 +176,55 @@
                 result['push']['start']   = null;
                 result['push']['counter'] = 0;
             }
-            /*if ('run' in queue)
-             {
-                 var process   = queue.run;
-                 var elapsed   = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
-                 result['rne'] = elapsed != null ? elapsed.format('m:ss') : '-';
-                 result['rns'] = 'result' in process ? process['result'] : '-';
-             }
-             else
-             {
-                 result['rne'] = '-';
-                 result['rns'] = '-';
-             }
-             if ('sit' in queue)
-             {
-                 var process   = queue.sit;
-                 result['stc'] = 'counter' in process ? process['counter'] : '-';
-                 result['sts'] = 'result' in process ? process['result'] : '-';
-             }
-             else
-             {
-                 result['stc'] = '-';
-                 result['sts'] = '-';
-             }
-             if ('throwing' in queue)
-             {
-                 var process   = queue.throwing;
-                 result['twc'] = 'counter' in process ? process['counter'] : '-';
-                 result['tws'] = 'result' in process ? process['result'] : '-';
-             }
-             else
-             {
-                 result['twc'] = '-';
-                 result['tws'] = '-';
-             }
-             if ('vertical' in queue)
-             {
-                 var process   = queue.vertical;
-                 result['vtd'] = 'deviation' in process ? process['deviation'] : '-';
-                 result['vts'] = 'result' in process ? process['result'] : '-';
-             }
-             else
-             {
-                 result['vtd'] = '-';
-                 result['vts'] = '-';
-             }*/
+            if ('run' in queue)
+            {
+                var process                     = queue.run;
+                var elapsed                     = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
+                result['run']['start']          = 'start' in process ? moment(process['start']).format() : null;
+                result['run']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : 0;
+                result['run']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : 0;
+                result['run']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : 0;
+            }
+            else
+            {
+                result['run']['start']          = null;
+                result['run']['elapsed']['m']   = 0;
+                result['run']['elapsed']['s']   = 0;
+                result['run']['elapsed']['SSS'] = 0;
+            }
+            /*if ('sit' in queue)
+            {
+                var process   = queue.sit;
+                result['stc'] = 'counter' in process ? process['counter'] : '-';
+                result['sts'] = 'result' in process ? process['result'] : '-';
+            }
+            else
+            {
+                result['stc'] = '-';
+                result['sts'] = '-';
+            }
+            if ('throwing' in queue)
+            {
+                var process   = queue.throwing;
+                result['twc'] = 'counter' in process ? process['counter'] : '-';
+                result['tws'] = 'result' in process ? process['result'] : '-';
+            }
+            else
+            {
+                result['twc'] = '-';
+                result['tws'] = '-';
+            }
+            if ('vertical' in queue)
+            {
+                var process   = queue.vertical;
+                result['vtd'] = 'deviation' in process ? process['deviation'] : '-';
+                result['vts'] = 'result' in process ? process['result'] : '-';
+            }
+            else
+            {
+                result['vtd'] = '-';
+                result['vts'] = '-';
+            }*/
             console.log(result);
             return result;
         }
