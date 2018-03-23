@@ -86,7 +86,22 @@
             },
             methods: {
                 saveChanges: function () {
+                    this.$swal({
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        title: 'Tunggu Sebentar',
+                        onOpen: () => {
+                            this.$swal.showLoading();
+                            return new Promise(function (resolve) {
 
+                            })
+                        },
+                        preConfirm: function () {
+
+                        },
+                    }).then(function (result) {
+                        console.log("swal result" + result)
+                    });
                 },
                 editParticipant: function (aVal) {
                     this.processed['aVal'] = aVal;
@@ -98,6 +113,8 @@
                     var that = this;
                     NProgress.start();
                     this.$swal({
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
                         title: 'Tunggu Sebentar',
                         onOpen: () => {
                             this.$swal.showLoading();

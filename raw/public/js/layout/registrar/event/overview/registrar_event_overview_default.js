@@ -20,6 +20,8 @@
                     {
                         app.is_process = true;
                         this.$swal({
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
                             title: 'Peserta : [' + app.f_participant + '] - [' + (Number(app.f_same) === 0 ? 'Tidak ' : '') + 'Mirip]',
                             html: 'Apakah Anda Ingin Mendaftarkan Peserta : <strong>' + app.f_participant + '</strong><br> Dengan Wajah :<strong>' + (Number(app.f_same) === 0 ? 'Tidak' : '') + ' Mirip</strong>',
                             showCancelButton: true,
