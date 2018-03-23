@@ -10,7 +10,7 @@
 @section('body-content')
     @parent
     <div id="app">
-        <modal name="hello-world" height="auto" :scrollable="true" maxHeight="500">
+        <modal name="hello-world" height="auto" :scrollable="true">
             {{-- @formatter:off --}}
             <h3>Illinois</h3>
             <label for="il-start">Mulai : </label><datetime v-model="processed.pVal.illinois.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
