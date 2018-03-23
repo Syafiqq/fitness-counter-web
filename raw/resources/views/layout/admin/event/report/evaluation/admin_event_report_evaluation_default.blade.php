@@ -46,6 +46,19 @@
             <input type="text" id="throwing-counter" v-model="processed.pVal.throwing.counter"><br>
             Hasil : <br> @{{editThrowingEvaluator}}
             <br>
+            <h3>Vertical Jump</h3>
+            Awalan : <br>
+            <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.initial"><br>
+            Percobaan 1 : <br>
+            <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try1"><br>
+            Percobaan 2 : <br>
+            <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try2"><br>
+            Percobaan 3 : <br>
+            <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try3"><br>
+            Selisih : <br> @{{editVerticalDeviator}}
+            <br>
+            Hasil : <br> @{{editVerticalEvaluator}}
+            <br>
             <button @click="saveChanges">Simpan</button>
             {{-- @formatter:on --}}
         </modal>

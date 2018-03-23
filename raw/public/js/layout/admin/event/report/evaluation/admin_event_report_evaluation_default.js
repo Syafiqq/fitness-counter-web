@@ -18,6 +18,7 @@
                         run: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
                         sit: {start: '-', counter: 0},
                         throwing: {start: '-', counter: 0},
+                        vertical: {initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
                     }
                 },
                 vault: {},
@@ -62,6 +63,13 @@
                 },
                 editThrowingEvaluator: function () {
                     return evaluatorThrowingBall(this.processed.aVal['pgd'], (Number(this.processed.pVal.throwing.counter)));
+                },
+                editVerticalEvaluator: function () {
+                    return evaluatorVerticalJump(this.processed.aVal['pgd'], (Number(this.processed.pVal.vertical.deviation)));
+                },
+                editVerticalDeviator: function () {
+                    var vertical = this.processed.pVal.vertical;
+                    return vertical.deviation = Math.max(vertical.try1, vertical.try2, vertical.try3) - vertical.initial;
                 }
             },
             methods: {
@@ -222,28 +230,24 @@
                 result['throwing']['start']   = null;
                 result['throwing']['counter'] = 0;
             }
-            /*if ('throwing' in queue)
-            {
-                var process   = queue.throwing;
-                result['twc'] = 'counter' in process ? process['counter'] : '-';
-                result['tws'] = 'result' in process ? process['result'] : '-';
-            }
-            else
-            {
-                result['twc'] = '-';
-                result['tws'] = '-';
-            }
             if ('vertical' in queue)
             {
-                var process   = queue.vertical;
-                result['vtd'] = 'deviation' in process ? process['deviation'] : '-';
-                result['vts'] = 'result' in process ? process['result'] : '-';
+                var process                     = queue.vertical;
+                result['vertical']['initial']   = 'initial' in process ? process['initial'] : 0;
+                result['vertical']['try1']      = 'try1' in process ? process['try1'] : 0;
+                result['vertical']['try2']      = 'try2' in process ? process['try2'] : 0;
+                result['vertical']['try3']      = 'try3' in process ? process['try3'] : 0;
+                result['vertical']['deviation'] = 'deviation' in process ? process['deviation'] : app.editVerticalDeviator();
             }
             else
             {
-                result['vtd'] = '-';
-                result['vts'] = '-';
-            }*/
+                result['vertical']['initial']   = 0;
+                result['vertical']['try1']      = 0;
+                result['vertical']['try2']      = 0;
+                result['vertical']['try3']      = 0;
+                result['vertical']['deviation'] = 0;
+            }
+
             console.log(result);
             return result;
         }
