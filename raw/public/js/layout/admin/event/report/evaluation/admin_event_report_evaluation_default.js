@@ -17,6 +17,7 @@
                         push: {start: '-', counter: 0},
                         run: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
                         sit: {start: '-', counter: 0},
+                        throwing: {start: '-', counter: 0},
                     }
                 },
                 vault: {},
@@ -58,6 +59,9 @@
                 },
                 editSitEvaluator: function () {
                     return evaluatorSitUp(this.processed.aVal['pgd'], (Number(this.processed.pVal.sit.counter)));
+                },
+                editThrowingEvaluator: function () {
+                    return evaluatorThrowingBall(this.processed.aVal['pgd'], (Number(this.processed.pVal.throwing.counter)));
                 }
             },
             methods: {
@@ -206,6 +210,17 @@
             {
                 result['sit']['start']   = null;
                 result['sit']['counter'] = 0;
+            }
+            if ('throwing' in queue)
+            {
+                var process                   = queue.throwing;
+                result['throwing']['start']   = 'start' in process ? moment(process['start']).format() : null;
+                result['throwing']['counter'] = 'counter' in process ? process['counter'] : 0;
+            }
+            else
+            {
+                result['throwing']['start']   = null;
+                result['throwing']['counter'] = 0;
             }
             /*if ('throwing' in queue)
             {

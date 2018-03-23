@@ -40,6 +40,12 @@
             <input type="text" id="sit-counter" v-model="processed.pVal.sit.counter"><br>
             Hasil : <br> @{{editSitEvaluator}}
             <br>
+            <h3>Lempar Tangkap Bola</h3>
+            <label for="throwing-start">Mulai : </label><datetime v-model="processed.pVal.throwing.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+            Total : <br>
+            <input type="text" id="throwing-counter" v-model="processed.pVal.throwing.counter"><br>
+            Hasil : <br> @{{editThrowingEvaluator}}
+            <br>
             <button @click="saveChanges">Simpan</button>
             {{-- @formatter:on --}}
         </modal>
