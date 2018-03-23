@@ -144,11 +144,21 @@
                 result['ile'] = elapsed != null ? elapsed.format('m:ss') : '-';
                 result['ils'] = 'result' in process ? process['result'] : '-';
             }
+            else
+            {
+                result['ile'] = '-';
+                result['ils'] = '-';
+            }
             if ('push' in queue)
             {
                 var process   = queue.push;
                 result['puc'] = 'counter' in process ? process['counter'] : '-';
                 result['pus'] = 'result' in process ? process['result'] : '-';
+            }
+            else
+            {
+                result['puc'] = '-';
+                result['pus'] = '-';
             }
             if ('run' in queue)
             {
@@ -157,11 +167,21 @@
                 result['rne'] = elapsed != null ? elapsed.format('m:ss') : '-';
                 result['rns'] = 'result' in process ? process['result'] : '-';
             }
+            else
+            {
+                result['rne'] = '-';
+                result['rns'] = '-';
+            }
             if ('sit' in queue)
             {
                 var process   = queue.sit;
                 result['stc'] = 'counter' in process ? process['counter'] : '-';
                 result['sts'] = 'result' in process ? process['result'] : '-';
+            }
+            else
+            {
+                result['stc'] = '-';
+                result['sts'] = '-';
             }
             if ('throwing' in queue)
             {
@@ -169,11 +189,21 @@
                 result['twc'] = 'counter' in process ? process['counter'] : '-';
                 result['tws'] = 'result' in process ? process['result'] : '-';
             }
+            else
+            {
+                result['twc'] = '-';
+                result['tws'] = '-';
+            }
             if ('vertical' in queue)
             {
                 var process   = queue.vertical;
                 result['vtd'] = 'deviation' in process ? process['deviation'] : '-';
                 result['vts'] = 'result' in process ? process['result'] : '-';
+            }
+            else
+            {
+                result['vtd'] = '-';
+                result['vts'] = '-';
             }
             return result;
         }
