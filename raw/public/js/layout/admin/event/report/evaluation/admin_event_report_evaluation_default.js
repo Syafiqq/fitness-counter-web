@@ -9,6 +9,7 @@
                 role: $('meta[name=user-role]').attr("content"),
                 preset: undefined,
                 is_process: true,
+                processed: {aVal: {}, oVal: {}, pVal: {illinois: {start: '-'}}},
                 vault: {},
                 qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'edit'],
                 queues: [],
@@ -35,7 +36,16 @@
                 }
             },
             methods: {
-                editParticipant: function (pno) {
+                readableMillis: function (milis) {
+                    return moment(milis).format('Do MMMM YYYY, HH:MM:ss');
+                },
+                saveChanges: function () {
+                    console.log('Save Changes');
+                },
+                editParticipant: function (aVal) {
+                    this.processed['aVal'] = aVal;
+                    this.processed['oVal'] = app.vault[aVal['pdk']][aVal['pqu']];
+                    this.$modal.show('hello-world');
                 },
                 calculateScore: function () {
                     var that = this;
