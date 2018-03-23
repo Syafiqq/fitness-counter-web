@@ -10,6 +10,19 @@
 @section('body-content')
     @parent
     <div id="app">
+        <modal name="hello-world">
+            {{-- @formatter:off --}}
+            <h3>Illinois</h3>
+            <label for="il-start">Mulai : </label><datetime v-model="processed.pVal.illinois.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+            Waktu tempuh : <br>
+            <input type="text" id="il-elapsed-m" v-model="processed.pVal.illinois.elapsed.m"> <label for="il-elapsed-m">menit</label>
+            <input type="text" id="il-elapsed-s" v-model="processed.pVal.illinois.elapsed.s"> <label for="il-elapsed-s">detik</label>
+            <input type="text" id="il-elapsed-SSS" v-model="processed.pVal.illinois.elapsed.SSS"> <label for="il-elapsed-SSS">milidetik</label><br>
+            Hasil : <br> @{{editIllinoisEvaluator}}
+            <br>
+            <button @click="saveChanges">Simpan</button>
+            {{-- @formatter:on --}}
+        </modal>
         <button @click="calculateScore">Hitung Skor</button>
         <hr>
         <table>
@@ -31,7 +44,7 @@
             </tbody>
         </table>
         <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
-            <button slot="edit" slot-scope="props" @click="editParticipant(props.row.pno)">Edit</button>
+            <button slot="edit" slot-scope="props" @click="editParticipant(props.row)">Edit</button>
         </v-client-table>
     </div>
 @endsection
@@ -39,10 +52,12 @@
 @section('head-css-post')
     @parent
     <link rel="stylesheet" href="{{asset('/css/layout/admin/event/report/evaluation/admin_event_report_evaluation_default.min.css')}}">
+    {{--<link rel="stylesheet" href="{{asset('/vendor/vue2-timepicker/dist/vue2-timepicker.min.css')}}">--}}
 @endsection
 
 @section('body-js-lower-post')
     @parent
+    {{--<script type="text/javascript" src="{{asset('/vendor/vue2-timepicker/dist/vue2-timepicker.min.js')}}"></script>--}}
     <script type="text/javascript" src="{{asset('/js/model/firebase/TesterEvaluator.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/layout/admin/event/report/evaluation/admin_event_report_evaluation_default.min.js')}}"></script>
 @endsection

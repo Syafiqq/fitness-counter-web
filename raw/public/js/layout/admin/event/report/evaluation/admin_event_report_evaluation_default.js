@@ -9,7 +9,11 @@
                 role: $('meta[name=user-role]').attr("content"),
                 preset: undefined,
                 is_process: true,
-                processed: {aVal: {}, oVal: {}, pVal: {illinois: {start: '-'}}},
+                processed: {
+                    aVal: {'pgd': 'p'},
+                    oVal: {},
+                    pVal: {illinois: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}}}
+                },
                 vault: {},
                 qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'edit'],
                 queues: [],
@@ -35,16 +39,20 @@
                     sortable: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts'],
                 }
             },
-            methods: {
-                readableMillis: function (milis) {
-                    return moment(milis).format('Do MMMM YYYY, HH:MM:ss');
+            computed: {
+                editIllinoisEvaluator: function () {
+                    var elapsed = this.processed.pVal.illinois.elapsed;
+                    return evaluatorIllinois(this.processed.aVal['pgd'], (Number(elapsed.m) * 60000) + (Number(elapsed.s) * 1000) + Number(elapsed.SSS));
                 },
+            },
+            methods: {
                 saveChanges: function () {
                     console.log('Save Changes');
                 },
                 editParticipant: function (aVal) {
                     this.processed['aVal'] = aVal;
                     this.processed['oVal'] = app.vault[aVal['pdk']][aVal['pqu']];
+                    filterEdit(this.processed['oVal'], this.processed['pVal']);
                     this.$modal.show('hello-world');
                 },
                 calculateScore: function () {
@@ -121,6 +129,90 @@
                 }
             }
         });
+
+        function readableMillis(milis)
+        {
+            return moment(milis).format('Do MMMM YYYY, HH:MM:ss');
+        }
+
+        function filterEdit(queue, result)
+        {
+            result = result == null ? {} : result;
+            if ('illinois' in queue)
+            {
+                var process                          = queue.illinois;
+                var elapsed                          = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
+                result['illinois']['start']          = 'start' in process ? moment(process['start']).format() : null;
+                result['illinois']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : '0';
+                result['illinois']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : '0';
+                result['illinois']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : '0';
+            }
+            else
+            {
+                result['illinois']['start']          = null;
+                result['illinois']['elapsed']['m']   = '0';
+                result['illinois']['elapsed']['s']   = '0';
+                result['illinois']['elapsed']['SSS'] = '0';
+            }
+            if ('push' in queue)
+            {
+                var process   = queue.push;
+                result['puc'] = 'counter' in process ? process['counter'] : '-';
+                result['pus'] = 'result' in process ? process['result'] : '-';
+            }
+            else
+            {
+                result['puc'] = '-';
+                result['pus'] = '-';
+            }
+            /*if ('run' in queue)
+             {
+                 var process   = queue.run;
+                 var elapsed   = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
+                 result['rne'] = elapsed != null ? elapsed.format('m:ss') : '-';
+                 result['rns'] = 'result' in process ? process['result'] : '-';
+             }
+             else
+             {
+                 result['rne'] = '-';
+                 result['rns'] = '-';
+             }
+             if ('sit' in queue)
+             {
+                 var process   = queue.sit;
+                 result['stc'] = 'counter' in process ? process['counter'] : '-';
+                 result['sts'] = 'result' in process ? process['result'] : '-';
+             }
+             else
+             {
+                 result['stc'] = '-';
+                 result['sts'] = '-';
+             }
+             if ('throwing' in queue)
+             {
+                 var process   = queue.throwing;
+                 result['twc'] = 'counter' in process ? process['counter'] : '-';
+                 result['tws'] = 'result' in process ? process['result'] : '-';
+             }
+             else
+             {
+                 result['twc'] = '-';
+                 result['tws'] = '-';
+             }
+             if ('vertical' in queue)
+             {
+                 var process   = queue.vertical;
+                 result['vtd'] = 'deviation' in process ? process['deviation'] : '-';
+                 result['vts'] = 'result' in process ? process['result'] : '-';
+             }
+             else
+             {
+                 result['vtd'] = '-';
+                 result['vts'] = '-';
+             }*/
+            console.log(result);
+            return result;
+        }
 
         function filterQueue(queue, result)
         {
