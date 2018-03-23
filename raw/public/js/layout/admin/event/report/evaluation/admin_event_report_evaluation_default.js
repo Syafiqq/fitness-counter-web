@@ -15,7 +15,8 @@
                     pVal: {
                         illinois: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
                         push: {start: '-', counter: 0},
-                        run: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}}
+                        run: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
+                        sit: {start: '-', counter: 0},
                     }
                 },
                 vault: {},
@@ -55,6 +56,9 @@
                     var elapsed = this.processed.pVal.run.elapsed;
                     return evaluatorRun(this.processed.aVal['pgd'], (Number(elapsed.m) * 60000) + (Number(elapsed.s) * 1000) + Number(elapsed.SSS));
                 },
+                editSitEvaluator: function () {
+                    return evaluatorSitUp(this.processed.aVal['pgd'], (Number(this.processed.pVal.sit.counter)));
+                }
             },
             methods: {
                 saveChanges: function () {
@@ -192,18 +196,18 @@
                 result['run']['elapsed']['s']   = 0;
                 result['run']['elapsed']['SSS'] = 0;
             }
-            /*if ('sit' in queue)
+            if ('sit' in queue)
             {
-                var process   = queue.sit;
-                result['stc'] = 'counter' in process ? process['counter'] : '-';
-                result['sts'] = 'result' in process ? process['result'] : '-';
+                var process              = queue.sit;
+                result['sit']['start']   = 'start' in process ? moment(process['start']).format() : null;
+                result['sit']['counter'] = 'counter' in process ? process['counter'] : 0;
             }
             else
             {
-                result['stc'] = '-';
-                result['sts'] = '-';
+                result['sit']['start']   = null;
+                result['sit']['counter'] = 0;
             }
-            if ('throwing' in queue)
+            /*if ('throwing' in queue)
             {
                 var process   = queue.throwing;
                 result['twc'] = 'counter' in process ? process['counter'] : '-';

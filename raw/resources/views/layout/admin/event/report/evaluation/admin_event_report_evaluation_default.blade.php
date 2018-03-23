@@ -34,6 +34,12 @@
             <input type="text" id="run-elapsed-SSS" v-model="processed.pVal.run.elapsed.SSS"> <label for="run-elapsed-SSS">milidetik</label><br>
             Hasil : <br> @{{editRunEvaluator}}
             <br>
+            <h3>Sit Up</h3>
+            <label for="sit-start">Mulai : </label><datetime v-model="processed.pVal.sit.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+            Total : <br>
+            <input type="text" id="sit-counter" v-model="processed.pVal.sit.counter"><br>
+            Hasil : <br> @{{editSitEvaluator}}
+            <br>
             <button @click="saveChanges">Simpan</button>
             {{-- @formatter:on --}}
         </modal>
