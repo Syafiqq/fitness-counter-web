@@ -21,6 +21,18 @@
                         vertical: {initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
                     }
                 },
+                devProc: {
+                    aVal: {'pgd': 'p'},
+                    oVal: {},
+                    pVal: {
+                        illinois: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
+                        push: {start: '-', counter: 0},
+                        run: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
+                        sit: {start: '-', counter: 0},
+                        throwing: {start: '-', counter: 0},
+                        vertical: {initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
+                    }
+                },
                 vault: {},
                 qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'edit'],
                 queues: [],
@@ -74,7 +86,7 @@
             },
             methods: {
                 saveChanges: function () {
-                    console.log('Save Changes');
+
                 },
                 editParticipant: function (aVal) {
                     this.processed['aVal'] = aVal;
