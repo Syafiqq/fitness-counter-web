@@ -72,12 +72,10 @@
 @section('head-css-post')
     @parent
     <link rel="stylesheet" href="{{asset('/css/layout/admin/event/report/evaluation/admin_event_report_evaluation_default.min.css')}}">
-    {{--<link rel="stylesheet" href="{{asset('/vendor/vue2-timepicker/dist/vue2-timepicker.min.css')}}">--}}
 @endsection
 
 @section('body-js-lower-post')
     @parent
-    {{--<script type="text/javascript" src="{{asset('/vendor/vue2-timepicker/dist/vue2-timepicker.min.js')}}"></script>--}}
     <script type="text/javascript" src="{{asset('/js/model/firebase/TesterEvaluator.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/layout/admin/event/report/evaluation/admin_event_report_evaluation_default.min.js')}}"></script>
 @endsection
