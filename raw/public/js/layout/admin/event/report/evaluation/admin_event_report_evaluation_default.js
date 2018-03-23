@@ -107,7 +107,7 @@
                     this.processed['aVal'] = aVal;
                     this.processed['oVal'] = app.vault[aVal['pdk']][aVal['pqu']];
                     filterEdit(this.processed['oVal'], this.processed['pVal']);
-                    this.$modal.show('hello-world');
+                    this.$modal.show('editable-modal');
                 },
                 calculateScore: function () {
                     var that = this;

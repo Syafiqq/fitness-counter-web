@@ -10,7 +10,7 @@
 @section('body-content')
     @parent
     <div id="app">
-        <modal name="hello-world" height="auto" :scrollable="true">
+        <modal name="editable-modal" height="auto" :scrollable="true" :max-height="600" :click-to-close="false">
             {{-- @formatter:off --}}
             <h3>Illinois</h3>
             <label for="il-start">Mulai : </label><datetime v-model="processed.pVal.illinois.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
@@ -60,7 +60,13 @@
             Hasil : <br> @{{editVerticalEvaluator}}
             <br>
             <button @click="saveChanges">Simpan</button>
+            <button @click="$modal.hide('editable-modal')">Cancel</button>
             {{-- @formatter:on --}}
+            <div slot="top-right">
+                <button @click="$modal.hide('editable-modal')">
+                    X
+                </button>
+            </div>
         </modal>
         <button @click="calculateScore">Hitung Skor</button>
         <hr>
