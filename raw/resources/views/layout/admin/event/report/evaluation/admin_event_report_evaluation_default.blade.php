@@ -10,7 +10,7 @@
 @section('body-content')
     @parent
     <div id="app">
-        <modal name="hello-world">
+        <modal name="hello-world" height="auto" :scrollable="true">
             {{-- @formatter:off --}}
             <h3>Illinois</h3>
             <label for="il-start">Mulai : </label><datetime v-model="processed.pVal.illinois.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
@@ -19,6 +19,12 @@
             <input type="text" id="il-elapsed-s" v-model="processed.pVal.illinois.elapsed.s"> <label for="il-elapsed-s">detik</label>
             <input type="text" id="il-elapsed-SSS" v-model="processed.pVal.illinois.elapsed.SSS"> <label for="il-elapsed-SSS">milidetik</label><br>
             Hasil : <br> @{{editIllinoisEvaluator}}
+            <br>
+            <h3>Push Up</h3>
+            <label for="push-start">Mulai : </label><datetime v-model="processed.pVal.push.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+            Total : <br>
+            <input type="text" id="push-counter" v-model="processed.pVal.push.counter"><br>
+            Hasil : <br> @{{editPushEvaluator}}
             <br>
             <button @click="saveChanges">Simpan</button>
             {{-- @formatter:on --}}

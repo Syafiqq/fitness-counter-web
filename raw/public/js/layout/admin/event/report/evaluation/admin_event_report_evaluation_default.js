@@ -12,7 +12,10 @@
                 processed: {
                     aVal: {'pgd': 'p'},
                     oVal: {},
-                    pVal: {illinois: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}}}
+                    pVal: {
+                        illinois: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
+                        push: {start: '-', counter: 0}
+                    }
                 },
                 vault: {},
                 qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'edit'],
@@ -43,6 +46,9 @@
                 editIllinoisEvaluator: function () {
                     var elapsed = this.processed.pVal.illinois.elapsed;
                     return evaluatorIllinois(this.processed.aVal['pgd'], (Number(elapsed.m) * 60000) + (Number(elapsed.s) * 1000) + Number(elapsed.SSS));
+                },
+                editPushEvaluator: function () {
+                    return evaulatorPushUp(this.processed.aVal['pgd'], (Number(this.processed.pVal.push.counter)));
                 },
             },
             methods: {
@@ -156,14 +162,14 @@
             }
             if ('push' in queue)
             {
-                var process   = queue.push;
-                result['puc'] = 'counter' in process ? process['counter'] : '-';
-                result['pus'] = 'result' in process ? process['result'] : '-';
+                var process               = queue.push;
+                result['push']['start']   = 'start' in process ? moment(process['start']).format() : null;
+                result['push']['counter'] = 'counter' in process ? process['counter'] : 0;
             }
             else
             {
-                result['puc'] = '-';
-                result['pus'] = '-';
+                result['push']['start']   = null;
+                result['push']['counter'] = 0;
             }
             /*if ('run' in queue)
              {
