@@ -143,16 +143,16 @@
                 var process                          = queue.illinois;
                 var elapsed                          = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
                 result['illinois']['start']          = 'start' in process ? moment(process['start']).format() : null;
-                result['illinois']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : '0';
-                result['illinois']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : '0';
-                result['illinois']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : '0';
+                result['illinois']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : 0;
+                result['illinois']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : 0;
+                result['illinois']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : 0;
             }
             else
             {
                 result['illinois']['start']          = null;
-                result['illinois']['elapsed']['m']   = '0';
-                result['illinois']['elapsed']['s']   = '0';
-                result['illinois']['elapsed']['SSS'] = '0';
+                result['illinois']['elapsed']['m']   = 0;
+                result['illinois']['elapsed']['s']   = 0;
+                result['illinois']['elapsed']['SSS'] = 0;
             }
             if ('push' in queue)
             {
