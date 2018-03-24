@@ -61,14 +61,14 @@
             computed: {
                 editIllinoisEvaluator: function () {
                     var elapsed = this.processed.pVal.illinois.elapsed;
-                    return evaluatorIllinois(this.processed.aVal['pgd'], (Number(elapsed.m) * 60000) + (Number(elapsed.s) * 1000) + Number(elapsed.SSS));
+                    return evaluatorIllinois(this.processed.aVal['pgd'], toMillis(Number(elapsed.m), Number(elapsed.s), Number(elapsed.SSS)));
                 },
                 editPushEvaluator: function () {
                     return evaulatorPushUp(this.processed.aVal['pgd'], (Number(this.processed.pVal.push.counter)));
                 },
                 editRunEvaluator: function () {
                     var elapsed = this.processed.pVal.run.elapsed;
-                    return evaluatorRun(this.processed.aVal['pgd'], (Number(elapsed.m) * 60000) + (Number(elapsed.s) * 1000) + Number(elapsed.SSS));
+                    return evaluatorRun(this.processed.aVal['pgd'], toMillis(Number(elapsed.m), Number(elapsed.s), Number(elapsed.SSS)));
                 },
                 editSitEvaluator: function () {
                     return evaluatorSitUp(this.processed.aVal['pgd'], (Number(this.processed.pVal.sit.counter)));
@@ -191,93 +191,55 @@
             }
         });
 
-        function saveEdit(result, queue)
+        function toMillis(m, s, ms)
         {
-            /*result = result == null ? {} : result;
-            if ('illinois' in queue)
+            return (Number(m) * 60000) + (Number(s) * 1000) + Number(ms);
+        }
+
+        function saveEdit(queue, result)
+        {
+            if (result != null)
             {
-                var process                          = queue.illinois;
-                var elapsed                          = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
-                result['illinois']['start']          = 'start' in process ? moment(process['start']).format() : null;
-                result['illinois']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : 0;
-                result['illinois']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : 0;
-                result['illinois']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : 0;
+                if ('illinois' in queue && queue.illinois.show)
+                {
+                    var process                   = queue.illinois;
+                    result['illinois']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['illinois']['elapsed'] = toMillis(process.elapsed.m, process.elapsed.s, process.elapsed.SSS);
+                }
+                if ('push' in queue && queue.push.show)
+                {
+                    var process               = queue.push;
+                    result['push']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['push']['counter'] = process.counter;
+                }
+                if ('run' in queue && queue.run.show)
+                {
+                    var process              = queue.run;
+                    result['run']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['run']['elapsed'] = toMillis(process.elapsed.m, process.elapsed.s, process.elapsed.SSS);
+                }
+                if ('sit' in queue && queue.sit.show)
+                {
+                    var process              = queue.sit;
+                    result['sit']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['sit']['counter'] = process.counter;
+                }
+                if ('throwing' in queue && queue.throwing.show)
+                {
+                    var process                   = queue.throwing;
+                    result['throwing']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['throwing']['counter'] = process.counter;
+                }
+                if ('vertical' in queue && queue.vertical.show)
+                {
+                    var process                     = queue.vertical;
+                    result['vertical']['initial']   = process.initial;
+                    result['vertical']['try1']      = process.try1;
+                    result['vertical']['try2']      = process.try2;
+                    result['vertical']['try3']      = process.try3;
+                    result['vertical']['deviation'] = process.deviation;
+                }
             }
-            else
-            {
-                result['illinois']['start']          = null;
-                result['illinois']['elapsed']['m']   = 0;
-                result['illinois']['elapsed']['s']   = 0;
-                result['illinois']['elapsed']['SSS'] = 0;
-            }*/
-            /*
-                        if ('push' in queue)
-                        {
-                            var process               = queue.push;
-                            result['push']['start']   = 'start' in process ? moment(process['start']).format() : null;
-                            result['push']['counter'] = 'counter' in process ? process['counter'] : 0;
-                        }
-                        else
-                        {
-                            result['push']['start']   = null;
-                            result['push']['counter'] = 0;
-                        }
-                        if ('run' in queue)
-                        {
-                            var process                     = queue.run;
-                            var elapsed                     = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
-                            result['run']['start']          = 'start' in process ? moment(process['start']).format() : null;
-                            result['run']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : 0;
-                            result['run']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : 0;
-                            result['run']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : 0;
-                        }
-                        else
-                        {
-                            result['run']['start']          = null;
-                            result['run']['elapsed']['m']   = 0;
-                            result['run']['elapsed']['s']   = 0;
-                            result['run']['elapsed']['SSS'] = 0;
-                        }
-                        if ('sit' in queue)
-                        {
-                            var process              = queue.sit;
-                            result['sit']['start']   = 'start' in process ? moment(process['start']).format() : null;
-                            result['sit']['counter'] = 'counter' in process ? process['counter'] : 0;
-                        }
-                        else
-                        {
-                            result['sit']['start']   = null;
-                            result['sit']['counter'] = 0;
-                        }
-                        if ('throwing' in queue)
-                        {
-                            var process                   = queue.throwing;
-                            result['throwing']['start']   = 'start' in process ? moment(process['start']).format() : null;
-                            result['throwing']['counter'] = 'counter' in process ? process['counter'] : 0;
-                        }
-                        else
-                        {
-                            result['throwing']['start']   = null;
-                            result['throwing']['counter'] = 0;
-                        }
-                        if ('vertical' in queue)
-                        {
-                            var process                     = queue.vertical;
-                            result['vertical']['initial']   = 'initial' in process ? process['initial'] : 0;
-                            result['vertical']['try1']      = 'try1' in process ? process['try1'] : 0;
-                            result['vertical']['try2']      = 'try2' in process ? process['try2'] : 0;
-                            result['vertical']['try3']      = 'try3' in process ? process['try3'] : 0;
-                            result['vertical']['deviation'] = 'deviation' in process ? process['deviation'] : app.editVerticalDeviator();
-                        }
-                        else
-                        {
-                            result['vertical']['initial']   = 0;
-                            result['vertical']['try1']      = 0;
-                            result['vertical']['try2']      = 0;
-                            result['vertical']['try3']      = 0;
-                            result['vertical']['deviation'] = 0;
-                        }
-            */
 
             console.log(result);
             return result;
