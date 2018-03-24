@@ -21,18 +21,6 @@
                         vertical: {show: false, initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
                     }
                 },
-                devProc: {
-                    aVal: {'pgd': 'p'},
-                    oVal: {},
-                    pVal: {
-                        illinois: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        push: {show: false, start: '-', counter: 0},
-                        run: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        sit: {show: false, start: '-', counter: 0},
-                        throwing: {show: false, start: '-', counter: 0},
-                        vertical: {show: false, initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
-                    }
-                },
                 vault: {},
                 qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'edit'],
                 queues: [],
