@@ -64,6 +64,15 @@ Route::get(/**
             ->setHeader(0.19685)
             ->setFooter(0.19685);
 
+        //Column Width
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(9);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(16);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(36);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(6);
+        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(7);
+        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(13);
+
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
