@@ -15,6 +15,7 @@ class PathMapper
     const USERS = "users";
     const EVENTS = "events";
     const GROUPS = "groups";
+    const PRESETS = 'presets';
     const USERS_GROUPS = "users_groups";
 }
 
