@@ -117,7 +117,7 @@ Route::get(/**
                  ] as $c)
         {
             $spreadsheet->getActiveSheet()->getStyle("{$c['c']}12")->getFont()
-                ->setSize(10)
+                ->setSize(11)
                 ->setBold(true);
             $spreadsheet->getActiveSheet()->getStyle("{$c['c']}12")->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_CENTER)
