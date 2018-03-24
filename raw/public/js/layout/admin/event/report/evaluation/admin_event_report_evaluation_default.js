@@ -22,29 +22,23 @@
                     }
                 },
                 vault: {},
-                qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'gt', 'edit'],
+                qt_columns: ['pno', 'pnm', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt', 'edit'],
                 queues: [],
                 qt_options: {
                     uniqueKey: 'pno',
                     headings: {
                         pno: 'No',
                         pnm: 'Nama',
-                        ile: 'I Waktu',
-                        ils: 'I Skor',
-                        puc: 'PU Total',
-                        pus: 'PU Skor',
-                        rne: 'R Waktu',
-                        rns: 'R Skor',
-                        stc: 'SU Total',
-                        sts: 'SU Skor',
-                        twc: 'T Total',
-                        tws: 'T Skor',
-                        vtd: 'VJ Selisih',
-                        vts: 'VJ Skor',
+                        ildp: 'Illinois',
+                        pudp: 'Push Up',
+                        rndp: 'Lari 1600 m',
+                        stdp: 'Sit Up',
+                        twdp: 'Lempar Bola',
+                        vtdp: 'Vertical Jump',
                         gt: 'Grand Total',
                         edit: 'Edit',
                     },
-                    sortable: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'gt'],
+                    sortable: ['pno', 'pnm', 'gt'],
                 }
             },
             computed: {
@@ -375,12 +369,18 @@
                     result['ils'] = process['result'];
                     gt            = gt == null ? result['ils'] : (result['ils'] + gt);
                 }
+                else
+                {
+                    result['ils'] = '-';
+                }
             }
             else
             {
                 result['ile'] = '-';
                 result['ils'] = '-';
             }
+            result['ildp'] = result['ile'] + " (" + result['ils'] + ")";
+
             if ('push' in queue)
             {
                 var process   = queue.push;
@@ -390,12 +390,18 @@
                     result['pus'] = process['result'];
                     gt            = gt == null ? result['pus'] : (result['pus'] + gt);
                 }
+                else
+                {
+                    result['pus'] = '-';
+                }
             }
             else
             {
                 result['puc'] = '-';
                 result['pus'] = '-';
             }
+            result['pudp'] = result['puc'] + " (" + result['pus'] + ")";
+
             if ('run' in queue)
             {
                 var process   = queue.run;
@@ -406,12 +412,18 @@
                     result['rns'] = process['result'];
                     gt            = gt == null ? result['rns'] : (result['rns'] + gt);
                 }
+                else
+                {
+                    result['rns'] = '-';
+                }
             }
             else
             {
                 result['rne'] = '-';
                 result['rns'] = '-';
             }
+            result['rndp'] = result['rne'] + " (" + result['rns'] + ")";
+
             if ('sit' in queue)
             {
                 var process   = queue.sit;
@@ -421,12 +433,18 @@
                     result['sts'] = process['result'];
                     gt            = gt == null ? result['sts'] : (result['sts'] + gt);
                 }
+                else
+                {
+                    result['sts'] = '-';
+                }
             }
             else
             {
                 result['stc'] = '-';
                 result['sts'] = '-';
             }
+            result['stdp'] = result['stc'] + " (" + result['sts'] + ")";
+
             if ('throwing' in queue)
             {
                 var process   = queue.throwing;
@@ -436,12 +454,18 @@
                     result['tws'] = process['result'];
                     gt            = gt == null ? result['tws'] : (result['tws'] + gt);
                 }
+                else
+                {
+                    result['tws'] = '-';
+                }
             }
             else
             {
                 result['twc'] = '-';
                 result['tws'] = '-';
             }
+            result['twdp'] = result['twc'] + " (" + result['tws'] + ")";
+
             if ('vertical' in queue)
             {
                 var process   = queue.vertical;
@@ -451,12 +475,18 @@
                     result['vts'] = process['result'];
                     gt            = gt == null ? result['vts'] : (result['vts'] + gt);
                 }
+                else
+                {
+                    result['vts'] = '-';
+                }
             }
             else
             {
                 result['vtd'] = '-';
                 result['vts'] = '-';
             }
+            result['vtdp'] = result['vtd'] + " (" + result['vts'] + ")";
+
 
             result['gt'] = gt == null ? '-' : gt;
             return result;
