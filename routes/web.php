@@ -121,7 +121,8 @@ Route::get(/**
                 ->setBold(true);
             $spreadsheet->getActiveSheet()->getStyle("{$c['c']}12")->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_CENTER)
-                ->setVertical(Alignment::VERTICAL_CENTER);
+                ->setVertical(Alignment::VERTICAL_CENTER)
+                ->setWrapText(true);
             $spreadsheet->getActiveSheet()->setCellValue("{$c['c']}12", $c['v']);
         }
 
