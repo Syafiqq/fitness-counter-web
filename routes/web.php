@@ -105,6 +105,27 @@ Route::get(/**
             ->setVertical(Alignment::VERTICAL_CENTER);
         $spreadsheet->getActiveSheet()->setCellValue('A10', 'UNIVERSITAS :.........................................');
 
+        //Table Header
+        foreach ([
+                     ['c' => 'A', 'v' => 'NO URUT'],
+                     ['c' => 'B', 'v' => 'NOMOR PESERTA'],
+                     ['c' => 'C', 'v' => 'NAMA PESERTA'],
+                     ['c' => 'D', 'v' => 'NILAI'],
+                     ['c' => 'E', 'v' => 'TIDAK HADIR'],
+                     ['c' => 'F', 'v' => 'WAJAH TIDAK SESUAI FOTO PADA ABHP'],
+                     ['c' => 'G', 'v' => 'KETERANGAN'],
+                 ] as $c)
+        {
+            $spreadsheet->getActiveSheet()->getStyle("{$c['c']}12")->getFont()
+                ->setSize(10)
+                ->setBold(true);
+            $spreadsheet->getActiveSheet()->getStyle("{$c['c']}12")->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+                ->setVertical(Alignment::VERTICAL_CENTER);
+            $spreadsheet->getActiveSheet()->setCellValue("{$c['c']}12", $c['v']);
+        }
+
+
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment;filename=\"$filename.xlsx\"");
