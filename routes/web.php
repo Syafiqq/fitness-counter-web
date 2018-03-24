@@ -135,6 +135,39 @@ Route::get(/**
             $spreadsheet->getActiveSheet()->setCellValue("{$c['c']}12", $c['v']);
         }
 
+        $leftBlock = [
+            'font' => [
+                'size' => 11,
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true
+            ]
+        ];
+
+        $centerBlock                            = $leftBlock;
+        $centerBlock['alignment']['horizontal'] = Alignment::HORIZONTAL_CENTER;
+
+        $jEvent           = json_decode($event, true);
+        $pEvent           = json_decode($preset, true);
+        $participantCount = count($jEvent['participant']) + 13;
+        $spreadsheet->getActiveSheet()->getStyle("D13:G$participantCount")->applyFromArray($centerBlock);
+        $spreadsheet->getActiveSheet()->getStyle("A13:C$participantCount")->applyFromArray($leftBlock);
+        $spreadsheet->getActiveSheet()->getStyle("B13:B$participantCount")->applyFromArray($centerBlock);
+        $activeSheet = $spreadsheet->getActiveSheet();
+        $startCount  = 12;
+        foreach ($jEvent['participant'] as $pk => $pv)
+        {
+            if ($pv != null)
+            {
+                ++$startCount;
+                $activeSheet->setCellValue("A$startCount", $pk);
+                $activeSheet->setCellValue("B$startCount", $pv['no']);
+                $activeSheet->setCellValue("C$startCount", $pv['name']);
+            }
+        }
+
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
