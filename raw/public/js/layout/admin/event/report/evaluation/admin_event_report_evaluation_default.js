@@ -186,11 +186,6 @@
             }
         });
 
-        function readableMillis(milis)
-        {
-            return moment(milis).format('Do MMMM YYYY, HH:MM:ss');
-        }
-
         function filterEdit(queue, result)
         {
             result = result == null ? {} : result;
