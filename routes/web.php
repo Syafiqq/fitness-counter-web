@@ -49,20 +49,9 @@ Route::get(/**
             ->setKeywords('SBMPTN')
             ->setCategory('Ujian Keterampilan');
 
-        // Add some data
-        $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Hello')
-            ->setCellValue('B2', 'world!')
-            ->setCellValue('C1', 'Hello')
-            ->setCellValue('D2', 'world!');
-
-        // Miscellaneous glyphs, UTF-8
-        $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A4', 'Miscellaneous glyphs')
-            ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
-
-        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        // Set Active Sheet
         $spreadsheet->setActiveSheetIndex(0);
+
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
