@@ -95,6 +95,16 @@ Route::get(/**
             ->setVertical(Alignment::VERTICAL_CENTER);
         $spreadsheet->getActiveSheet()->setCellValue('A9', 'BIDANG : SENI RUPA / SENI TARI / SENI MUSIK / OLAHRAGA');
 
+        //Origin
+        $spreadsheet->getActiveSheet()->mergeCells('A10:G10');
+        $spreadsheet->getActiveSheet()->getStyle('A10')->getFont()
+            ->setSize(14)
+            ->setBold(true);
+        $spreadsheet->getActiveSheet()->getStyle('A10')->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
+        $spreadsheet->getActiveSheet()->setCellValue('A10', 'UNIVERSITAS :.........................................');
+
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment;filename=\"$filename.xlsx\"");
