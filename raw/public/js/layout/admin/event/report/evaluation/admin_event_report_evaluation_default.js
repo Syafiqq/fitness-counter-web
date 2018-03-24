@@ -22,7 +22,7 @@
                     }
                 },
                 vault: {},
-                qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'edit'],
+                qt_columns: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'gt', 'edit'],
                 queues: [],
                 qt_options: {
                     uniqueKey: 'pno',
@@ -41,9 +41,10 @@
                         tws: 'T Skor',
                         vtd: 'VJ Selisih',
                         vts: 'VJ Skor',
+                        gt: 'Grand Total',
                         edit: 'Edit',
                     },
-                    sortable: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts'],
+                    sortable: ['pno', 'pnm', 'ile', 'ils', 'puc', 'pus', 'rne', 'rns', 'stc', 'sts', 'twc', 'tws', 'vtd', 'vts', 'gt'],
                 }
             },
             computed: {
@@ -351,6 +352,7 @@
 
         function filterQueue(queue, result)
         {
+            var gt = null;
             result = result == null ? {} : result;
             if ('participant' in queue)
             {
@@ -368,7 +370,11 @@
                 var process   = queue.illinois;
                 var elapsed   = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
                 result['ile'] = elapsed != null ? elapsed.format('m:ss') : '-';
-                result['ils'] = 'result' in process ? process['result'] : '-';
+                if ('result' in process)
+                {
+                    result['ils'] = process['result'];
+                    gt            = gt == null ? result['ils'] : (result['ils'] + gt);
+                }
             }
             else
             {
@@ -379,7 +385,11 @@
             {
                 var process   = queue.push;
                 result['puc'] = 'counter' in process ? process['counter'] : '-';
-                result['pus'] = 'result' in process ? process['result'] : '-';
+                if ('result' in process)
+                {
+                    result['pus'] = process['result'];
+                    gt            = gt == null ? result['pus'] : (result['pus'] + gt);
+                }
             }
             else
             {
@@ -391,7 +401,11 @@
                 var process   = queue.run;
                 var elapsed   = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
                 result['rne'] = elapsed != null ? elapsed.format('m:ss') : '-';
-                result['rns'] = 'result' in process ? process['result'] : '-';
+                if ('result' in process)
+                {
+                    result['rns'] = process['result'];
+                    gt            = gt == null ? result['rns'] : (result['rns'] + gt);
+                }
             }
             else
             {
@@ -402,7 +416,11 @@
             {
                 var process   = queue.sit;
                 result['stc'] = 'counter' in process ? process['counter'] : '-';
-                result['sts'] = 'result' in process ? process['result'] : '-';
+                if ('result' in process)
+                {
+                    result['sts'] = process['result'];
+                    gt            = gt == null ? result['sts'] : (result['sts'] + gt);
+                }
             }
             else
             {
@@ -413,7 +431,11 @@
             {
                 var process   = queue.throwing;
                 result['twc'] = 'counter' in process ? process['counter'] : '-';
-                result['tws'] = 'result' in process ? process['result'] : '-';
+                if ('result' in process)
+                {
+                    result['tws'] = process['result'];
+                    gt            = gt == null ? result['tws'] : (result['tws'] + gt);
+                }
             }
             else
             {
@@ -424,13 +446,19 @@
             {
                 var process   = queue.vertical;
                 result['vtd'] = 'deviation' in process ? process['deviation'] : '-';
-                result['vts'] = 'result' in process ? process['result'] : '-';
+                if ('result' in process)
+                {
+                    result['vts'] = process['result'];
+                    gt            = gt == null ? result['vts'] : (result['vts'] + gt);
+                }
             }
             else
             {
                 result['vtd'] = '-';
                 result['vts'] = '-';
             }
+
+            result['gt'] = gt == null ? '-' : gt;
             return result;
         }
 
