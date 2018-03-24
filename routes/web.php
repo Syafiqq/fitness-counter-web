@@ -180,6 +180,7 @@ Route::get(/**
                 if ($queue == null)
                 {
                     $activeSheet->setCellValue("E$startCount", 1);
+                    $activeSheet->setCellValue("D$startCount", 0);
                 }
                 else
                 {
@@ -196,7 +197,6 @@ Route::get(/**
                     {
                         $activeSheet->setCellValue("F$startCount", 1);
                     }
-
                 }
             }
         }
