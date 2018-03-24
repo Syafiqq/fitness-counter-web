@@ -38,7 +38,39 @@
                         gt: 'Grand Total',
                         edit: 'Edit',
                     },
-                    sortable: ['pno', 'pnm', 'gt'],
+                    sortable: ['pno', 'pnm', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt'],
+                    customSorting: {
+                        ildp: function (ascending) {
+                            return function (a, b) {
+                                return (ascending ? -1 : 1) * Math.sign((a.ils == '-' ? 0 : a.ils) - (b.ils == '-' ? 0 : b.ils));
+                            }
+                        },
+                        pudp: function (ascending) {
+                            return function (a, b) {
+                                return (ascending ? -1 : 1) * Math.sign((a.pus == '-' ? 0 : a.pus) - (b.pus == '-' ? 0 : b.pus));
+                            }
+                        },
+                        rndp: function (ascending) {
+                            return function (a, b) {
+                                return (ascending ? -1 : 1) * Math.sign((a.rns == '-' ? 0 : a.rns) - (b.rns == '-' ? 0 : b.rns));
+                            }
+                        },
+                        stdp: function (ascending) {
+                            return function (a, b) {
+                                return (ascending ? -1 : 1) * Math.sign((a.sts == '-' ? 0 : a.sts) - (b.sts == '-' ? 0 : b.sts));
+                            }
+                        },
+                        twdp: function (ascending) {
+                            return function (a, b) {
+                                return (ascending ? -1 : 1) * Math.sign((a.tws == '-' ? 0 : a.tws) - (b.tws == '-' ? 0 : b.tws));
+                            }
+                        },
+                        vtdp: function (ascending) {
+                            return function (a, b) {
+                                return (ascending ? -1 : 1) * Math.sign((a.vts == '-' ? 0 : a.vts) - (b.vts == '-' ? 0 : b.vts));
+                            }
+                        }
+                    },
                 }
             },
             computed: {
@@ -154,7 +186,8 @@
                         console.log("swal result" + result)
                     });
                 }
-            }
+            },
+
         });
 
         function collectQuery(queue, query)
