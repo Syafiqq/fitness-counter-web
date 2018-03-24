@@ -162,7 +162,7 @@ Route::get(/**
                 }
             }
         }
-        $participantCount = count($jEvent['participant']) + 13;
+        $participantCount = count($jEvent['participant']) + 11;
         $spreadsheet->getActiveSheet()->getStyle("D13:G$participantCount")->applyFromArray($centerBlock);
         $spreadsheet->getActiveSheet()->getStyle("A13:C$participantCount")->applyFromArray($leftBlock);
         $spreadsheet->getActiveSheet()->getStyle("B13:B$participantCount")->applyFromArray($centerBlock);
