@@ -149,15 +149,26 @@ Route::get(/**
         $centerBlock                            = $leftBlock;
         $centerBlock['alignment']['horizontal'] = Alignment::HORIZONTAL_CENTER;
 
-        $jEvent           = json_decode($event, true);
-        $pEvent           = json_decode($preset, true);
+        $jEvent = json_decode($event, true);
+        $pEvent = json_decode($preset, true);
+        $queues = [];
+        foreach ($pEvent['queues'] as &$dv)
+        {
+            foreach ($dv as &$qv)
+            {
+                if ($qv != null)
+                {
+                    $queues[$qv['participant']['no']] = &$qv;
+                }
+            }
+        }
         $participantCount = count($jEvent['participant']) + 13;
         $spreadsheet->getActiveSheet()->getStyle("D13:G$participantCount")->applyFromArray($centerBlock);
         $spreadsheet->getActiveSheet()->getStyle("A13:C$participantCount")->applyFromArray($leftBlock);
         $spreadsheet->getActiveSheet()->getStyle("B13:B$participantCount")->applyFromArray($centerBlock);
         $activeSheet = $spreadsheet->getActiveSheet();
         $startCount  = 12;
-        foreach ($jEvent['participant'] as $pk => $pv)
+        foreach ($jEvent['participant'] as $pk => &$pv)
         {
             if ($pv != null)
             {
@@ -165,6 +176,28 @@ Route::get(/**
                 $activeSheet->setCellValue("A$startCount", $pk);
                 $activeSheet->setCellValue("B$startCount", $pv['no']);
                 $activeSheet->setCellValue("C$startCount", $pv['name']);
+                $queue = &$queues[$pv['no']];
+                if ($queue == null)
+                {
+                    $activeSheet->setCellValue("E$startCount", 1);
+                }
+                else
+                {
+                    $result = 0;
+                    foreach ($queue as &$kv)
+                    {
+                        if (key_exists('result', $kv))
+                        {
+                            $result += intval($kv['result']);
+                        }
+                    }
+                    $activeSheet->setCellValue("D$startCount", $result);
+                    if (key_exists('participant', $queue) && key_exists('same', $queue['participant']) && $queue['participant']['same'] == 0)
+                    {
+                        $activeSheet->setCellValue("F$startCount", 1);
+                    }
+
+                }
             }
         }
 
