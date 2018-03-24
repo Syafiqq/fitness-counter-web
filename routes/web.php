@@ -52,6 +52,14 @@ Route::get(/**
         // Set Active Sheet
         $spreadsheet->setActiveSheetIndex(0);
 
+        $pageSetUp = $spreadsheet->getActiveSheet()->getPageSetup();
+        $pageSetUp->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_PORTRAIT);
+        $pageSetUp->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+        $pageMargin = $spreadsheet->getActiveSheet()->getPageMargins();
+        $pageMargin->setTop(0.590551);
+        $pageMargin->setBottom(0.590551);
+        $pageMargin->setLeft(0.590551);
+        $pageMargin->setRight(0.590551);
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
