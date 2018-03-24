@@ -86,6 +86,7 @@
             },
             methods: {
                 saveChanges: function () {
+                    var that = this;
                     this.$swal({
                         allowOutsideClick: false,
                         allowEscapeKey: false,
@@ -93,8 +94,27 @@
                         onOpen: () => {
                             this.$swal.showLoading();
                             return new Promise(function (resolve) {
+
                                 saveEdit(app.processed.pVal, app.processed.oVal);
                                 filterQueue(app.processed.oVal, app.processed.aVal);
+                                collectQuery(app.processed.aVal, {});
+                                var key      = DataMapper.PresetQueue(app.preset, app.processed.aVal['pdk'], app.processed.aVal['pqu'])['presets'];
+                                var query    = {};
+                                query[key]   = app.processed.oVal;
+                                var callback = firebase.database().ref().update(query);
+                                if (callback != null && typeof (callback) !== 'boolean')
+                                {
+                                    callback.then(function (result) {
+                                        console.log(result);
+                                        app.is_process = false;
+                                        NProgress.done();
+                                        that.$modal.hide('editable-modal');
+                                        that.$swal({
+                                            type: 'success',
+                                            title: 'Perubahan Berhasil',
+                                        })
+                                    })
+                                }
                             })
                         },
                         preConfirm: function () {
@@ -209,31 +229,31 @@
                 if ('illinois' in queue && queue.illinois.show)
                 {
                     var process                   = queue.illinois;
-                    result['illinois']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['illinois']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['illinois']['elapsed'] = toMillis(process.elapsed.m, process.elapsed.s, process.elapsed.SSS);
                 }
                 if ('push' in queue && queue.push.show)
                 {
                     var process               = queue.push;
-                    result['push']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['push']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['push']['counter'] = process.counter;
                 }
                 if ('run' in queue && queue.run.show)
                 {
                     var process              = queue.run;
-                    result['run']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['run']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['run']['elapsed'] = toMillis(process.elapsed.m, process.elapsed.s, process.elapsed.SSS);
                 }
                 if ('sit' in queue && queue.sit.show)
                 {
                     var process              = queue.sit;
-                    result['sit']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['sit']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['sit']['counter'] = process.counter;
                 }
                 if ('throwing' in queue && queue.throwing.show)
                 {
                     var process                   = queue.throwing;
-                    result['throwing']['start']   = moment(process.start, moment.ISO_8601).format('x');
+                    result['throwing']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['throwing']['counter'] = process.counter;
                 }
                 if ('vertical' in queue && queue.vertical.show)
