@@ -68,6 +68,10 @@ Route::get(/**
         $drawing->setName('Logo');
         $drawing->setDescription('Logo');
         $drawing->setPath(public_path('/img/logo-sbmptn.png'));
+        $drawing->setResizeProportional(true);
+        $drawing->setWidthAndHeight(150, 120);
+        $drawing->setCoordinates('D1');
+        $drawing->setOffsetX(40);
         $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
         // Redirect output to a client’s web browser (Xlsx)
