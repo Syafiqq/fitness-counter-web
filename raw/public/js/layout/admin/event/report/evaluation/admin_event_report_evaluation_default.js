@@ -112,7 +112,7 @@
 
                                 saveEdit(app.processed.pVal, app.processed.oVal);
                                 filterQueue(app.processed.oVal, app.processed.aVal);
-                                collectQuery(app.processed.aVal, {});
+                                filterQueue(app.processed.oVal, app.processed.aVal);
                                 var key      = DataMapper.PresetQueue(app.preset, app.processed.aVal['pdk'], app.processed.aVal['pqu'])['presets'];
                                 var query    = {};
                                 query[key]   = app.processed.oVal;
@@ -242,35 +242,41 @@
         {
             if (result != null)
             {
+                var gender = result.participant.gender;
                 if ('illinois' in queue && queue.illinois.show)
                 {
                     var process                   = queue.illinois;
                     result['illinois']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['illinois']['elapsed'] = toMillis(process.elapsed.m, process.elapsed.s, process.elapsed.SSS);
+                    result['illinois']['result']  = evaluatorIllinois(gender, result.illinois.elapsed);
                 }
                 if ('push' in queue && queue.push.show)
                 {
                     var process               = queue.push;
                     result['push']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['push']['counter'] = process.counter;
+                    result['push']['result']  = evaulatorPushUp(gender, result.push.counter);
                 }
                 if ('run' in queue && queue.run.show)
                 {
                     var process              = queue.run;
                     result['run']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['run']['elapsed'] = toMillis(process.elapsed.m, process.elapsed.s, process.elapsed.SSS);
+                    result['run']['result']  = evaluatorRun(gender, result.run.elapsed);
                 }
                 if ('sit' in queue && queue.sit.show)
                 {
                     var process              = queue.sit;
                     result['sit']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['sit']['counter'] = process.counter;
+                    result['sit']['result']  = evaluatorSitUp(gender, result.sit.counter);
                 }
                 if ('throwing' in queue && queue.throwing.show)
                 {
                     var process                   = queue.throwing;
                     result['throwing']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
                     result['throwing']['counter'] = process.counter;
+                    result['throwing']['result']  = evaluatorThrowingBall(gender, result.throwing.counter);
                 }
                 if ('vertical' in queue && queue.vertical.show)
                 {
@@ -280,6 +286,7 @@
                     result['vertical']['try2']      = process.try2;
                     result['vertical']['try3']      = process.try3;
                     result['vertical']['deviation'] = process.deviation;
+                    result['vertical']['result']    = evaluatorVerticalJump(gender, result.vertical.deviation);
                 }
             }
 
