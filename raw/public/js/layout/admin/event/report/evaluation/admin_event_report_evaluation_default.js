@@ -93,7 +93,8 @@
                         onOpen: () => {
                             this.$swal.showLoading();
                             return new Promise(function (resolve) {
-                                saveEdit(app.processed.pVal, app.processed.oVal)
+                                saveEdit(app.processed.pVal, app.processed.oVal);
+                                filterQueue(app.processed.oVal, app.processed.aVal);
                             })
                         },
                         preConfirm: function () {
