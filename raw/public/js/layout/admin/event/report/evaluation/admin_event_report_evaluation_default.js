@@ -245,6 +245,11 @@
             if (result != null)
             {
                 var gender = result.participant.gender;
+                if ('participant' in queue && queue.participant.show)
+                {
+                    var process                   = queue.participant;
+                    result['participant']['same'] = Number(process.same);
+                }
                 if ('illinois' in queue && queue.illinois.show)
                 {
                     var process                   = queue.illinois;
@@ -299,6 +304,15 @@
         function filterEdit(queue, result)
         {
             result = result == null ? {} : result;
+            if (result['participant']['show'] = 'participant' in queue)
+            {
+                var process                   = queue.participant;
+                result['participant']['same'] = 'same' in process ? Number(process.same) : null;
+            }
+            else
+            {
+                result['participant']['same'] = null;
+            }
             if (result['illinois']['show'] = 'illinois' in queue)
             {
                 var process                          = queue.illinois;
@@ -399,7 +413,7 @@
                 result['pno'] = 'no' in process ? process['no'] : '-';
                 result['pnm'] = 'name' in process ? process['name'] : '-';
                 result['pqu'] = 'queue' in process ? process['queue'] : '-';
-                result['pfs'] = 'same' in process ? Number(process['same']) === 1 ? 'Sama' : 'Tidak Sama' : '-';
+                result['pfs'] = 'same' in process ? Number(process['same']) === 1 ? 'Mirip' : 'Tidak Mirip' : '-';
                 result['pgd'] = 'gender' in process ? process['gender'] : null;
             }
             if ('illinois' in queue)

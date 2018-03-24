@@ -12,6 +12,16 @@
     <div id="app">
         <modal name="editable-modal" height="auto" :scrollable="true" :max-height="600" :click-to-close="false">
             {{-- @formatter:off --}}
+            <div v-if="processed.pVal.participant.show">
+                <h3>Fisik</h3>
+                Kemiripan Wajah : <br>
+                <input type="radio" id="one" value="1" v-model="processed.pVal.participant.same">
+                <label for="one">Mirip</label>
+                <br>
+                <input type="radio" id="two" value="0" v-model="processed.pVal.participant.same">
+                <label for="two">Tidak Mirip</label>
+                <br>
+            </div>
             <div v-if="processed.pVal.illinois.show">
                 <h3>Illinois</h3>
                 <label for="il-start">Mulai : </label><datetime v-model="processed.pVal.illinois.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
