@@ -13,6 +13,7 @@
                     aVal: {'pgd': 'p'},
                     oVal: {},
                     pVal: {
+                        participant: {show: false, same: 0},
                         illinois: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
                         push: {show: false, start: '-', counter: 0},
                         run: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
@@ -22,13 +23,14 @@
                     }
                 },
                 vault: {},
-                qt_columns: ['pno', 'pnm', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt', 'edit'],
+                qt_columns: ['pno', 'pnm', 'pfs', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt', 'edit'],
                 queues: [],
                 qt_options: {
                     uniqueKey: 'pno',
                     headings: {
                         pno: 'No',
                         pnm: 'Nama',
+                        pfs: 'Wajah',
                         ildp: 'Illinois',
                         pudp: 'Push Up',
                         rndp: 'Lari 1600 m',
@@ -38,7 +40,7 @@
                         gt: 'Grand Total',
                         edit: 'Edit',
                     },
-                    sortable: ['pno', 'pnm', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt'],
+                    sortable: ['pno', 'pnm', 'pfs', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt'],
                     customSorting: {
                         ildp: function (ascending) {
                             return function (a, b) {
@@ -397,6 +399,7 @@
                 result['pno'] = 'no' in process ? process['no'] : '-';
                 result['pnm'] = 'name' in process ? process['name'] : '-';
                 result['pqu'] = 'queue' in process ? process['queue'] : '-';
+                result['pfs'] = 'same' in process ? Number(process['same']) === 1 ? 'Sama' : 'Tidak Sama' : '-';
                 result['pgd'] = 'gender' in process ? process['gender'] : null;
             }
             if ('illinois' in queue)
