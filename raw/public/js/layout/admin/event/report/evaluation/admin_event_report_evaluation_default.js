@@ -126,46 +126,8 @@
                             this.$swal.showLoading();
                             return new Promise(function (resolve) {
                                 var query = {};
-                                _.forEach(app.queues, function (queue) {
-                                    var raw       = app.vault[queue['pdk']][queue['pqu']];
-                                    var commonKey = DataMapper.PresetQueue(app.preset, queue['pdk'], queue['pqu'])['presets'];
-
-                                    if ('illinois' in raw && 'elapsed' in raw['illinois'] && raw['illinois']['elapsed'] !== '-')
-                                    {
-                                        raw['illinois']['result']             = evaluatorIllinois(queue['pgd'], raw['illinois']['elapsed']);
-                                        queue['ils']                          = raw['illinois']['result'] == null ? '-' : raw['illinois']['result'];
-                                        query[commonKey + '/illinois/result'] = raw['illinois']['result'];
-                                    }
-                                    if ('push' in raw && 'counter' in raw['push'] && raw['push']['counter'] !== '-')
-                                    {
-                                        raw['push']['result']             = evaulatorPushUp(queue['pgd'], raw['push']['counter']);
-                                        queue['pus']                      = raw['push']['result'] == null ? '-' : raw['push']['result'];
-                                        query[commonKey + '/push/result'] = raw['push']['result'];
-                                    }
-                                    if ('run' in raw && 'elapsed' in raw['run'] && raw['run']['elapsed'] !== '-')
-                                    {
-                                        raw['run']['result']             = evaluatorRun(queue['pgd'], raw['run']['elapsed']);
-                                        queue['rns']                     = raw['run']['result'] == null ? '-' : raw['run']['result'];
-                                        query[commonKey + '/run/result'] = raw['run']['result'];
-                                    }
-                                    if ('sit' in raw && 'counter' in raw['sit'] && raw['sit']['counter'] !== '-')
-                                    {
-                                        raw['sit']['result']             = evaluatorSitUp(queue['pgd'], raw['sit']['counter']);
-                                        queue['sts']                     = raw['sit']['result'] == null ? '-' : raw['sit']['result'];
-                                        query[commonKey + '/sit/result'] = raw['sit']['result'];
-                                    }
-                                    if ('throwing' in raw && 'counter' in raw['throwing'] && raw['throwing']['counter'] !== '-')
-                                    {
-                                        raw['throwing']['result']             = evaluatorThrowingBall(queue['pgd'], raw['throwing']['counter']);
-                                        queue['tws']                          = raw['throwing']['result'] == null ? '-' : raw['throwing']['result'];
-                                        query[commonKey + '/throwing/result'] = raw['throwing']['result'];
-                                    }
-                                    if ('vertical' in raw && 'deviation' in raw['vertical'] && raw['vertical']['deviation'] !== '-')
-                                    {
-                                        raw['vertical']['result']             = evaluatorVerticalJump(queue['pgd'], raw['vertical']['deviation']);
-                                        queue['vts']                          = raw['vertical']['result'] == null ? '-' : raw['vertical']['result'];
-                                        query[commonKey + '/vertical/result'] = raw['vertical']['result'];
-                                    }
+                                _.forEach(app.queues, function (aQueue) {
+                                    collectQuery(aQueue, query);
                                 });
                                 var callback = firebase.database().ref().update(query);
                                 if (callback != null && typeof (callback) !== 'boolean')
@@ -191,6 +153,49 @@
                 }
             }
         });
+
+        function collectQuery(queue, query)
+        {
+            var raw       = app.vault[queue['pdk']][queue['pqu']];
+            var commonKey = DataMapper.PresetQueue(app.preset, queue['pdk'], queue['pqu'])['presets'];
+
+            if ('illinois' in raw && 'elapsed' in raw['illinois'] && raw['illinois']['elapsed'] !== '-')
+            {
+                raw['illinois']['result']             = evaluatorIllinois(queue['pgd'], raw['illinois']['elapsed']);
+                queue['ils']                          = raw['illinois']['result'] == null ? '-' : raw['illinois']['result'];
+                query[commonKey + '/illinois/result'] = raw['illinois']['result'];
+            }
+            if ('push' in raw && 'counter' in raw['push'] && raw['push']['counter'] !== '-')
+            {
+                raw['push']['result']             = evaulatorPushUp(queue['pgd'], raw['push']['counter']);
+                queue['pus']                      = raw['push']['result'] == null ? '-' : raw['push']['result'];
+                query[commonKey + '/push/result'] = raw['push']['result'];
+            }
+            if ('run' in raw && 'elapsed' in raw['run'] && raw['run']['elapsed'] !== '-')
+            {
+                raw['run']['result']             = evaluatorRun(queue['pgd'], raw['run']['elapsed']);
+                queue['rns']                     = raw['run']['result'] == null ? '-' : raw['run']['result'];
+                query[commonKey + '/run/result'] = raw['run']['result'];
+            }
+            if ('sit' in raw && 'counter' in raw['sit'] && raw['sit']['counter'] !== '-')
+            {
+                raw['sit']['result']             = evaluatorSitUp(queue['pgd'], raw['sit']['counter']);
+                queue['sts']                     = raw['sit']['result'] == null ? '-' : raw['sit']['result'];
+                query[commonKey + '/sit/result'] = raw['sit']['result'];
+            }
+            if ('throwing' in raw && 'counter' in raw['throwing'] && raw['throwing']['counter'] !== '-')
+            {
+                raw['throwing']['result']             = evaluatorThrowingBall(queue['pgd'], raw['throwing']['counter']);
+                queue['tws']                          = raw['throwing']['result'] == null ? '-' : raw['throwing']['result'];
+                query[commonKey + '/throwing/result'] = raw['throwing']['result'];
+            }
+            if ('vertical' in raw && 'deviation' in raw['vertical'] && raw['vertical']['deviation'] !== '-')
+            {
+                raw['vertical']['result']             = evaluatorVerticalJump(queue['pgd'], raw['vertical']['deviation']);
+                queue['vts']                          = raw['vertical']['result'] == null ? '-' : raw['vertical']['result'];
+                query[commonKey + '/vertical/result'] = raw['vertical']['result'];
+            }
+        }
 
         function toMillis(m, s, ms)
         {
