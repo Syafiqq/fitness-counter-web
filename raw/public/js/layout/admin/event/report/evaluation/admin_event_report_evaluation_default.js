@@ -13,24 +13,24 @@
                     aVal: {'pgd': 'p'},
                     oVal: {},
                     pVal: {
-                        illinois: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        push: {start: '-', counter: 0},
-                        run: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        sit: {start: '-', counter: 0},
-                        throwing: {start: '-', counter: 0},
-                        vertical: {initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
+                        illinois: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
+                        push: {show: false, start: '-', counter: 0},
+                        run: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
+                        sit: {show: false, start: '-', counter: 0},
+                        throwing: {show: false, start: '-', counter: 0},
+                        vertical: {show: false, initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
                     }
                 },
                 devProc: {
                     aVal: {'pgd': 'p'},
                     oVal: {},
                     pVal: {
-                        illinois: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        push: {start: '-', counter: 0},
-                        run: {start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        sit: {start: '-', counter: 0},
-                        throwing: {start: '-', counter: 0},
-                        vertical: {initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
+                        illinois: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
+                        push: {show: false, start: '-', counter: 0},
+                        run: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
+                        sit: {show: false, start: '-', counter: 0},
+                        throwing: {show: false, start: '-', counter: 0},
+                        vertical: {show: false, initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
                     }
                 },
                 vault: {},
@@ -93,7 +93,7 @@
                         onOpen: () => {
                             this.$swal.showLoading();
                             return new Promise(function (resolve) {
-
+                                saveEdit(app.processed.pVal, app.processed.oVal)
                             })
                         },
                         preConfirm: function () {
@@ -107,7 +107,12 @@
                     this.processed['aVal'] = aVal;
                     this.processed['oVal'] = app.vault[aVal['pdk']][aVal['pqu']];
                     filterEdit(this.processed['oVal'], this.processed['pVal']);
-                    this.$modal.show('editable-modal');
+                    if (_.filter(this.processed.pVal, function (o) {
+                            return o.show;
+                        }).length > 0)
+                    {
+                        this.$modal.show('editable-modal');
+                    }
                 },
                 calculateScore: function () {
                     var that = this;
@@ -186,9 +191,9 @@
             }
         });
 
-        function filterEdit(queue, result)
+        function saveEdit(result, queue)
         {
-            result = result == null ? {} : result;
+            /*result = result == null ? {} : result;
             if ('illinois' in queue)
             {
                 var process                          = queue.illinois;
@@ -204,8 +209,100 @@
                 result['illinois']['elapsed']['m']   = 0;
                 result['illinois']['elapsed']['s']   = 0;
                 result['illinois']['elapsed']['SSS'] = 0;
+            }*/
+            /*
+                        if ('push' in queue)
+                        {
+                            var process               = queue.push;
+                            result['push']['start']   = 'start' in process ? moment(process['start']).format() : null;
+                            result['push']['counter'] = 'counter' in process ? process['counter'] : 0;
+                        }
+                        else
+                        {
+                            result['push']['start']   = null;
+                            result['push']['counter'] = 0;
+                        }
+                        if ('run' in queue)
+                        {
+                            var process                     = queue.run;
+                            var elapsed                     = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
+                            result['run']['start']          = 'start' in process ? moment(process['start']).format() : null;
+                            result['run']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : 0;
+                            result['run']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : 0;
+                            result['run']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : 0;
+                        }
+                        else
+                        {
+                            result['run']['start']          = null;
+                            result['run']['elapsed']['m']   = 0;
+                            result['run']['elapsed']['s']   = 0;
+                            result['run']['elapsed']['SSS'] = 0;
+                        }
+                        if ('sit' in queue)
+                        {
+                            var process              = queue.sit;
+                            result['sit']['start']   = 'start' in process ? moment(process['start']).format() : null;
+                            result['sit']['counter'] = 'counter' in process ? process['counter'] : 0;
+                        }
+                        else
+                        {
+                            result['sit']['start']   = null;
+                            result['sit']['counter'] = 0;
+                        }
+                        if ('throwing' in queue)
+                        {
+                            var process                   = queue.throwing;
+                            result['throwing']['start']   = 'start' in process ? moment(process['start']).format() : null;
+                            result['throwing']['counter'] = 'counter' in process ? process['counter'] : 0;
+                        }
+                        else
+                        {
+                            result['throwing']['start']   = null;
+                            result['throwing']['counter'] = 0;
+                        }
+                        if ('vertical' in queue)
+                        {
+                            var process                     = queue.vertical;
+                            result['vertical']['initial']   = 'initial' in process ? process['initial'] : 0;
+                            result['vertical']['try1']      = 'try1' in process ? process['try1'] : 0;
+                            result['vertical']['try2']      = 'try2' in process ? process['try2'] : 0;
+                            result['vertical']['try3']      = 'try3' in process ? process['try3'] : 0;
+                            result['vertical']['deviation'] = 'deviation' in process ? process['deviation'] : app.editVerticalDeviator();
+                        }
+                        else
+                        {
+                            result['vertical']['initial']   = 0;
+                            result['vertical']['try1']      = 0;
+                            result['vertical']['try2']      = 0;
+                            result['vertical']['try3']      = 0;
+                            result['vertical']['deviation'] = 0;
+                        }
+            */
+
+            console.log(result);
+            return result;
+        }
+
+        function filterEdit(queue, result)
+        {
+            result = result == null ? {} : result;
+            if (result['illinois']['show'] = 'illinois' in queue)
+            {
+                var process                          = queue.illinois;
+                var elapsed                          = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
+                result['illinois']['start']          = 'start' in process ? moment(process['start']).format() : null;
+                result['illinois']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : 0;
+                result['illinois']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : 0;
+                result['illinois']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : 0;
             }
-            if ('push' in queue)
+            else
+            {
+                result['illinois']['start']          = null;
+                result['illinois']['elapsed']['m']   = 0;
+                result['illinois']['elapsed']['s']   = 0;
+                result['illinois']['elapsed']['SSS'] = 0;
+            }
+            if (result['push']['show'] = 'push' in queue)
             {
                 var process               = queue.push;
                 result['push']['start']   = 'start' in process ? moment(process['start']).format() : null;
@@ -216,7 +313,7 @@
                 result['push']['start']   = null;
                 result['push']['counter'] = 0;
             }
-            if ('run' in queue)
+            if (result['run']['show'] = 'run' in queue)
             {
                 var process                     = queue.run;
                 var elapsed                     = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
@@ -232,7 +329,7 @@
                 result['run']['elapsed']['s']   = 0;
                 result['run']['elapsed']['SSS'] = 0;
             }
-            if ('sit' in queue)
+            if (result['sit']['show'] = 'sit' in queue)
             {
                 var process              = queue.sit;
                 result['sit']['start']   = 'start' in process ? moment(process['start']).format() : null;
@@ -243,7 +340,7 @@
                 result['sit']['start']   = null;
                 result['sit']['counter'] = 0;
             }
-            if ('throwing' in queue)
+            if (result['throwing']['show'] = 'throwing' in queue)
             {
                 var process                   = queue.throwing;
                 result['throwing']['start']   = 'start' in process ? moment(process['start']).format() : null;
@@ -254,7 +351,7 @@
                 result['throwing']['start']   = null;
                 result['throwing']['counter'] = 0;
             }
-            if ('vertical' in queue)
+            if (result['vertical']['show'] = 'vertical' in queue)
             {
                 var process                     = queue.vertical;
                 result['vertical']['initial']   = 'initial' in process ? process['initial'] : 0;
