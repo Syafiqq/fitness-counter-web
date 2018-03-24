@@ -54,7 +54,7 @@ Route::get(/**
         $spreadsheet->setActiveSheetIndex(0);
 
         $spreadsheet->getActiveSheet()->getPageSetup()
-            ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_PORTRAIT)
+            ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE)
             ->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
         $spreadsheet->getActiveSheet()->getPageMargins()
             ->setTop(0.492126)
