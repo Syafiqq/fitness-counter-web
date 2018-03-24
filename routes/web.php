@@ -14,6 +14,7 @@
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 Route::get(/**
  *
@@ -73,6 +74,26 @@ Route::get(/**
         $drawing->setCoordinates('D1');
         $drawing->setOffsetX(40);
         $drawing->setWorksheet($spreadsheet->getActiveSheet());
+
+        //Title
+        $spreadsheet->getActiveSheet()->mergeCells('A8:G8');
+        $spreadsheet->getActiveSheet()->getStyle('A8')->getFont()
+            ->setSize(14)
+            ->setBold(true);
+        $spreadsheet->getActiveSheet()->getStyle('A8')->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
+        $spreadsheet->getActiveSheet()->setCellValue('A8', 'DAFTAR NILAI UJI KETERAMPILAN');
+
+        //Subtitle
+        $spreadsheet->getActiveSheet()->mergeCells('A9:G9');
+        $spreadsheet->getActiveSheet()->getStyle('A9')->getFont()
+            ->setSize(14)
+            ->setBold(true);
+        $spreadsheet->getActiveSheet()->getStyle('A9')->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
+        $spreadsheet->getActiveSheet()->setCellValue('A9', 'BIDANG : SENI RUPA / SENI TARI / SENI MUSIK / OLAHRAGA');
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
