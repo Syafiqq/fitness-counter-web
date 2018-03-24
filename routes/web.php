@@ -80,8 +80,8 @@ Route::get(/**
         $drawing->setPath(public_path('/img/logo-sbmptn.png'));
         $drawing->setResizeProportional(true);
         $drawing->setWidthAndHeight(150, 120);
-        $drawing->setCoordinates('D1');
-        $drawing->setOffsetX(40);
+        $drawing->setCoordinates('C1');
+        $drawing->setOffsetX(225);
         $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
         //Title
