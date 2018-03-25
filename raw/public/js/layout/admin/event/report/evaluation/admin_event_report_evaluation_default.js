@@ -197,25 +197,39 @@
                         title: 'Tunggu Sebentar',
                         onOpen: () => {
                             this.$swal.showLoading();
-                            /*return new Promise(function (resolve) {
-                                var query = {};
-                                _.forEach(app.queues, function (aQueue) {
-                                    collectQuery(aQueue, query);
-                                });
-                                var callback = firebase.database().ref().update(query);
-                                if (callback != null && typeof (callback) !== 'boolean')
-                                {
-                                    callback.then(function (result) {
-                                        console.log(result);
-                                        app.is_process = false;
-                                        NProgress.done();
-                                        that.$swal({
-                                            type: 'success',
-                                            title: 'Perhitungan selesai',
-                                        })
-                                    })
+                            axios.post(
+                                app.home + '/' + app.role + '/event/' + app.event + '/publish/evaluation'
+                                , {
+                                    event: 1,
+                                    preset: 2,
+                                    participant: 3,
                                 }
-                            })*/
+                                , {
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json;charset=UTF-8',
+                                    }
+                                }
+                            )
+                                .then(function (response) {
+                                    console.log(response);
+                                    that.$swal.close();
+                                    var $a = $("<a>");
+                                    $a.attr("href", response['data']['data']['download']['content']);
+                                    $("body").append($a);
+                                    $a.attr("download", response['data']['data']['download']['filename']);
+                                    $a[0].click();
+                                    $a.remove();
+                                    NProgress.done();
+
+                                })
+                                .catch(function (error) {
+                                    that.$swal({
+                                        type: 'error',
+                                        title: 'Pemrosesan Gagal',
+                                    });
+                                    NProgress.done();
+                                });
                         },
                         preConfirm: function () {
 
