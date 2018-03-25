@@ -108,10 +108,9 @@
                         allowOutsideClick: false,
                         allowEscapeKey: false,
                         title: 'Tunggu Sebentar',
-                        onOpen: () => {
-                            this.$swal.showLoading();
+                        onOpen: function () {
+                            that.$swal.showLoading();
                             return new Promise(function (resolve) {
-
                                 saveEdit(app.processed.pVal, app.processed.oVal);
                                 filterQueue(app.processed.oVal, app.processed.aVal);
                                 filterQueue(app.processed.oVal, app.processed.aVal);
@@ -159,8 +158,8 @@
                         allowOutsideClick: false,
                         allowEscapeKey: false,
                         title: 'Tunggu Sebentar',
-                        onOpen: () => {
-                            this.$swal.showLoading();
+                        onOpen: function () {
+                            that.$swal.showLoading();
                             return new Promise(function (resolve) {
                                 var query = {};
                                 _.forEach(app.queues, function (aQueue) {
@@ -195,8 +194,8 @@
                         allowOutsideClick: false,
                         allowEscapeKey: false,
                         title: 'Tunggu Sebentar',
-                        onOpen: () => {
-                            this.$swal.showLoading();
+                        onOpen: function () {
+                            that.$swal.showLoading();
                             axios.post(
                                 app.home + '/' + app.role + '/event/' + app.event + '/publish/evaluation'
                                 , {

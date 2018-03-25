@@ -114,7 +114,7 @@ class Event extends Controller
             $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
             $drawing->setName('Logo');
             $drawing->setDescription('Logo');
-            $drawing->setPath(public_path('/img/logo-sbmptn.png'));
+            $drawing->setPath(base_path('/public/img/logo-sbmptn.png'));
             $drawing->setResizeProportional(true);
             $drawing->setWidthAndHeight(150, 120);
             $drawing->setCoordinates('C1');
