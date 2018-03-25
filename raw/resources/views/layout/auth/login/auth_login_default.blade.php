@@ -15,9 +15,9 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
     @parent
     {!! $form->open(['route' => 'auth.login.post', 'method' => 'post']) !!}
     {!! nl2br(PHP_EOL) !!}
-    {!! $form->email('email', 'syafiq.rezpector@gmail.com', ['placeholder' => 'Email', 'required'=> true]) !!}
+    {!! $form->email('email', '', ['placeholder' => 'Email', 'required'=> true]) !!}
     {!! nl2br(PHP_EOL) !!}
-    {!! $form->input('password', 'password', 'password', ['value' => 'password','placeholder' => 'Password', 'required'=> true]) !!}
+    {!! $form->input('password', 'password', '', ['value' => 'password','placeholder' => 'Password', 'required'=> true]) !!}
     {!! nl2br(PHP_EOL) !!}
     {!! $form->button('Submit', ['type' => 'Submit']) !!}
     {!! $form->close() !!}
