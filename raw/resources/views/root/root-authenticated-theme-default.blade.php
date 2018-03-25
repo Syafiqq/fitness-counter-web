@@ -34,7 +34,6 @@
     @auth
         <script type="text/javascript">
             firebase.auth().signInWithCustomToken("{!! \Illuminate\Support\Facades\Auth::user()->getToken()['token'] !!}").catch(function (error) {
-                console.log(error.code, error.message);
             });
         </script>
     @endauth

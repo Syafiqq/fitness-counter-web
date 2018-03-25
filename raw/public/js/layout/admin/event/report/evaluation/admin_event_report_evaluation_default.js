@@ -121,7 +121,6 @@
                                 if (callback != null && typeof (callback) !== 'boolean')
                                 {
                                     callback.then(function (result) {
-                                        console.log(result);
                                         app.is_process = false;
                                         NProgress.done();
                                         that.$modal.hide('editable-modal');
@@ -137,7 +136,6 @@
 
                         },
                     }).then(function (result) {
-                        console.log("swal result" + result)
                     });
                 },
                 editParticipant: function (aVal) {
@@ -169,7 +167,6 @@
                                 if (callback != null && typeof (callback) !== 'boolean')
                                 {
                                     callback.then(function (result) {
-                                        console.log(result);
                                         app.is_process = false;
                                         NProgress.done();
                                         that.$swal({
@@ -184,7 +181,6 @@
 
                         },
                     }).then(function (result) {
-                        console.log("swal result" + result)
                     });
                 },
                 downloadReport: function () {
@@ -211,7 +207,6 @@
                                 }
                             )
                                 .then(function (response) {
-                                    console.log(response);
                                     that.$swal.close();
                                     var $a = $("<a>");
                                     $a.attr("href", response['data']['data']['download']['content']);
@@ -234,7 +229,6 @@
 
                         },
                     }).then(function (result) {
-                        console.log("swal result" + result)
                     });
                 }
             },
@@ -346,7 +340,6 @@
                 }
             }
 
-            console.log(result);
             return result;
         }
 
@@ -445,7 +438,6 @@
                 result['vertical']['deviation'] = 0;
             }
 
-            console.log(result);
             return result;
         }
 
@@ -621,7 +613,6 @@
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
-                console.log(user.email);
                 listParticipant(app.event);
             } else
             {
