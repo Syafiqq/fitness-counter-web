@@ -113,7 +113,6 @@
                             return new Promise(function (resolve) {
                                 saveEdit(app.processed.pVal, app.processed.oVal);
                                 filterQueue(app.processed.oVal, app.processed.aVal);
-                                filterQueue(app.processed.oVal, app.processed.aVal);
                                 var key      = DataMapper.PresetQueue(app.preset, app.processed.aVal['pdk'], app.processed.aVal['pqu'])['presets'];
                                 var query    = {};
                                 query[key]   = app.processed.oVal;
@@ -164,6 +163,7 @@
                                 var query = {};
                                 _.forEach(app.queues, function (aQueue) {
                                     collectQuery(aQueue, query);
+                                    filterQueue(app.vault[aQueue['pdk']][aQueue['pqu']], aQueue);
                                 });
                                 var callback = firebase.database().ref().update(query);
                                 if (callback != null && typeof (callback) !== 'boolean')
