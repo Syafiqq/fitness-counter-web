@@ -50,12 +50,12 @@ function createNewPresetQueue(firebase, data, preset)
     if (typeof data.queue === 'number' && isFinite(data.queue))
     {
         var query   = {};
-        var mapping = DataMapper.PresetQueue(preset, data.queue);
-        var presets = PojsoMapper.PresetQueue(data.participant);
+        var mapping = DataMapper.PresetQueue(preset, data.stamp, data.participant.queue);
+        var presets = PojsoMapper.PresetQueue(data.participant.gender, data.participant.name, data.participant.no, data.participant.same, data.participant.queue, data.participant.date);
         _.forEach(mapping, function (value, key) {
             switch (key)
             {// @formatter:off
-                case 'presets' : {query[value + "/participant"] = presets[key]['participant']} break;
+                case 'presets' : {query[value + "/participant"] = presets[key]} break;
             }// @formatter:on
         });
         return firebase.database().ref().update(query);

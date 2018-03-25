@@ -25,19 +25,22 @@ var PojsoMapper = {
         data   = typeof data === 'undefined' ? null : data;
         return {code: code, status: status, data: data}
     },
-    PresetQueue: function (participant) {
-        participant = typeof participant === 'undefined' ? '-' : participant;
-        return {
-            presets: {participant: participant}
-        }
-    },
-    CompactPresetQueue: function (queue, preset) {
+    PresetQueue: function (gender, name, no, same, queue, date) {
+        gender = typeof gender === 'undefined' ? '-' : gender;
+        name   = typeof name === 'undefined' ? '-' : name;
+        no     = typeof no === 'undefined' ? '-' : no;
+        same   = typeof same === 'undefined' ? 0 : same;
         queue  = typeof queue === 'undefined' ? '-' : queue;
-        preset = typeof preset === 'undefined' ? {} : preset;
-
-        preset['queue'] = queue;
+        date   = typeof date === 'undefined' ? moment().format('YYYY-MM-DD') : date;
         return {
-            presets: preset,
+            presets: {
+                gender: gender,
+                name: name,
+                no: no,
+                queue: queue,
+                same: same,
+                date: date
+            }
         }
     },
     UserManagement: function (uid, event, role, firebaseRef) {

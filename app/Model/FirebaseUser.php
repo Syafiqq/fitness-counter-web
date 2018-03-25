@@ -15,21 +15,20 @@ use App\Firebase\FirebaseConnection;
 use DateTime;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
-use Kreait\Firebase\Auth\User;
+use Kreait\Firebase\Auth\UserRecord;
 use Psy\Exception\RuntimeException;
 
-class FirebaseUser extends User implements FirebaseAuthenticatable
+class FirebaseUser extends UserRecord implements FirebaseAuthenticatable
 {
     protected $rememberTokenName = 'remember_token';
     /**
      * @var string
      */
-    private $uid;
+    public $uid;
     /**
      * @var string
      */
-    private $email;
+    public $email;
     /**
      * @var array
      */
@@ -60,8 +59,8 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
      */
     public function fetchUserByCredentials(Array $credentials)
     {
-        /** @var \Kreait\Firebase\Auth\User $user */
-        $user = $this->firebase->getConnection()->getAuth()->getUserByEmailAndPassword($credentials['email'], $credentials['password']);
+        /** @var \Kreait\Firebase\Auth\UserRecord $user */
+        $user = $this->firebase->getConnection()->getAuth()->verifyPassword($credentials['email'], $credentials['password']);
         if (!is_null($user))
         {
             $this->setCredential($user);
@@ -81,7 +80,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
      */
     public function fetchByUserId($identifier)
     {
-        /** @var \Kreait\Firebase\Auth\User $user */
+        /** @var \Kreait\Firebase\Auth\UserRecord $user */
         $user = $this->firebase->getConnection()->getAuth()->getUser($identifier);
 
         if (!is_null($user))
@@ -303,10 +302,10 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         {
             /** @var string|null $role */
             $valid = $this->firebase->getConnection()->getDatabase()->getReference(DataMapper::userRole($this->uid, $role)['users_groups'])->getValue() ?: false;
+            $valid = $valid && $role == 'tester' ? false : $valid;
         }
         catch (\Exception $e)
         {
-            Log::debug($e->getMessage());
             $this->isRoleValid($role);
         }
 
@@ -314,18 +313,17 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
     }
 
     /**
-     * @param \Kreait\Firebase\Auth\User $user
+     * @param \Kreait\Firebase\Auth\UserRecord $user
      */
     private function setCredential($user)
     {
-        $this->firebase->getConnection()->asUser($user);
-        $this->email = $user->getEmail();
-        $this->uid   = $user->getUid();
+        $this->email = $user->email;
+        $this->uid   = $user->uid;
     }
 
     /**
      * @param \Illuminate\Contracts\Session\Session $session
-     * @param \Kreait\Firebase\Auth\User|FirebaseUser $user
+     * @param \Kreait\Firebase\Auth\UserRecord|FirebaseUser $user
      * @return void
      */
     public function save(Session $session, $user)
@@ -340,7 +338,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
 
     /**
      * @param \Illuminate\Contracts\Session\Session $session
-     * @param \Kreait\Firebase\Auth\User|FirebaseUser $user
+     * @param \Kreait\Firebase\Auth\UserRecord|FirebaseUser $user
      * @return void
      */
     public function load(Session $session, $user)
@@ -367,7 +365,6 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
         }
         catch (\Exception $e)
         {
-            Log::debug($e->getMessage());
         }
 
         return $role;
@@ -397,7 +394,7 @@ class FirebaseUser extends User implements FirebaseAuthenticatable
 
     public function getUid(): string
     {
-        return $this->uid ?: parent::getUid();
+        return $this->uid;
     }
 }
 

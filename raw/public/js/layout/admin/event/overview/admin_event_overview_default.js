@@ -6,14 +6,17 @@
                 home: $('meta[name=home]').attr("content"),
                 event: $('meta[name=event]').attr("content"),
                 role: $('meta[name=user-role]').attr("content"),
-                qt_columns: ['queue', 'participant'],
+                qt_columns: ['queue', 'no', 'name', 'gender', 'same'],
                 queues: [],
                 qt_options: {
                     headings: {
                         queue: 'Antrian',
-                        participant: 'Nomor Peserta',
+                        no: 'Nomor',
+                        name: 'Nama',
+                        gender: 'Jenis Kelamin',
+                        same: 'Kemiripan',
                     },
-                    sortable: ['queue', 'participant'],
+                    sortable: ['queue', 'no', 'name', 'gender', 'same'],
                 }
             },
             methods: {
@@ -36,8 +39,13 @@
         function listParticipant(event)
         {
             firebase.database().ref(DataMapper.Event(null, null, event)['events'] + '/preset_active').once('value').then(function (preset) {
-                firebase.database().ref(DataMapper.PresetQueue(preset.val())['presets']).on('child_added', function (queue) {
-                    app.queues.push(PojsoMapper.CompactPresetQueue(queue.key, queue.val())['presets']);
+                firebase.database().ref(DataMapper.PresetQueue(preset.val(), moment('2018-03-13', 'YYYY-MM-DD').format('YYYYMMDD'))['presets']).on('child_added', function (queue) {
+                    var participant = queue.val()['participant'];
+                    // @formatter:off
+                    if (participant['gender'] != null) participant['gender'] = String(participant['gender']) === 'l' ? 'Laki - Laki' : 'Perempuan';
+                    if (participant['same'] != null) participant['same'] = Number(participant['same']) === 1 ? 'Mirip' : 'Tidak Mirip';
+                    // @formatter:on
+                    app.queues.push(participant);
                 });
             });
         }
@@ -52,7 +60,7 @@
                 // User is signed out.
                 // ...
             }
-            document.body.className += 'loaded';
+            removeCurtain();
         });
     });
     /*

@@ -37,6 +37,12 @@ Route::prefix("/$group")->namespace('Admin')->middleware(['web', 'auth', "role:$
             Route::get('/registrar', 'Event@getManagementRegistrar')->name("{$group}.event.management.registrar");
             Route::get('/tester', 'Event@getManagementTester')->name("{$group}.event.management.tester");
         });
+        Route::prefix('/report')->group(function () use ($group) {
+            Route::get('/evaluation', 'Event@getEvaluationReport')->name("{$group}.event.report.evaluation");
+        });
+        Route::prefix('/publish')->group(function () use ($group) {
+            Route::post('/evaluation', 'Event@getPublishEvaluation')->name("{$group}.event.publish.evaluation");
+        });
     });
 });
 $group = 'registrar';

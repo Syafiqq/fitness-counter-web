@@ -5,6 +5,7 @@
             data: {
                 is_process: true,
                 f_participant: undefined,
+                f_same: undefined,
                 preset: undefined,
                 home: $('meta[name=home]').attr("content"),
                 event: $('meta[name=event]').attr("content"),
@@ -15,24 +16,29 @@
             methods: {
 
                 openModal: function () {
-                    if (app.preset != null && app.f_participant != null)
+                    if (app.preset != null && app.f_participant != null && app.f_same != null)
                     {
                         app.is_process = true;
                         this.$swal({
-                            title: 'Peserta : [' + app.f_participant + ']',
-                            text: 'Apakah Anda Ingin Mendaftarkan Peserta : ' + app.f_participant,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            title: 'Peserta : [' + app.f_participant + '] - [' + (Number(app.f_same) === 0 ? 'Tidak ' : '') + 'Mirip]',
+                            html: 'Apakah Anda Ingin Mendaftarkan Peserta : <strong>' + app.f_participant + '</strong><br> Dengan Wajah :<strong>' + (Number(app.f_same) === 0 ? 'Tidak' : '') + ' Mirip</strong>',
                             showCancelButton: true,
                             confirmButtonText: 'Ya',
                             showLoaderOnConfirm: true,
                             preConfirm: function () {
                                 return new Promise(function (resolve) {
+                                    var _stamp = moment('2018-03-13', 'YYYY-MM-DD');
                                     NProgress.configure({parent: '.swal2-modal', showSpinner: false});
                                     NProgress.start();
                                     axios.post(
                                         app.home + '/' + app.role + '/event/' + app.event + '/queue/add'
                                         , {
+                                            event: app.event,
                                             preset: app.preset,
-                                            participant: app.f_participant
+                                            participant: app.f_participant,
+                                            stamp: (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYY-MM-DD')
                                         }
                                         , {
                                             headers: {
@@ -48,11 +54,14 @@
                                                 resolve(response.data);
                                             };
                                             var registerCallback = undefined;
-                                            if (response.data != null && 'code' in response.data && response.data.code === 200)
+                                            if (response.data != null && 'code' in response.data && response.data.code === 200 && response.data.data.queue !== 0)
                                             {
+                                                response.data.data.same = Number(app.f_same);
+                                                response.data.data.date = (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYY-MM-DD');
                                                 registerCallback = createNewPresetQueue(firebase, {
                                                     queue: response.data.data.queue,
-                                                    participant: app.f_participant
+                                                    participant: response.data.data,
+                                                    stamp: (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYYMMDD')
                                                 }, app.preset)
                                             }
                                             if (registerCallback != null)
@@ -89,10 +98,21 @@
                             {
                                 if (result.code === 200)
                                 {
-                                    app.$swal({
-                                        type: 'success',
-                                        title: 'Nomor Antrian Anda: ' + result.data.queue
-                                    });
+                                    if (result.data.queue === 0)
+                                    {
+                                        app.$swal({
+                                            type: 'error',
+                                            title: 'Oops...',
+                                            text: 'Anda sudah mengikuti event ini sebelumnya',
+                                        })
+                                    }
+                                    else
+                                    {
+                                        app.$swal({
+                                            type: 'success',
+                                            title: 'Nomor Antrian Anda: ' + result.data.queue
+                                        });
+                                    }
                                 }
                                 else
                                 {
@@ -143,7 +163,7 @@
                 // User is signed out.
                 // ...
             }
-            document.body.className += 'loaded';
+            removeCurtain();
         });
     });
     /*

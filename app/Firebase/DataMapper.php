@@ -49,6 +49,18 @@ class DataMapper
             // @formatter:on
         ];
     }
+
+    static function preset($event = null, $id = null)
+    {
+        $event = is_null($event) ? '' : "/${event}";
+        $id    = is_null($id) ? '' : "/${id}";
+
+        return [
+            // @formatter:off
+            'presets'    => PathMapper::PRESETS . $id,
+            // @formatter:on
+        ];
+    }
 }
 
 ?>

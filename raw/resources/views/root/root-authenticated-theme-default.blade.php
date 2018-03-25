@@ -12,12 +12,15 @@
         @stack('pre-add-auth-header-menu')
         <?php
         $roles = \Illuminate\Support\Facades\App::call(\App\Helper\UserHelper::class . "::getUserRole", [\Illuminate\Support\Facades\Auth::user()]);
+        unset($roles['tester']);
         foreach ($roles as $krole => &$role)
         {
             $role = ucfirst($krole);
         }
         ?>
-        {!! \Collective\Html\FormFacade::select('role', $roles, \Illuminate\Support\Facades\Auth::user()->getRole(), ['id' => 'role-changer']) !!}
+        @if($roles > 1)
+            {!! \Collective\Html\FormFacade::select('role', $roles, \Illuminate\Support\Facades\Auth::user()->getRole(), ['id' => 'role-changer']) !!}
+        @endif
         {!! link_to_route('logout', 'Logout', [], ['style'=> 'margin-left:10px;']) !!}
         <hr>
     @endauth
