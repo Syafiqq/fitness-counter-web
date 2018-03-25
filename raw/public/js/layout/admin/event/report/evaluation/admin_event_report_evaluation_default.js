@@ -187,6 +187,42 @@
                     }).then(function (result) {
                         console.log("swal result" + result)
                     });
+                },
+                downloadReport: function () {
+                    var that = this;
+                    NProgress.start();
+                    this.$swal({
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        title: 'Tunggu Sebentar',
+                        onOpen: () => {
+                            this.$swal.showLoading();
+                            /*return new Promise(function (resolve) {
+                                var query = {};
+                                _.forEach(app.queues, function (aQueue) {
+                                    collectQuery(aQueue, query);
+                                });
+                                var callback = firebase.database().ref().update(query);
+                                if (callback != null && typeof (callback) !== 'boolean')
+                                {
+                                    callback.then(function (result) {
+                                        console.log(result);
+                                        app.is_process = false;
+                                        NProgress.done();
+                                        that.$swal({
+                                            type: 'success',
+                                            title: 'Perhitungan selesai',
+                                        })
+                                    })
+                                }
+                            })*/
+                        },
+                        preConfirm: function () {
+
+                        },
+                    }).then(function (result) {
+                        console.log("swal result" + result)
+                    });
                 }
             },
 
