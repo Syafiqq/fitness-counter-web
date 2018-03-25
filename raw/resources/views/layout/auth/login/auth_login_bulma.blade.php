@@ -13,14 +13,44 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
 
 @section('body-content')
     @parent
-    {{--{!! $form->open(['route' => 'auth.login.post', 'method' => 'post']) !!}
-    {!! nl2br(PHP_EOL) !!}
-    {!! $form->email('email', 'syafiq.rezpector@gmail.com', ['placeholder' => 'Email', 'required'=> true]) !!}
-    {!! nl2br(PHP_EOL) !!}
-    {!! $form->input('password', 'password', 'password', ['value' => 'password','placeholder' => 'Password', 'required'=> true]) !!}
-    {!! nl2br(PHP_EOL) !!}
-    {!! $form->button('Submit', ['type' => 'Submit']) !!}
-    {!! $form->close() !!}--}}
+    <section class="hero is-success is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    <h3 class="title has-text-grey">Login</h3>
+                    <p class="subtitle has-text-grey">Please login to proceed.</p>
+                    <div class="box">
+                        <figure class="avatar">
+                            <img src="{{asset('/img/logo-sbmptn.png')}}" width="128">
+                        </figure>
+                        {!! $form->open(['route' => 'auth.login.post', 'method' => 'post']) !!}
+                        <div class="field">
+                            <div class="control">
+                                {!! $form->email('email', 'syafiq.rezpector@gmail.com', ['class' => 'input is-large', 'placeholder' => 'Email', 'required'=> true, 'autofocus' =>true]) !!}
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                {!! $form->input('password', 'password', 'password', ['class' => 'input is-large','value' => 'password','placeholder' => 'Password', 'required'=> true]) !!}
+                            </div>
+                        </div>
+                        {!! $form->button('Submit', ['type' => 'Submit', 'class' =>'button is-block is-info is-large is-fullwidth']) !!}
+                        {!! $form->close() !!}
+                    </div>
+                    <p class="has-text-grey">
+                        <a href="{{route('register')}}">Belum Punya Akun, Daftarkan ?</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
+
+
+@section('head-css-pre')
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    @parent
 @endsection
 
 @section('head-css-post')
