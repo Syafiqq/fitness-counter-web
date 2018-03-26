@@ -61,6 +61,10 @@
     <link rel="stylesheet" href="{{asset('/css/layout/common/preloader/common_preloader_default.min.css')}}">
     @parent
 @endsection
+@section('head-css-post')
+    @parent
+    <link rel="stylesheet" href="{{asset('/css/root/root-authenticated-theme-bulma.min.css')}}">
+@endsection
 @section('body-js-lower-post')
     @parent
     @auth
