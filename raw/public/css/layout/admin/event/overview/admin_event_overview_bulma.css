@@ -1,0 +1,12 @@
+table.VueTables__table tr td:nth-child(1) {
+    width: 8%;
+}
+
+table.VueTables__table tr td:nth-child(2) {
+    width: 8%;
+}
+
+table.VueTables__table tr td:nth-child(3) {
+    width: 60%;
+}
+
