@@ -35,7 +35,7 @@
                     });
                 },
                 check: function (uid, participate) {
-                    _.filter(app.registrar, {uid: uid})[0].participate = !participate
+                    _.filter(app.registrar, {uid: uid})[0].participate = participate
                 }
             },
         });
