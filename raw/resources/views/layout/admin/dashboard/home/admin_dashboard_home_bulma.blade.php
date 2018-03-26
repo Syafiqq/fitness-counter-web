@@ -26,91 +26,14 @@
                                 Events
                             </p>
                         </header>
-                        <div class="card-table">
+                        <div class="card-table is-fullheight" style="height: 600px; max-height: 440px!important;">
                             <div class="content">
                                 <table class="table is-fullwidth is-striped">
                                     <tbody>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="5%">
-                                            <i class="fa fa-bell-o"></i>
-                                        </td>
-                                        <td>Lorum ipsum dolem aire</td>
-                                        <td>
-                                            <a class="button is-small is-primary" href="#">Action</a>
-                                        </td>
-                                    </tr>
+                                    <tr is="list-event" v-for="(value, key) in l_events"
+                                        :event="value"
+                                        :event_id="key"
+                                        :key="key"></tr>
                                     </tbody>
                                 </table>
                             </div>
