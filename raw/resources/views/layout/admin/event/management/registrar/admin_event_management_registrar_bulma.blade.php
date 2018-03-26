@@ -22,7 +22,14 @@
                         <div class="card-table is-fullheight" style="height: 600px; max-height: 440px!important;">
                             <div class="content" style="margin: 20px">
                                 <v-client-table :data="registrar" :columns="qt_columns" :options="qt_options">
-                                    <input slot="participate" slot-scope="props" type="checkbox" id="checkbox" v-model="props.row.participate" @click="check(props.row.uid, props.row.participate)">
+                                    <toggle-button :value="false"
+                                                   :sync="true"
+                                                   :labels="true"
+                                                   slot="participate"
+                                                   slot-scope="props"
+                                                   v-model="props.row.participate"
+                                                   @change="check(props.row.uid, props.row.participate)">
+                                    </toggle-button>
                                 </v-client-table>
                             </div>
                         </div>
