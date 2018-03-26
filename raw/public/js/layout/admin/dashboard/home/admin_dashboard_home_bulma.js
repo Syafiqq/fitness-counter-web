@@ -4,7 +4,15 @@
     $(function () {
         Vue.component('list-event', {
             props: ['event', 'event_id'],
-            template: "<li><a :href=\"this.$parent.home +'/admin/event/' + event_id\">{{event.event}}</a></li>",
+            template: "<tr>" +
+            "    <td width=\"5%\">" +
+            "        <i class=\"fa fa-arrow-circle-o-right\"></i>" +
+            "    </td>" +
+            "    <td width=\"80%\">{{event.event}}</td>" +
+            "    <td width=\"15%\">" +
+            "        <a class=\"button is-small is-primary\" :href=\"this.$parent.home +'/admin/event/' + event_id\">Buka</a>" +
+            "    </td>" +
+            "</tr>",
         });
 
         var app = new Vue({
