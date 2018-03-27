@@ -10,127 +10,139 @@
 @section('body-content')
     @parent
     <div id="app">
-        <modal name="editable-modal" height="auto" :width="480" :click-to-close="false" style="overflow-y: scroll!important;">
-            <div>
-                <div v-if="processed.pVal.participant.show">
-                    <h3>Fisik</h3>
-                    Kemiripan Wajah :
-                    <br>
-                    <input type="radio" id="one" value="1" v-model="processed.pVal.participant.same">
-                    <label for="one">Mirip</label>
-                    <br>
-                    <input type="radio" id="two" value="0" v-model="processed.pVal.participant.same">
-                    <label for="two">Tidak Mirip</label>
-                    <br>
-                </div>
-                <div v-if="processed.pVal.illinois.show">
-                    <h3>Illinois</h3>
-                    <label for="il-start">Mulai :</label>
-                    <datetime v-model="processed.pVal.illinois.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
-                    Waktu tempuh :
-                    <br>
-                    <input type="text" id="il-elapsed-m" v-model="processed.pVal.illinois.elapsed.m">
-                    <label for="il-elapsed-m">menit</label>
-                    <input type="text" id="il-elapsed-s" v-model="processed.pVal.illinois.elapsed.s">
-                    <label for="il-elapsed-s">detik</label>
-                    <input type="text" id="il-elapsed-SSS" v-model="processed.pVal.illinois.elapsed.SSS">
-                    <label for="il-elapsed-SSS">milidetik</label>
-                    <br>
-                    Hasil :
-                    <br>
-                    @{{editIllinoisEvaluator}}
-                    <br>
-                </div>
-                <div v-if="processed.pVal.push.show">
-                    <h3>Push Up</h3>
-                    <label for="push-start">Mulai :</label>
-                    <datetime v-model="processed.pVal.push.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
-                    Total :
-                    <br>
-                    <input type="text" id="push-counter" v-model="processed.pVal.push.counter">
-                    <br>
-                    Hasil :
-                    <br>
-                    @{{editPushEvaluator}}
-                    <br>
-                </div>
-                <div v-if="processed.pVal.run.show">
-                    <h3>Lari 1600 m</h3>
-                    <label for="run-start">Mulai :</label>
-                    <datetime v-model="processed.pVal.run.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
-                    Waktu tempuh :
-                    <br>
-                    <input type="text" id="run-elapsed-m" v-model="processed.pVal.run.elapsed.m">
-                    <label for="run-elapsed-m">menit</label>
-                    <input type="text" id="run-elapsed-s" v-model="processed.pVal.run.elapsed.s">
-                    <label for="run-elapsed-s">detik</label>
-                    <input type="text" id="run-elapsed-SSS" v-model="processed.pVal.run.elapsed.SSS">
-                    <label for="run-elapsed-SSS">milidetik</label>
-                    <br>
-                    Hasil :
-                    <br>
-                    @{{editRunEvaluator}}
-                    <br>
-                </div>
-                <div v-if="processed.pVal.sit.show">
-                    <h3>Sit Up</h3>
-                    <label for="sit-start">Mulai :</label>
-                    <datetime v-model="processed.pVal.sit.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
-                    Total :
-                    <br>
-                    <input type="text" id="sit-counter" v-model="processed.pVal.sit.counter">
-                    <br>
-                    Hasil :
-                    <br>
-                    @{{editSitEvaluator}}
-                    <br>
-                </div>
-                <div v-if="processed.pVal.throwing.show">
-                    <h3>Lempar Tangkap Bola</h3>
-                    <label for="throwing-start">Mulai :</label>
-                    <datetime v-model="processed.pVal.throwing.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
-                    Total :
-                    <br>
-                    <input type="text" id="throwing-counter" v-model="processed.pVal.throwing.counter">
-                    <br>
-                    Hasil :
-                    <br>
-                    @{{editThrowingEvaluator}}
-                    <br>
-                </div>
-                <div v-if="processed.pVal.vertical.show">
-                    <h3>Vertical Jump</h3>
-                    Awalan :
-                    <br>
-                    <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.initial">
-                    <br>
-                    Percobaan 1 :
-                    <br>
-                    <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try1">
-                    <br>
-                    Percobaan 2 :
-                    <br>
-                    <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try2">
-                    <br>
-                    Percobaan 3 :
-                    <br>
-                    <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try3">
-                    <br>
-                    Selisih :
-                    <br>
-                    @{{editVerticalDeviator}}
-                    <br>
-                    Hasil :
-                    <br>
-                    @{{editVerticalEvaluator}}
-                    <br>
-                </div>
-                <button @click="saveChanges">Simpan</button>
-                <button @click="$modal.hide('editable-modal')">Cancel</button>
-                <div slot="top-right">
-                    <button @click="$modal.hide('editable-modal')">
-                        X
-                    </button>
+        <modal name="editable-modal" :adaptive="true"
+               :max-width="1000"
+               :max-height="600"
+               width="80%"
+               height="auto" :click-to-close="false" style="overflow-y: scroll!important; padding: 50px 0;">
+            <div style="margin: 20px">
+                <div class="container">
+                    <div class="columns">
+                        <div class="column is-10">
+                            <div class="buttons has-addons is-right">
+                                <span class="button" @click="$modal.hide('editable-modal')">
+                                    <span class="icon">
+                                        <i class="fa fa-window-close" aria-hidden="true"></i>
+                                    </span>
+                                </span>
+                            </div>
+                            <div v-if="processed.pVal.participant.show">
+                                <h3 class="title is-4">Fisik</h3>
+                                Kemiripan Wajah :
+                                <br>
+                                <input type="radio" id="one" value="1" v-model="processed.pVal.participant.same">
+                                <label for="one">Mirip</label>
+                                <br>
+                                <input type="radio" id="two" value="0" v-model="processed.pVal.participant.same">
+                                <label for="two">Tidak Mirip</label>
+                                <br>
+                            </div>
+                            <div v-if="processed.pVal.illinois.show">
+                                <h3 class="title is-4">Illinois</h3>
+                                <label for="il-start">Mulai :</label>
+                                <datetime v-model="processed.pVal.illinois.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+                                Waktu tempuh :
+                                <br>
+                                <input type="text" id="il-elapsed-m" v-model="processed.pVal.illinois.elapsed.m">
+                                <label for="il-elapsed-m">menit</label>
+                                <input type="text" id="il-elapsed-s" v-model="processed.pVal.illinois.elapsed.s">
+                                <label for="il-elapsed-s">detik</label>
+                                <input type="text" id="il-elapsed-SSS" v-model="processed.pVal.illinois.elapsed.SSS">
+                                <label for="il-elapsed-SSS">milidetik</label>
+                                <br>
+                                Hasil :
+                                <br>
+                                @{{editIllinoisEvaluator}}
+                                <br>
+                            </div>
+                            <div v-if="processed.pVal.push.show">
+                                <h3 class="title is-4">Push Up</h3>
+                                <label for="push-start">Mulai :</label>
+                                <datetime v-model="processed.pVal.push.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+                                Total :
+                                <br>
+                                <input type="text" id="push-counter" v-model="processed.pVal.push.counter">
+                                <br>
+                                Hasil :
+                                <br>
+                                @{{editPushEvaluator}}
+                                <br>
+                            </div>
+                            <div v-if="processed.pVal.run.show">
+                                <h3 class="title is-4">Lari 1600 m</h3>
+                                <label for="run-start">Mulai :</label>
+                                <datetime v-model="processed.pVal.run.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+                                Waktu tempuh :
+                                <br>
+                                <input type="text" id="run-elapsed-m" v-model="processed.pVal.run.elapsed.m">
+                                <label for="run-elapsed-m">menit</label>
+                                <input type="text" id="run-elapsed-s" v-model="processed.pVal.run.elapsed.s">
+                                <label for="run-elapsed-s">detik</label>
+                                <input type="text" id="run-elapsed-SSS" v-model="processed.pVal.run.elapsed.SSS">
+                                <label for="run-elapsed-SSS">milidetik</label>
+                                <br>
+                                Hasil :
+                                <br>
+                                @{{editRunEvaluator}}
+                                <br>
+                            </div>
+                            <div v-if="processed.pVal.sit.show">
+                                <h3 class="title is-4">Sit Up</h3>
+                                <label for="sit-start">Mulai :</label>
+                                <datetime v-model="processed.pVal.sit.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+                                Total :
+                                <br>
+                                <input type="text" id="sit-counter" v-model="processed.pVal.sit.counter">
+                                <br>
+                                Hasil :
+                                <br>
+                                @{{editSitEvaluator}}
+                                <br>
+                            </div>
+                            <div v-if="processed.pVal.throwing.show">
+                                <h3 class="title is-4">Lempar Tangkap Bola</h3>
+                                <label for="throwing-start">Mulai :</label>
+                                <datetime v-model="processed.pVal.throwing.start" value-zone="Asia/Jakarta" zone="Asia/Jakarta" type="datetime"></datetime>
+                                Total :
+                                <br>
+                                <input type="text" id="throwing-counter" v-model="processed.pVal.throwing.counter">
+                                <br>
+                                Hasil :
+                                <br>
+                                @{{editThrowingEvaluator}}
+                                <br>
+                            </div>
+                            <div v-if="processed.pVal.vertical.show">
+                                <h3 class="title is-4">Vertical Jump</h3>
+                                Awalan :
+                                <br>
+                                <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.initial">
+                                <br>
+                                Percobaan 1 :
+                                <br>
+                                <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try1">
+                                <br>
+                                Percobaan 2 :
+                                <br>
+                                <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try2">
+                                <br>
+                                Percobaan 3 :
+                                <br>
+                                <input type="text" id="vertical-counter" v-model="processed.pVal.vertical.try3">
+                                <br>
+                                Selisih :
+                                <br>
+                                @{{editVerticalDeviator}}
+                                <br>
+                                Hasil :
+                                <br>
+                                @{{editVerticalEvaluator}}
+                                <br>
+                            </div>
+                            <button @click="saveChanges">Simpan</button>
+                            <button @click="$modal.hide('editable-modal')">Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </modal>
