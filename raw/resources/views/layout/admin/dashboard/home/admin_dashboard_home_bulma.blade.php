@@ -11,11 +11,31 @@
     @parent
     <div id="app">
         <sweet-modal ref="modal" title="Buat Event Baru">
-            <input type="text" name="event" placeholder="Event" v-model="f_event" required :disabled="is_process">
-            <br>
-            <input type="text" name="slug" placeholder="Event-ID" v-model="f_slug" required :disabled="is_process">
-            <br>
-            <button slot="button" @click="eventFormCommit" :disabled="is_process">Submit</button>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Nama Event</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded has-icons-left">
+                            <input class="input" type="text" name="event" placeholder="Event" v-model="f_event" required :disabled="is_process">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">ID Event</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded has-icons-left">
+                            <input class="input" type="text" name="slug" placeholder="Event-ID" v-model="f_slug" required :disabled="is_process">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button class="button is-link" slot="button" @click="eventFormCommit" :disabled="is_process">Submit</button>
         </sweet-modal>
         <div class="container">
             <div class="columns">
