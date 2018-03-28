@@ -2,6 +2,10 @@ table.VueTables__table tr td:nth-child(1) {
     width: 5%;
 }
 
+div.columns {
+    margin-left: 0;
+}
+
 p.message-title {
     font-size: 1.5rem;
     font-weight: bold

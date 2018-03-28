@@ -72,6 +72,11 @@
                             return function (a, b) {
                                 return (ascending ? -1 : 1) * Math.sign((a.vts == '-' ? 0 : a.vts) - (b.vts == '-' ? 0 : b.vts));
                             }
+                        },
+                        gt: function (ascending) {
+                            return function (a, b) {
+                                return (ascending ? -1 : 1) * Math.sign((a.gt == '-' ? 0 : a.gt) - (b.gt == '-' ? 0 : b.gt));
+                            }
                         }
                     },
                 }

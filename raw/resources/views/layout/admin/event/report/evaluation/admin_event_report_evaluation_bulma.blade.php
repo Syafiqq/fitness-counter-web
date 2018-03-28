@@ -297,7 +297,7 @@
             </div>
         </modal>
         <v-dialog name="dialog"></v-dialog>
-        <div class="container">
+        <div class="container-fluid">
             <div class="columns">
                 <div class="column is-12">
                     <div class="card events-card">
@@ -312,7 +312,7 @@
                               </span>
                             </a>
                         </header>
-                        <div class="card-table is-fullheight" style="height: 600px; max-height: 600px!important;">
+                        <div class="card-table is-fullheight" style="height: 900px; max-height: 900px!important;">
                             <div class="content" style="margin: 20px">
                                 <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
                                     <a @click="editParticipant(props.row)" slot="edit" slot-scope="props" href="javascript:void(0)" class="is-success">
