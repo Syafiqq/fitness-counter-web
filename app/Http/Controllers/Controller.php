@@ -20,7 +20,7 @@ class Controller extends BaseController
      */
     public function __construct()
     {
-        $this->theme = 'default';
+        $this->theme = 'bulma';
     }
 
 
