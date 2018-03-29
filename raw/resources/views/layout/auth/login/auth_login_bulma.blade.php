@@ -26,13 +26,13 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
                         {!! $form->open(['route' => 'auth.login.post', 'method' => 'post']) !!}
                         <div class="field">
                             <div class="control">
-                                {!! $form->email('email', 'syafiq.rezpector@gmail.com', ['class' => 'input is-large', 'placeholder' => 'Email', 'required'=> true, 'autofocus' =>true]) !!}
+                                {!! $form->email('email', '', ['class' => 'input is-large', 'placeholder' => 'Email', 'required'=> true, 'autofocus' =>true]) !!}
                             </div>
                         </div>
 
                         <div class="field">
                             <div class="control">
-                                {!! $form->input('password', 'password', 'password', ['class' => 'input is-large','value' => 'password','placeholder' => 'Password', 'required'=> true]) !!}
+                                {!! $form->input('password', 'password', '', ['class' => 'input is-large','value' => 'password','placeholder' => 'Password', 'required'=> true]) !!}
                             </div>
                         </div>
                         {!! $form->button('Submit', ['type' => 'Submit', 'class' =>'button is-block is-info is-large is-fullwidth']) !!}
