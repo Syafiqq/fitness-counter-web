@@ -90,7 +90,6 @@
                 </button>
             </div>
         </modal>
-        <button @click="calculateScore">Hitung Skor</button>
         <button @click="downloadReport">Download Laporan</button>
         <hr>
         <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
