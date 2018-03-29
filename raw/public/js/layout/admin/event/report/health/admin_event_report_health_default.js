@@ -465,136 +465,25 @@
                 result['pfs'] = 'same' in process ? Number(process['same']) === 1 ? 'Mirip' : 'Tidak Mirip' : '-';
                 result['pgd'] = 'gender' in process ? process['gender'] : null;
             }
-            if ('illinois' in queue)
+            if ('medical' in queue)
             {
-                var process   = queue.illinois;
-                var elapsed   = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
-                result['ile'] = elapsed != null ? elapsed.format('m:ss') : '-';
-                if ('result' in process)
-                {
-                    result['ils'] = process['result'];
-                    gt            = gt == null ? result['ils'] : (result['ils'] + gt);
-                }
-                else
-                {
-                    result['ils'] = '-';
-                }
+                var process    = queue.medical;
+                result['abmi'] = 'bmi' in process ? process.bmi : '-';
+                result['ppos'] = 'posture' in process ? process.posture : '-';
+                result['kvh']  = 'heart' in process ? process.heart : '-';
+                result['pbr']  = 'breath' in process ? process.breath : '-';
+                result['vma']  = 'vision' in process ? process.vision : '-';
+                result['cco']  = 'conclusion' in process ? process.conclusion : false;
             }
             else
             {
-                result['ile'] = '-';
-                result['ils'] = '-';
+                result['abmi'] = '-';
+                result['ppos'] = '-';
+                result['kvh']  = '-';
+                result['pbr']  = '-';
+                result['vma']  = '-';
+                result['cco']  = false;
             }
-            result['ildp'] = result['ile'] + " (" + result['ils'] + ")";
-
-            if ('push' in queue)
-            {
-                var process   = queue.push;
-                result['puc'] = 'counter' in process ? process['counter'] : '-';
-                if ('result' in process)
-                {
-                    result['pus'] = process['result'];
-                    gt            = gt == null ? result['pus'] : (result['pus'] + gt);
-                }
-                else
-                {
-                    result['pus'] = '-';
-                }
-            }
-            else
-            {
-                result['puc'] = '-';
-                result['pus'] = '-';
-            }
-            result['pudp'] = result['puc'] + " (" + result['pus'] + ")";
-
-            if ('run' in queue)
-            {
-                var process   = queue.run;
-                var elapsed   = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
-                result['rne'] = elapsed != null ? elapsed.format('m:ss') : '-';
-                if ('result' in process)
-                {
-                    result['rns'] = process['result'];
-                    gt            = gt == null ? result['rns'] : (result['rns'] + gt);
-                }
-                else
-                {
-                    result['rns'] = '-';
-                }
-            }
-            else
-            {
-                result['rne'] = '-';
-                result['rns'] = '-';
-            }
-            result['rndp'] = result['rne'] + " (" + result['rns'] + ")";
-
-            if ('sit' in queue)
-            {
-                var process   = queue.sit;
-                result['stc'] = 'counter' in process ? process['counter'] : '-';
-                if ('result' in process)
-                {
-                    result['sts'] = process['result'];
-                    gt            = gt == null ? result['sts'] : (result['sts'] + gt);
-                }
-                else
-                {
-                    result['sts'] = '-';
-                }
-            }
-            else
-            {
-                result['stc'] = '-';
-                result['sts'] = '-';
-            }
-            result['stdp'] = result['stc'] + " (" + result['sts'] + ")";
-
-            if ('throwing' in queue)
-            {
-                var process   = queue.throwing;
-                result['twc'] = 'counter' in process ? process['counter'] : '-';
-                if ('result' in process)
-                {
-                    result['tws'] = process['result'];
-                    gt            = gt == null ? result['tws'] : (result['tws'] + gt);
-                }
-                else
-                {
-                    result['tws'] = '-';
-                }
-            }
-            else
-            {
-                result['twc'] = '-';
-                result['tws'] = '-';
-            }
-            result['twdp'] = result['twc'] + " (" + result['tws'] + ")";
-
-            if ('vertical' in queue)
-            {
-                var process   = queue.vertical;
-                result['vtd'] = 'deviation' in process ? process['deviation'] : '-';
-                if ('result' in process)
-                {
-                    result['vts'] = process['result'];
-                    gt            = gt == null ? result['vts'] : (result['vts'] + gt);
-                }
-                else
-                {
-                    result['vts'] = '-';
-                }
-            }
-            else
-            {
-                result['vtd'] = '-';
-                result['vts'] = '-';
-            }
-            result['vtdp'] = result['vtd'] + " (" + result['vts'] + ")";
-
-
-            result['gt'] = gt == null ? '-' : gt;
             return result;
         }
 
