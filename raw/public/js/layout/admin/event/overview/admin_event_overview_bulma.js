@@ -53,7 +53,6 @@
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
-                console.log(user.email);
                 listParticipant(app.event);
             } else
             {

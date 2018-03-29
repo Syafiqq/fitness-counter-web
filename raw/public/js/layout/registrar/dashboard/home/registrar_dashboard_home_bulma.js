@@ -23,7 +23,6 @@
                 eventListInitial: function () {
                     var events = firebase.database().ref(DataMapper.Event(firebase.auth().currentUser.uid, app.role)['users']);
                     events.on('child_added', function (eventOverview) {
-                        console.log(eventOverview.key, eventOverview.val());
                         firebase.database().ref(DataMapper.Event(null, null, eventOverview.key)['events']).once('value').then(function (event) {
                             Vue.set(app.l_events, event.key, event.val())
                         });
@@ -34,7 +33,6 @@
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
-                console.log(user.email);
                 app.eventListInitial();
             } else
             {

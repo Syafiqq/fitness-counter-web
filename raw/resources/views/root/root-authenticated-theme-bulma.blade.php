@@ -71,7 +71,6 @@
         <script type="text/javascript" src="{{asset('/js/root/root-authenticated-theme-bulma.min.js')}}"></script>
         <script type="text/javascript">
             firebase.auth().signInWithCustomToken("{!! \Illuminate\Support\Facades\Auth::user()->getToken()['token'] !!}").catch(function (error) {
-                console.log(error.code, error.message);
             });
         </script>
     @endauth

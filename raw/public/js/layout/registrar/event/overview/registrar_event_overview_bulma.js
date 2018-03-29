@@ -92,7 +92,6 @@
                                 })
                             },
                         }).then(function (result) {
-                            console.log(result);
                             result = result.value;
                             if (result != null && 'code' in result)
                             {
@@ -166,7 +165,6 @@
             {
                 app.uid = user.uid;
                 app.eventListInitial();
-                console.log(user.email);
             }
             else
             {
