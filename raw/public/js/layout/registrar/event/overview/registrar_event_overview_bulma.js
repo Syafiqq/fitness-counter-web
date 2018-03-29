@@ -106,6 +106,14 @@
                                             text: 'Anda sudah mengikuti event ini sebelumnya',
                                         })
                                     }
+                                    else if (result.data.queue === -1)
+                                    {
+                                        app.$swal({
+                                            type: 'error',
+                                            title: 'Oops...',
+                                            text: 'Peserta Tidak Ditemukan',
+                                        })
+                                    }
                                     else
                                     {
                                         app.$swal({
