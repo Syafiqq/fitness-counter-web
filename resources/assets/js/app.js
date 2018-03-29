@@ -10,6 +10,7 @@ import VModal from 'vue-js-modal'
 import VueSweetalert2 from 'vue-sweetalert2';
 import {ClientTable} from 'vue-tables-2';
 import Datetime from 'vue-datetime'
+import ToggleButton from 'vue-js-toggle-button'
 
 window.Vue = require('vue');
 window.Vue.use(SweetModal);
@@ -17,6 +18,7 @@ window.Vue.use(VueSweetalert2);
 window.Vue.use(ClientTable, {}, false, 'bulma', 'default');
 window.Vue.use(VModal);
 window.Vue.use(Datetime);
+window.Vue.use(ToggleButton);
 
 
 /**

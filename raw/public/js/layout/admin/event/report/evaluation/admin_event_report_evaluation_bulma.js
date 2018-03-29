@@ -40,6 +40,7 @@
                         gt: 'Grand Total',
                         edit: 'Edit',
                     },
+                    pagination: {chunk: 10},
                     sortable: ['pno', 'pnm', 'pfs', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt'],
                     customSorting: {
                         ildp: function (ascending) {
@@ -70,6 +71,11 @@
                         vtdp: function (ascending) {
                             return function (a, b) {
                                 return (ascending ? -1 : 1) * Math.sign((a.vts == '-' ? 0 : a.vts) - (b.vts == '-' ? 0 : b.vts));
+                            }
+                        },
+                        gt: function (ascending) {
+                            return function (a, b) {
+                                return (ascending ? -1 : 1) * Math.sign((a.gt == '-' ? 0 : a.gt) - (b.gt == '-' ? 0 : b.gt));
                             }
                         }
                     },
@@ -120,6 +126,7 @@
                                 if (callback != null && typeof (callback) !== 'boolean')
                                 {
                                     callback.then(function (result) {
+                                        console.log(result);
                                         app.is_process = false;
                                         NProgress.done();
                                         that.$modal.hide('editable-modal');
@@ -135,6 +142,7 @@
 
                         },
                     }).then(function (result) {
+                        console.log("swal result" + result)
                     });
                 },
                 editParticipant: function (aVal) {
@@ -167,6 +175,7 @@
                                 if (callback != null && typeof (callback) !== 'boolean')
                                 {
                                     callback.then(function (result) {
+                                        console.log(result);
                                         app.is_process = false;
                                         NProgress.done();
                                         that.$swal({
@@ -181,6 +190,7 @@
 
                         },
                     }).then(function (result) {
+                        console.log("swal result" + result)
                     });
                 },
                 downloadReport: function () {
@@ -207,6 +217,7 @@
                                 }
                             )
                                 .then(function (response) {
+                                    console.log(response);
                                     that.$swal.close();
                                     var $a = $("<a>");
                                     $a.attr("href", response['data']['data']['download']['content']);
@@ -229,6 +240,7 @@
 
                         },
                     }).then(function (result) {
+                        console.log("swal result" + result)
                     });
                 }
             },
@@ -340,6 +352,7 @@
                 }
             }
 
+            console.log(result);
             return result;
         }
 
@@ -438,6 +451,7 @@
                 result['vertical']['deviation'] = 0;
             }
 
+            console.log(result);
             return result;
         }
 
@@ -613,6 +627,7 @@
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
+                console.log(user.email);
                 listParticipant(app.event);
             } else
             {
