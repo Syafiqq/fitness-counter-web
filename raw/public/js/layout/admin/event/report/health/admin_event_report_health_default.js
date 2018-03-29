@@ -449,7 +449,7 @@
                 result['kvh']  = '-';
                 result['pbr']  = '-';
                 result['vma']  = '-';
-                result['cco']  = 'Tidak Disarankan';
+                result['cco']  = '-';
             }
             return result;
         }
