@@ -23,7 +23,7 @@
                     }
                 },
                 vault: {},
-                qt_columns: ['pno', 'pnm', 'pfs', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt', 'edit'],
+                qt_columns: ['pno', 'pnm', 'pfs', 'abmi', 'ppos', 'kvh', 'pbr', 'vma', 'cco', 'edit'],
                 queues: [],
                 qt_options: {
                     uniqueKey: 'pno',
@@ -31,48 +31,15 @@
                         pno: 'No',
                         pnm: 'Nama',
                         pfs: 'Wajah',
-                        ildp: 'Illinois',
-                        pudp: 'Push Up',
-                        rndp: 'Lari 1600 m',
-                        stdp: 'Sit Up',
-                        twdp: 'Lempar Bola',
-                        vtdp: 'Vertical Jump',
-                        gt: 'Grand Total',
+                        abmi: 'BMI',
+                        ppos: 'Postur',
+                        kvh: 'Jantung',
+                        pbr: 'Pernapasan',
+                        vma: 'Mata',
+                        cco: 'Kesimpulan',
                         edit: 'Edit',
                     },
-                    sortable: ['pno', 'pnm', 'pfs', 'ildp', 'pudp', 'rndp', 'stdp', 'twdp', 'vtdp', 'gt'],
-                    customSorting: {
-                        ildp: function (ascending) {
-                            return function (a, b) {
-                                return (ascending ? -1 : 1) * Math.sign((a.ils == '-' ? 0 : a.ils) - (b.ils == '-' ? 0 : b.ils));
-                            }
-                        },
-                        pudp: function (ascending) {
-                            return function (a, b) {
-                                return (ascending ? -1 : 1) * Math.sign((a.pus == '-' ? 0 : a.pus) - (b.pus == '-' ? 0 : b.pus));
-                            }
-                        },
-                        rndp: function (ascending) {
-                            return function (a, b) {
-                                return (ascending ? -1 : 1) * Math.sign((a.rns == '-' ? 0 : a.rns) - (b.rns == '-' ? 0 : b.rns));
-                            }
-                        },
-                        stdp: function (ascending) {
-                            return function (a, b) {
-                                return (ascending ? -1 : 1) * Math.sign((a.sts == '-' ? 0 : a.sts) - (b.sts == '-' ? 0 : b.sts));
-                            }
-                        },
-                        twdp: function (ascending) {
-                            return function (a, b) {
-                                return (ascending ? -1 : 1) * Math.sign((a.tws == '-' ? 0 : a.tws) - (b.tws == '-' ? 0 : b.tws));
-                            }
-                        },
-                        vtdp: function (ascending) {
-                            return function (a, b) {
-                                return (ascending ? -1 : 1) * Math.sign((a.vts == '-' ? 0 : a.vts) - (b.vts == '-' ? 0 : b.vts));
-                            }
-                        }
-                    },
+                    sortable: ['pno', 'pnm', 'pfs', 'abmi', 'ppos', 'kvh', 'pbr', 'vma', 'cco'],
                 }
             },
             computed: {
@@ -468,12 +435,12 @@
             if ('medical' in queue)
             {
                 var process    = queue.medical;
-                result['abmi'] = 'bmi' in process ? process.bmi : '-';
+                result['abmi'] = 'bmi' in process ? Number(process.bmi).toFixed(2) : '-';
                 result['ppos'] = 'posture' in process ? process.posture : '-';
                 result['kvh']  = 'heart' in process ? process.heart : '-';
                 result['pbr']  = 'breath' in process ? process.breath : '-';
                 result['vma']  = 'vision' in process ? process.vision : '-';
-                result['cco']  = 'conclusion' in process ? process.conclusion : false;
+                result['cco']  = 'conclusion' in process ? process.conclusion ? 'Disarankan' : 'Tidak Disarankan' : 'Tidak Disarankan';
             }
             else
             {
@@ -482,7 +449,7 @@
                 result['kvh']  = '-';
                 result['pbr']  = '-';
                 result['vma']  = '-';
-                result['cco']  = false;
+                result['cco']  = 'Tidak Disarankan';
             }
             return result;
         }
