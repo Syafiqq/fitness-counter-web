@@ -56,6 +56,15 @@ class Event extends Controller
         return view("layout.admin.event.report.evaluation.admin_event_report_evaluation_{$this->theme}", compact('meta'));
     }
 
+    public function getHealthReport($event)
+    {
+        $meta = [
+            'event' => $event
+        ];
+
+        return view("layout.admin.event.report.health.admin_event_report_health_{$this->theme}", compact('meta'));
+    }
+
     public function getPublishEvaluation(FirebaseConnection $firebase, $event)
     {
         $jEvent = $firebase
