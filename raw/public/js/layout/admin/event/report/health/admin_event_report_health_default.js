@@ -14,12 +14,15 @@
                     oVal: {},
                     pVal: {
                         participant: {show: false, same: 0},
-                        illinois: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        push: {show: false, start: '-', counter: 0},
-                        run: {show: false, start: '-', elapsed: {m: 0, s: 0, SSS: 0}},
-                        sit: {show: false, start: '-', counter: 0},
-                        throwing: {show: false, start: '-', counter: 0},
-                        vertical: {show: false, initial: 0, try1: 0, try2: 0, try3: 0, deviation: 0},
+                        medical: {
+                            show: false,
+                            tbb: null, tbd: null, ratio: 0, weight: null, bmi: 0,
+                            posture: null, gait: null,
+                            pulse: null, pressure: {mm: null, hg: null}, ictus: null, heart: null,
+                            frequency: null, retraction: null, r_location: null, breath: null, b_pipeline: null,
+                            vision: null, hearing: null, verbal: null,
+                            conclusion: null
+                        }
                     }
                 },
                 vault: {},
@@ -43,30 +46,16 @@
                 }
             },
             computed: {
-                editIllinoisEvaluator: function () {
-                    var elapsed = this.processed.pVal.illinois.elapsed;
-                    return evaluatorIllinois(this.processed.aVal['pgd'], toMillis(Number(elapsed.m), Number(elapsed.s), Number(elapsed.SSS)));
+                ratioEvaluator: function () {
+                    var process = this.processed.pVal.medical;
+                    var result  = calculateRatio(process.tbb, process.tbd);
+                    return result == null ? null : toNumber(result, 2);
                 },
-                editPushEvaluator: function () {
-                    return evaulatorPushUp(this.processed.aVal['pgd'], (Number(this.processed.pVal.push.counter)));
+                bmiEvaluator: function () {
+                    var process = this.processed.pVal.medical;
+                    var result  = calculateBmi(process.weight, process.tbb);
+                    return result == null ? null : toNumber(result, 2);
                 },
-                editRunEvaluator: function () {
-                    var elapsed = this.processed.pVal.run.elapsed;
-                    return evaluatorRun(this.processed.aVal['pgd'], toMillis(Number(elapsed.m), Number(elapsed.s), Number(elapsed.SSS)));
-                },
-                editSitEvaluator: function () {
-                    return evaluatorSitUp(this.processed.aVal['pgd'], (Number(this.processed.pVal.sit.counter)));
-                },
-                editThrowingEvaluator: function () {
-                    return evaluatorThrowingBall(this.processed.aVal['pgd'], (Number(this.processed.pVal.throwing.counter)));
-                },
-                editVerticalEvaluator: function () {
-                    return evaluatorVerticalJump(this.processed.aVal['pgd'], (Number(this.processed.pVal.vertical.deviation)));
-                },
-                editVerticalDeviator: function () {
-                    var vertical = this.processed.pVal.vertical;
-                    return vertical.deviation = Math.max(vertical.try1, vertical.try2, vertical.try3) - vertical.initial;
-                }
             },
             methods: {
                 saveChanges: function () {
@@ -116,43 +105,6 @@
                     {
                         this.$modal.show('editable-modal');
                     }
-                },
-                calculateScore: function () {
-                    var that = this;
-                    NProgress.start();
-                    this.$swal({
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        title: 'Tunggu Sebentar',
-                        onOpen: function () {
-                            that.$swal.showLoading();
-                            return new Promise(function (resolve) {
-                                var query = {};
-                                _.forEach(app.queues, function (aQueue) {
-                                    collectQuery(aQueue, query);
-                                    filterQueue(app.vault[aQueue['pdk']][aQueue['pqu']], aQueue);
-                                });
-                                var callback = firebase.database().ref().update(query);
-                                if (callback != null && typeof (callback) !== 'boolean')
-                                {
-                                    callback.then(function (result) {
-                                        console.log(result);
-                                        app.is_process = false;
-                                        NProgress.done();
-                                        that.$swal({
-                                            type: 'success',
-                                            title: 'Perhitungan selesai',
-                                        })
-                                    })
-                                }
-                            })
-                        },
-                        preConfirm: function () {
-
-                        },
-                    }).then(function (result) {
-                        console.log("swal result" + result)
-                    });
                 },
                 downloadReport: function () {
                     var that = this;
@@ -317,6 +269,16 @@
             return result;
         }
 
+        function calculateRatio(tbb, tbd)
+        {
+            return (tbb == null || tbd == null) ? null : ((Number(tbb) - Number(tbd)) / Number(tbd));
+        }
+
+        function calculateBmi(weight, tbb)
+        {
+            return (weight == null || tbb == null) ? null : (weight / Math.pow(tbb / 100, 2));
+        }
+
         function filterEdit(queue, result)
         {
             result = result == null ? {} : result;
@@ -329,91 +291,76 @@
             {
                 result['participant']['same'] = null;
             }
-            if (result['illinois']['show'] = 'illinois' in queue)
+            if (result['medical']['show'] = 'medical' in queue)
             {
-                var process                          = queue.illinois;
-                var elapsed                          = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
-                result['illinois']['start']          = 'start' in process ? moment(process['start']).format() : null;
-                result['illinois']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : 0;
-                result['illinois']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : 0;
-                result['illinois']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : 0;
+                var process                         = queue.medical;
+                // Anthropometric              
+                result['medical']['tbb']            = 'tbb' in process ? toNumber(process.tbb) : null;
+                result['medical']['tbd']            = 'tbd' in process ? toNumber(process.tbd) : null;
+                result['medical']['ratio']          = 'ratio' in process ? toNumber(process.ratio, 2) : calculateRatio(result['medical']['tbb'], result['medical']['tbd']);
+                result['medical']['weight']         = 'weight' in process ? toNumber(process.weight) : null;
+                result['medical']['bmi']            = 'bmi' in process ? toNumber(process.bmi, 2) : calculateBmi(result['medical']['weight'], result['medical']['tbb']);
+                // Posture and Gait
+                result['medical']['posture']        = 'posture' in process ? process.posture : null;
+                result['medical']['gait']           = 'gait' in process ? process.gait : null;
+                // Cardiovascular              
+                result['medical']['pulse']          = 'pulse' in process ? toNumber(process.pulse) : null;
+                var mmhg                            = 'pressure' in process ? process.pressure.split(' / ') : [];
+                result['medical']['pressure']['mm'] = mmhg.length > 0 ? toNumber(mmhg[0]) : null;
+                result['medical']['pressure']['hg'] = mmhg.length > 1 ? toNumber(mmhg[1]) : null;
+                result['medical']['ictus']          = 'ictus' in process ? process.ictus : null;
+                result['medical']['heart']          = 'heart' in process ? process.heart : null;
+                // Respiratory                 
+                result['medical']['frequency']      = 'frequency' in process ? toNumber(process.frequency) : null;
+                result['medical']['retraction']     = 'retraction' in process ? process.retraction : null;
+                result['medical']['r_location']     = 'r_location' in process ? process.r_location : null;
+                result['medical']['breath']         = 'breath' in process ? process.breath : null;
+                result['medical']['b_pipeline']     = 'b_pipeline' in process ? process.b_pipeline : null;
+                // Verbal                      
+                result['medical']['vision']         = 'vision' in process ? process.vision : null;
+                result['medical']['hearing']        = 'hearing' in process ? process.hearing : null;
+                result['medical']['verbal']         = 'verbal' in process ? process.verbal : null;
+                // Conclusion                  
+                result['medical']['conclusion']     = 'conclusion' in process ? process.conclusion : null;
             }
             else
             {
-                result['illinois']['start']          = null;
-                result['illinois']['elapsed']['m']   = 0;
-                result['illinois']['elapsed']['s']   = 0;
-                result['illinois']['elapsed']['SSS'] = 0;
-            }
-            if (result['push']['show'] = 'push' in queue)
-            {
-                var process               = queue.push;
-                result['push']['start']   = 'start' in process ? moment(process['start']).format() : null;
-                result['push']['counter'] = 'counter' in process ? process['counter'] : 0;
-            }
-            else
-            {
-                result['push']['start']   = null;
-                result['push']['counter'] = 0;
-            }
-            if (result['run']['show'] = 'run' in queue)
-            {
-                var process                     = queue.run;
-                var elapsed                     = 'elapsed' in process ? moment(process.elapsed, 'x') : undefined;
-                result['run']['start']          = 'start' in process ? moment(process['start']).format() : null;
-                result['run']['elapsed']['m']   = elapsed != null ? elapsed.format('m') : 0;
-                result['run']['elapsed']['s']   = elapsed != null ? elapsed.format('s') : 0;
-                result['run']['elapsed']['SSS'] = elapsed != null ? elapsed.format('SSS') : 0;
-            }
-            else
-            {
-                result['run']['start']          = null;
-                result['run']['elapsed']['m']   = 0;
-                result['run']['elapsed']['s']   = 0;
-                result['run']['elapsed']['SSS'] = 0;
-            }
-            if (result['sit']['show'] = 'sit' in queue)
-            {
-                var process              = queue.sit;
-                result['sit']['start']   = 'start' in process ? moment(process['start']).format() : null;
-                result['sit']['counter'] = 'counter' in process ? process['counter'] : 0;
-            }
-            else
-            {
-                result['sit']['start']   = null;
-                result['sit']['counter'] = 0;
-            }
-            if (result['throwing']['show'] = 'throwing' in queue)
-            {
-                var process                   = queue.throwing;
-                result['throwing']['start']   = 'start' in process ? moment(process['start']).format() : null;
-                result['throwing']['counter'] = 'counter' in process ? process['counter'] : 0;
-            }
-            else
-            {
-                result['throwing']['start']   = null;
-                result['throwing']['counter'] = 0;
-            }
-            if (result['vertical']['show'] = 'vertical' in queue)
-            {
-                var process                     = queue.vertical;
-                result['vertical']['initial']   = 'initial' in process ? process['initial'] : 0;
-                result['vertical']['try1']      = 'try1' in process ? process['try1'] : 0;
-                result['vertical']['try2']      = 'try2' in process ? process['try2'] : 0;
-                result['vertical']['try3']      = 'try3' in process ? process['try3'] : 0;
-                result['vertical']['deviation'] = 'deviation' in process ? process['deviation'] : app.editVerticalDeviator();
-            }
-            else
-            {
-                result['vertical']['initial']   = 0;
-                result['vertical']['try1']      = 0;
-                result['vertical']['try2']      = 0;
-                result['vertical']['try3']      = 0;
-                result['vertical']['deviation'] = 0;
+                result['medical']['tbb']            = null;
+                result['medical']['tbd']            = null;
+                result['medical']['ratio']          = 0;
+                result['medical']['weight']         = null;
+                result['medical']['bmi']            = 0;
+                // Posture and Gait
+                result['medical']['posture']        = null;
+                result['medical']['gait']           = null;
+                // Cardiovascular
+                result['medical']['pulse']          = null;
+                result['medical']['pressure']['mm'] = null;
+                result['medical']['pressure']['hg'] = null;
+                result['medical']['ictus']          = null;
+                result['medical']['heart']          = null;
+                // Respiratory
+                result['medical']['frequency']      = null;
+                result['medical']['retraction']     = null;
+                result['medical']['r_location']     = null;
+                result['medical']['breath']         = null;
+                result['medical']['b_pipeline']     = null;
+                // Verbal
+                result['medical']['vision']         = null;
+                result['medical']['hearing']        = null;
+                result['medical']['verbal']         = null;
+                // Conclusion
+                result['medical']['conclusion']     = null;
             }
 
             console.log(result);
             return result;
+        }
+
+        function toNumber(value, depth)
+        {
+            depth = depth == null ? 0 : depth;
+            return Number(value).toFixed(depth)
         }
 
         function filterQueue(queue, result)
@@ -435,7 +382,7 @@
             if ('medical' in queue)
             {
                 var process    = queue.medical;
-                result['abmi'] = 'bmi' in process ? Number(process.bmi).toFixed(2) : '-';
+                result['abmi'] = 'bmi' in process ? toNumber(process.bmi, 2) : '-';
                 result['ppos'] = 'posture' in process ? process.posture : '-';
                 result['kvh']  = 'heart' in process ? process.heart : '-';
                 result['pbr']  = 'breath' in process ? process.breath : '-';
