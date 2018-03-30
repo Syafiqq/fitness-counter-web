@@ -116,7 +116,7 @@
                         onOpen: function () {
                             that.$swal.showLoading();
                             axios.post(
-                                app.home + '/' + app.role + '/event/' + app.event + '/publish/evaluation'
+                                app.home + '/' + app.role + '/event/' + app.event + '/publish/health'
                                 , {
                                     event: 1,
                                     preset: 2,
