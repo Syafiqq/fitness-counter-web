@@ -160,54 +160,6 @@
 
         });
 
-        function collectQuery(queue, query)
-        {
-            var raw       = app.vault[queue['pdk']][queue['pqu']];
-            var commonKey = DataMapper.PresetQueue(app.preset, queue['pdk'], queue['pqu'])['presets'];
-
-            if ('illinois' in raw && 'elapsed' in raw['illinois'] && raw['illinois']['elapsed'] !== '-')
-            {
-                raw['illinois']['result']             = evaluatorIllinois(queue['pgd'], raw['illinois']['elapsed']);
-                queue['ils']                          = raw['illinois']['result'] == null ? '-' : raw['illinois']['result'];
-                query[commonKey + '/illinois/result'] = raw['illinois']['result'];
-            }
-            if ('push' in raw && 'counter' in raw['push'] && raw['push']['counter'] !== '-')
-            {
-                raw['push']['result']             = evaulatorPushUp(queue['pgd'], raw['push']['counter']);
-                queue['pus']                      = raw['push']['result'] == null ? '-' : raw['push']['result'];
-                query[commonKey + '/push/result'] = raw['push']['result'];
-            }
-            if ('run' in raw && 'elapsed' in raw['run'] && raw['run']['elapsed'] !== '-')
-            {
-                raw['run']['result']             = evaluatorRun(queue['pgd'], raw['run']['elapsed']);
-                queue['rns']                     = raw['run']['result'] == null ? '-' : raw['run']['result'];
-                query[commonKey + '/run/result'] = raw['run']['result'];
-            }
-            if ('sit' in raw && 'counter' in raw['sit'] && raw['sit']['counter'] !== '-')
-            {
-                raw['sit']['result']             = evaluatorSitUp(queue['pgd'], raw['sit']['counter']);
-                queue['sts']                     = raw['sit']['result'] == null ? '-' : raw['sit']['result'];
-                query[commonKey + '/sit/result'] = raw['sit']['result'];
-            }
-            if ('throwing' in raw && 'counter' in raw['throwing'] && raw['throwing']['counter'] !== '-')
-            {
-                raw['throwing']['result']             = evaluatorThrowingBall(queue['pgd'], raw['throwing']['counter']);
-                queue['tws']                          = raw['throwing']['result'] == null ? '-' : raw['throwing']['result'];
-                query[commonKey + '/throwing/result'] = raw['throwing']['result'];
-            }
-            if ('vertical' in raw && 'deviation' in raw['vertical'] && raw['vertical']['deviation'] !== '-')
-            {
-                raw['vertical']['result']             = evaluatorVerticalJump(queue['pgd'], raw['vertical']['deviation']);
-                queue['vts']                          = raw['vertical']['result'] == null ? '-' : raw['vertical']['result'];
-                query[commonKey + '/vertical/result'] = raw['vertical']['result'];
-            }
-        }
-
-        function toMillis(m, s, ms)
-        {
-            return (Number(m) * 60000) + (Number(s) * 1000) + Number(ms);
-        }
-
         function saveEdit(queue, result)
         {
             if (result != null)
@@ -218,50 +170,35 @@
                     var process                   = queue.participant;
                     result['participant']['same'] = Number(process.same);
                 }
-                if ('illinois' in queue && queue.illinois.show)
+                if ('medical' in queue)
                 {
-                    var process                   = queue.illinois;
-                    result['illinois']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
-                    result['illinois']['elapsed'] = toMillis(process.elapsed.m, process.elapsed.s, process.elapsed.SSS);
-                    result['illinois']['result']  = evaluatorIllinois(gender, result.illinois.elapsed);
-                }
-                if ('push' in queue && queue.push.show)
-                {
-                    var process               = queue.push;
-                    result['push']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
-                    result['push']['counter'] = process.counter;
-                    result['push']['result']  = evaulatorPushUp(gender, result.push.counter);
-                }
-                if ('run' in queue && queue.run.show)
-                {
-                    var process              = queue.run;
-                    result['run']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
-                    result['run']['elapsed'] = toMillis(process.elapsed.m, process.elapsed.s, process.elapsed.SSS);
-                    result['run']['result']  = evaluatorRun(gender, result.run.elapsed);
-                }
-                if ('sit' in queue && queue.sit.show)
-                {
-                    var process              = queue.sit;
-                    result['sit']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
-                    result['sit']['counter'] = process.counter;
-                    result['sit']['result']  = evaluatorSitUp(gender, result.sit.counter);
-                }
-                if ('throwing' in queue && queue.throwing.show)
-                {
-                    var process                   = queue.throwing;
-                    result['throwing']['start']   = Number(moment(process.start, moment.ISO_8601).format('x'));
-                    result['throwing']['counter'] = process.counter;
-                    result['throwing']['result']  = evaluatorThrowingBall(gender, result.throwing.counter);
-                }
-                if ('vertical' in queue && queue.vertical.show)
-                {
-                    var process                     = queue.vertical;
-                    result['vertical']['initial']   = process.initial;
-                    result['vertical']['try1']      = process.try1;
-                    result['vertical']['try2']      = process.try2;
-                    result['vertical']['try3']      = process.try3;
-                    result['vertical']['deviation'] = process.deviation;
-                    result['vertical']['result']    = evaluatorVerticalJump(gender, result.vertical.deviation);
+                    var process                     = queue.medical;
+                    // Anthropometric
+                    result['medical']['tbb']        = process.tbb == null ? null : toNumber(process.tbb);
+                    result['medical']['tbd']        = process.tbd == null ? null : toNumber(process.tbd);
+                    result['medical']['ratio']      = (process.tbb == null || process.tbd == null) ? null : toNumber(calculateRatio(result['medical']['tbb'], result['medical']['tbd']), 2);
+                    result['medical']['weight']     = process.weight == null ? null : toNumber(process.weight);
+                    result['medical']['bmi']        = (process.weight == null || process.tbb == null) ? null : toNumber(calculateBmi(result['medical']['weight'], result['medical']['tbb']), 2);
+                    // Posture and Gait
+                    result['medical']['posture']    = process.posture;
+                    result['medical']['gait']       = process.gait;
+                    // Cardiovascular
+                    result['medical']['pulse']      = process.pulse == null ? null : toNumber(process.pulse);
+                    result['medical']['pressure']   = (process.pressure.mm == null || process.pressure.hg == null) ? null : (toNumber(process.pressure.mm) + ' / ' + toNumber(process.pressure.hg));
+                    result['medical']['ictus']      = process.ictus;
+                    result['medical']['heart']      = process.heart;
+                    // Respiratory
+                    result['medical']['frequency']  = process.frequency == null ? null : toNumber(process.frequency);
+                    result['medical']['retraction'] = process.retraction;
+                    result['medical']['r_location'] = process.r_location;
+                    result['medical']['breath']     = process.breath;
+                    result['medical']['b_pipeline'] = process.b_pipeline;
+                    // Verbal
+                    result['medical']['vision']     = process.vision;
+                    result['medical']['hearing']    = process.hearing;
+                    result['medical']['verbal']     = process.verbal;
+                    // Conclusion
+                    result['medical']['conclusion'] = process.conclusion == null ? null : (process.conclusion === 'Disarankan');
                 }
             }
 
