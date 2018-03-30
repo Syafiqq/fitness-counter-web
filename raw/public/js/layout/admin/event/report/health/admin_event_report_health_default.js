@@ -321,7 +321,7 @@
                 result['medical']['hearing']        = 'hearing' in process ? process.hearing : null;
                 result['medical']['verbal']         = 'verbal' in process ? process.verbal : null;
                 // Conclusion                  
-                result['medical']['conclusion']     = 'conclusion' in process ? process.conclusion : null;
+                result['medical']['conclusion']     = 'conclusion' in process ? (process.conclusion ? 'Disarankan' : 'Tidak Disarankan') : null;
             }
             else
             {
