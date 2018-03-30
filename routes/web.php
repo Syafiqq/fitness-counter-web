@@ -43,6 +43,7 @@ Route::prefix("/$group")->namespace('Admin')->middleware(['web', 'auth', "role:$
         });
         Route::prefix('/publish')->group(function () use ($group) {
             Route::post('/evaluation', 'Event@getPublishEvaluation')->name("{$group}.event.publish.evaluation");
+            Route::post('/health', 'Event@getPublishHealth')->name("{$group}.event.publish.health");
         });
     });
 });
