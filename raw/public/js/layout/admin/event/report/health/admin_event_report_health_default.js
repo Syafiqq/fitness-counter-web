@@ -170,7 +170,7 @@
                     var process                   = queue.participant;
                     result['participant']['same'] = Number(process.same);
                 }
-                if ('medical' in queue)
+                if ('medical' in queue && queue.medical.show)
                 {
                     var process                     = queue.medical;
                     // Anthropometric
