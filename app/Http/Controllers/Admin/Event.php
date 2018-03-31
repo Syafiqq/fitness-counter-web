@@ -6,6 +6,7 @@ use App\Firebase\DataMapper;
 use App\Firebase\FirebaseConnection;
 use App\Firebase\PopoMapper;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -438,7 +439,9 @@ class Event extends Controller
                             {//@formatter:off
                             case 'Disarankan' : $selection = 'E61';break;
                             case 'Tidak Disarankan' :  $selection = 'E62';break;
-                        }//@formatter:on
+                            case true : $selection = 'E61';break;
+                            case false :  $selection = 'E62';break;
+                            }//@formatter:on
                             if ($selection != null)
                             {
                                 $template->setCellValue($selection, '✓');
@@ -472,6 +475,213 @@ class Event extends Controller
             ob_end_clean();
 
             return response()->json(PopoMapper::jsonResponse(200, 'success', ['download' => ['content' => "data:application/zip;base64," . base64_encode($zipData), 'filename' => $filename . '.zip']]), 200);
+        }
+        catch (\Exception $e)
+        {
+            \Illuminate\Support\Facades\Log::debug($e);
+        }
+
+        return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
+
+    }
+
+    public function getPublishHealthReportOnce(FirebaseConnection $firebase, Request $request, $event)
+    {
+        $jEvent = $firebase
+            ->getConnection()
+            ->getDatabase()
+            ->getReference(DataMapper::event(null, null, $event)['events'])
+            ->getValue() ?: [];
+
+        $pEvent      = $firebase
+            ->getConnection()
+            ->getDatabase()
+            ->getReference(DataMapper::preset(null, $jEvent['preset_active'])['presets'])
+            ->getValue() ?: [];
+        $participant = $request->get('participant', null);
+        $spreadsheet = null;
+        try
+        {
+            /** @var \Carbon\Carbon $now */
+            $now          = \Carbon\Carbon::now();
+            $fileTemplate = "Template_{$now->year}.xlsx";
+            /** @var Spreadsheet $spreadsheet */
+            $reader   = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
+            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN {$now->year}";
+
+            $queues    = [];
+            $fileNames = [];
+            foreach ($pEvent['queues'] as &$dv)
+            {
+                foreach ($dv as &$qv)
+                {
+                    if ($qv != null && $qv['participant']['no'] == $participant)
+                    {
+                        $queues[$qv['participant']['no']] = &$qv;
+                    }
+                }
+            }
+            /** @var \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $template */
+            foreach ($jEvent['participant'] as $pk => &$pv)
+            {
+                if ($pv != null && key_exists($pv['no'], $queues))
+                {
+                    $queue       = &$queues[$pv['no']];
+                    $spreadsheet = $reader->load(base_path("public/xlsx/$fileTemplate"));
+                    $template    = $spreadsheet->getSheetByName('Template');
+
+                    $template->setCellValue("G6", $pv['name']);
+                    $template->setCellValue("G7", $pv['no']);
+                    $template->setCellValue("L17", "kg/m²");
+                    $template->setCellValue("I18", "BMI = Berat Badan : (Tinggi Badan Berdiri)²");
+
+                    if (key_exists('medical', $queue))
+                    {
+                        $process = &$queue['medical'];
+                        //Anthropometric
+                        $template->setCellValue("I13", key_exists('tbb', $process) ? number_format($process['tbb'], 0, ',', '.') : '');
+                        $template->setCellValue("I14", key_exists('tbd', $process) ? number_format($process['tbd'], 0, ',', '.') : '');
+                        $template->setCellValue("I15", key_exists('ratio', $process) ? number_format($process['ratio'], 2, ',', '.') : '');
+                        $template->setCellValue("I16", key_exists('weight', $process) ? number_format($process['weight'], 0, ',', '.') : '');
+                        $template->setCellValue("I17", key_exists('bmi', $process) ? number_format($process['bmi'], 2, ',', '.') : '');
+
+                        //Posture and Gait
+                        $selection = null;
+                        if (key_exists('posture', $process))
+                        {
+                            $selection = null;
+                            switch ($process['posture'])
+                            {//@formatter:off
+                            case 'Normal' : $selection = 'E24';break;
+                            case 'Skoliosis' :  $selection = 'E25';break;
+                            case 'Kifosis' :  $selection = 'E26';break;
+                            case 'Lordosis' :  $selection = 'E27';break;
+                        }//@formatter:on
+                            if ($selection != null)
+                            {
+                                $template->setCellValue($selection, '✓');
+                            }
+                        }
+
+                        if (key_exists('gait', $process))
+                        {
+                            $selection = null;
+                            switch ($process['gait'])
+                            {//@formatter:off
+                            case 'Normal' : $selection = 'K24';break;
+                            case 'Deformitas' :  $selection = 'K25';break;
+                            case 'Kelemahan' :  $selection = 'K26';break;
+                            case 'Kelainan Gait' :  $selection = 'K27';break;
+                        }//@formatter:on
+                            if ($selection != null)
+                            {
+                                $template->setCellValue($selection, '✓');
+                            }
+                        }
+
+                        //Cardiovascular
+                        $template->setCellValue("I31", key_exists('pulse', $process) ? number_format($process['pulse'], 0, ',', '.') : '');
+                        $template->setCellValue("I32", key_exists('pressure', $process) ? $process['pressure'] : '');
+                        $template->setCellValue("I34", key_exists('ictus', $process) ? $process['ictus'] : ' + / —');
+                        $template->setCellValue("I35", key_exists('heart', $process) ? $process['heart'] : 'Normal / tidak');
+
+                        //Pernafasan
+                        $template->setCellValue("I39", key_exists('frequency', $process) ? number_format($process['frequency'], 0, ',', '.') : '');
+                        $template->setCellValue("I40", key_exists('retraction', $process) ? $process['retraction'] : '+ / —');
+                        $template->setCellValue("M41", key_exists('r_location', $process) ? $process['r_location'] : '');
+                        $template->setCellValue("I42", key_exists('breath', $process) ? $process['breath'] : 'Normal / tidak');
+                        $template->setCellValue("I43", key_exists('b_pipeline', $process) ? $process['b_pipeline'] : 'Normal/ obstruksi');
+
+                        //Vision
+                        if (key_exists('vision', $process))
+                        {
+                            $selection = null;
+                            switch ($process['vision'])
+                            {//@formatter:off
+                            case 'Normal' : $selection = 'E48';break;
+                            case 'Juling' :  $selection = 'E49';break;
+                            case 'Plus / Minus / Silinder' :  $selection = 'E50';break;
+                        }//@formatter:on
+                            if ($selection != null)
+                            {
+                                $template->setCellValue($selection, '✓');
+                            }
+                        }
+                        if (key_exists('hearing', $process))
+                        {
+                            $selection = null;
+                            switch ($process['hearing'])
+                            {//@formatter:off
+                            case 'Normal' : $selection = 'K48';break;
+                            case 'Tuli' :  $selection = 'K49';break;
+                            case 'Serumen Obstruktif' :  $selection = 'K50';break;
+                        }//@formatter:on
+                            if ($selection != null)
+                            {
+                                $template->setCellValue($selection, '✓');
+                            }
+                        }
+                        if (key_exists('verbal', $process))
+                        {
+                            $selection = null;
+                            switch ($process['verbal'])
+                            {//@formatter:off
+                            case 'Normal' : $selection = 'E54';break;
+                            case 'Latah / Gagap' :  $selection = 'E55';break;
+                            case 'Tuna Wicara' :  $selection = 'E56';break;
+                        }//@formatter:on
+                            if ($selection != null)
+                            {
+                                $template->setCellValue($selection, '✓');
+                            }
+                        }
+
+                        //Conclusion
+                        if (key_exists('conclusion', $process))
+                        {
+                            $selection = null;
+                            switch ($process['conclusion'])
+                            {//@formatter:off
+                            case 'Disarankan' : $selection = 'E61';break;
+                            case 'Tidak Disarankan' :  $selection = 'E62';break;
+                            case true : $selection = 'E61';break;
+                            case false :  $selection = 'E62';break;
+                            }//@formatter:on
+                            if ($selection != null)
+                            {
+                                $template->setCellValue($selection, '✓');
+                            }
+                        }
+                    }
+
+
+                }
+            }
+
+            if ($spreadsheet == null)
+            {
+                return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
+            }
+            // Redirect output to a client’s web browser (Xlsx)
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header("Content-Disposition: attachment;filename=\"$filename.xlsx\"");
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+
+            // If you're serving to IE over SSL, then the following may be needed
+            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header("Last-Modified: {$now->toRfc7231String()}"); // always modified
+            header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header('Pragma: public'); // HTTP/1.0
+
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            ob_start();
+            $writer->save("php://output");
+            $xlsData = ob_get_contents();
+            ob_end_clean();
+
+            return response()->json(PopoMapper::jsonResponse(200, 'success', ['download' => ['content' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($xlsData), 'filename' => $filename . '.xlsx']]), 200);
         }
         catch (\Exception $e)
         {
