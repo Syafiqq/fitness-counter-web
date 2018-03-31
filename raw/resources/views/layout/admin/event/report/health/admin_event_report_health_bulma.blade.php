@@ -163,15 +163,43 @@
                 </button>
             </div>
         </modal>
-        <button @click="downloadReportList">Download Laporan Keputusan</button>
-        <button @click="downloadReportBunch">Download Laporan Individu</button>
-        <hr>
-        <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
-            <div slot="action" slot-scope="props">
-                <button @click="editParticipant(props.row)">Edit</button>
-                <button @click="downloadReportOnce(props.row)">Download</button>
+        <div class="container-fluid">
+            <div class="columns">
+                <div class="column is-12">
+                    <div class="card events-card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Laporan Evaluasi
+                            </p>
+                        </header>
+                        <div class="card-table is-fullheight" style="height: 900px; max-height: 900px!important;">
+                            <div class="content" style="margin: 20px">
+                                <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
+                                    <div slot="action" slot-scope="props">
+                                        <a @click="editParticipant(props.row)" href="javascript:void(0)" class="is-success">
+                                            <span class="icon"><i class="fa fa-edit"></i></span>
+                                        </a>
+                                        <a @click="downloadReportOnce(props.row)" href="javascript:void(0)" class="is-info">
+                                            <span class="icon"><i class="fa fa-download"></i></span>
+                                        </a>
+                                    </div>
+                                </v-client-table>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a @click="downloadReportList" href="javascript:void(0)" class="card-footer-item is-success">
+                                <span class="icon"><i class="fa fa-download"></i></span>
+                                Laporan Kesimpulan
+                            </a>
+                            <a @click="downloadReportBunch" href="javascript:void(0)" class="card-footer-item is-info">
+                                <span class="icon"><i class="fa fa-download"></i></span>
+                                Laporan Individu
+                            </a>
+                        </footer>
+                    </div>
+                </div>
             </div>
-        </v-client-table>
+        </div>
     </div>
 @endsection
 

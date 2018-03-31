@@ -12,7 +12,7 @@ p.message-title {
 }
 
 table.VueTables__table tr td:nth-child(2) {
-    width: 34%;
+    width: 30%;
 }
 
 table.VueTables__table tr td:nth-child(3) {
@@ -40,7 +40,7 @@ table.VueTables__table tr td:nth-child(8) {
 }
 
 table.VueTables__table tr td:nth-child(9) {
-    width: 8%;
+    width: 12%;
 }
 
 table.VueTables__table tr td:nth-child(10) {
