@@ -122,7 +122,7 @@
                                                     </a>
                                                 </p>
                                             </div>
-                                            BMI = Berat Badan : (Tinggi Badan Berdiri)
+                                            <p class="help is-info">BMI = Berat Badan : (Tinggi Badan Berdiri)</p>
                                         </div>
                                     </div>
                                 </article>
@@ -177,27 +177,80 @@
                                         </div>
                                     </div>
                                 </article>
-
-                                <h3>Fungsi Kardiovaskular *)</h3>
-                                Denyut nadi istirahat : <br>
-                                <input type="text" id="medical-pulse" v-model="processed.pVal.medical.pulse"> x/ menit (normal < 100)<br>
-                                Tekanan darah S/D : <br>
-                                <input type="text" id="medical-pressure-mm" v-model="processed.pVal.medical.pressure.mm"> mm
-                                <input type="text" id="medical-pressure-hg" v-model="processed.pVal.medical.pressure.hg"> hg<br>
-                                (normal S: 70 – 90 mmHg, D: 110 – 130)<br>
-                                Ictus Cordis : <br>
-                                <input id="ictus-1" type="radio" value="+" v-model="processed.pVal.medical.ictus">
-                                <label for="ictus-1">+</label>
-                                <input id="ictus-2" type="radio" value="–" v-model="processed.pVal.medical.ictus">
-                                <label for="ictus-2">–</label>
-                                (pilih salah satu)<br>
-                                Suara Jantung : <br>
-                                <input id="heart-1" type="radio" value="Normal" v-model="processed.pVal.medical.heart">
-                                <label for="heart-1">Normal</label>
-                                <input id="heart-2" type="radio" value="Obstruksi" v-model="processed.pVal.medical.heart">
-                                <label for="heart-2">Obstruksi</label>
-                                (pilih salah satu)<br>
-
+                                <br>
+                                <br>
+                                <article class="message">
+                                    <div class="message-header">
+                                        <p class="message-title">Fungsi Kardiovaskular *)</p>
+                                    </div>
+                                    <br>
+                                    <div class="message-body">
+                                        <div class="field">
+                                            <label class="label">Denyut nadi istirahat : </label>
+                                            <div class="field has-addons">
+                                                <p class="control is-expanded">
+                                                    <input type="text" class="input" id="medical-pulse" v-model="processed.pVal.medical.pulse"><br>
+                                                </p>
+                                                <p class="control">
+                                                    <a class="button is-static">
+                                                        x/ menit (normal < 100)
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Tekanan darah S/D : </label>
+                                            <div class="field has-addons">
+                                                <p class="control is-expanded">
+                                                    <input type="text" class="input" id="medical-pressure-mm" v-model="processed.pVal.medical.pressure.mm">
+                                                </p>
+                                                <p class="control">
+                                                    <a class="button is-static">
+                                                        mm
+                                                    </a>
+                                                </p>
+                                                <p class="control is-expanded">
+                                                    <input type="text" class="input" id="medical-pressure-hg" v-model="processed.pVal.medical.pressure.hg">
+                                                </p>
+                                                <p class="control">
+                                                    <a class="button is-static">
+                                                        Hg
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <p class="help is-info">(normal S: 70 – 90 mmHg, D: 110 – 130)</p>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Ictus Cordis : </label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="ictus-1" type="radio" value="+" v-model="processed.pVal.medical.ictus">
+                                                    +
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="ictus-2" type="radio" value="–" v-model="processed.pVal.medical.ictus">
+                                                    –
+                                                </label>
+                                            </div>
+                                            <p class="help is-info">(pilih salah satu)</p>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Suara Jantung : </label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="heart-1" type="radio" value="Normal" v-model="processed.pVal.medical.heart">
+                                                    Normal
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="heart-2" type="radio" value="Obstruksi" v-model="processed.pVal.medical.heart">
+                                                    Obstruksi
+                                                </label>
+                                            </div>
+                                            <p class="help is-info">(pilih salah satu)</p>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </article>
                                 <h3>Fungsi Pernapasan *)</h3>
                                 Frekuensi pernapasan : <br>
                                 <input type="text" id="medical-frequency" v-model="processed.pVal.medical.frequency"> x/ menit (normal: 18 – 24)<br>
