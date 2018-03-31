@@ -167,7 +167,10 @@
         <button @click="downloadReportBunch">Download Laporan Individu</button>
         <hr>
         <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
-            <button slot="action" slot-scope="props" @click="editParticipant(props.row)">Edit</button>
+            <div slot="action" slot-scope="props">
+                <button @click="editParticipant(props.row)">Edit</button>
+                <button @click="downloadReportOnce(props.row)">Download</button>
+            </div>
         </v-client-table>
     </div>
 @endsection
