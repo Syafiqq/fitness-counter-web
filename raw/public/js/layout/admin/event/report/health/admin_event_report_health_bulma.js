@@ -286,7 +286,7 @@
                     // Respiratory
                     result['medical']['frequency']  = process.frequency == null ? null : toNumber(process.frequency);
                     result['medical']['retraction'] = process.retraction;
-                    result['medical']['r_location'] = process.r_location;
+                    result['medical']['r_location'] = process.retraction === '+' ? process.r_location : null;
                     result['medical']['breath']     = process.breath;
                     result['medical']['b_pipeline'] = process.b_pipeline;
                     // Verbal
