@@ -76,7 +76,6 @@
                                 if (callback != null && typeof (callback) !== 'boolean')
                                 {
                                     callback.then(function (result) {
-                                        console.log(result);
                                         app.is_process = false;
                                         NProgress.done();
                                         that.$modal.hide('editable-modal');
@@ -92,7 +91,6 @@
 
                         },
                     }).then(function (result) {
-                        console.log("swal result" + result)
                     });
                 },
                 editParticipant: function (aVal) {
@@ -126,7 +124,6 @@
                                 }
                             )
                                 .then(function (response) {
-                                    console.log(response);
                                     that.$swal.close();
                                     var $a = $("<a>");
                                     $a.attr("href", response['data']['data']['download']['content']);
@@ -149,7 +146,6 @@
 
                         },
                     }).then(function (result) {
-                        console.log("swal result" + result)
                     });
                 },
                 downloadReportBunch: function () {
@@ -172,7 +168,6 @@
                                 }
                             )
                                 .then(function (response) {
-                                    console.log(response);
                                     that.$swal.close();
                                     var $a = $("<a>");
                                     $a.attr("href", response['data']['data']['download']['content']);
@@ -195,7 +190,6 @@
 
                         },
                     }).then(function (result) {
-                        console.log("swal result" + result)
                     });
                 },
                 downloadReportOnce: function (val) {
@@ -222,7 +216,6 @@
                                     }
                                 )
                                     .then(function (response) {
-                                        console.log(response);
                                         that.$swal.close();
                                         if ('data' in response && 'data' in response.data && 'download' in response.data.data)
                                         {
@@ -248,7 +241,6 @@
 
                             },
                         }).then(function (result) {
-                            console.log("swal result" + result)
                         });
                     }
                 }
@@ -298,7 +290,6 @@
                 }
             }
 
-            console.log(result);
             return result;
         }
 
@@ -386,7 +377,6 @@
                 result['medical']['conclusion']     = null;
             }
 
-            console.log(result);
             return result;
         }
 
@@ -457,7 +447,6 @@
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
-                console.log(user.email);
                 listParticipant(app.event);
             } else
             {
