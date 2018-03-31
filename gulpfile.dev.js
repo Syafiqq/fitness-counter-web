@@ -53,6 +53,11 @@ gulp.task('minify-public-json', function () {
         .pipe(gulp.dest('./public/'));
 });
 
+gulp.task('minify-public-xlsx', function () {
+    return gulp.src(['./raw/public/**/*.xlsx'], {dot: true, base: './raw/public/'})
+        .pipe(gulp.dest('./public/'));
+});
+
 gulp.task('minify-resources-views', function () {
     return gulp.src(['./raw/resources/views/**/*.{php,blade.php,html}'], {dot: true, base: './raw/resources/views/'})
         .pipe(gulp.dest('./resources/views/'));
