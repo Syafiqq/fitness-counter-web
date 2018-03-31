@@ -17,6 +17,7 @@
         </a>
         <div class="navbar-dropdown is-boxed">
             {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.report.evaluation', 'Report Penilaian', [$meta['event']], ['class' => 'navbar-item']) !!}
+            {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.report.health', 'Report Kesehatan', [$meta['event']], ['class' => 'navbar-item']) !!}
         </div>
     </div>
 @endpush
