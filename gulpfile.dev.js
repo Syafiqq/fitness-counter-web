@@ -106,7 +106,7 @@ gulp.task('minify-everything-light', function (callback) {
     runSequence('move-public-only',
         'move-public-assets',
         'move-public-minified-assets',
-        ['minify-public-img', 'minify-public-js', 'minify-public-css', 'minify-public-json'],
+        ['minify-public-img', 'minify-public-xlsx', 'minify-public-js', 'minify-public-css', 'minify-public-json'],
         'minify-resources-views',
         callback);
 });
