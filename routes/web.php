@@ -39,9 +39,13 @@ Route::prefix("/$group")->namespace('Admin')->middleware(['web', 'auth', "role:$
         });
         Route::prefix('/report')->group(function () use ($group) {
             Route::get('/evaluation', 'Event@getEvaluationReport')->name("{$group}.event.report.evaluation");
+            Route::get('/health', 'Event@getHealthReport')->name("{$group}.event.report.health");
         });
         Route::prefix('/publish')->group(function () use ($group) {
             Route::post('/evaluation', 'Event@getPublishEvaluation')->name("{$group}.event.publish.evaluation");
+            Route::post('/health/list', 'Event@getPublishHealth')->name("{$group}.event.publish.health.list");
+            Route::post('/health/bunch', 'Event@getPublishHealthReport')->name("{$group}.event.publish.health.bunch");
+            Route::post('/health/once', 'Event@getPublishHealthReportOnce')->name("{$group}.event.publish.health.once");
         });
     });
 });

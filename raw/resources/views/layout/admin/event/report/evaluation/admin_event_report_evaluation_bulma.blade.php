@@ -296,7 +296,6 @@
                 </div>
             </div>
         </modal>
-        <v-dialog name="dialog"></v-dialog>
         <div class="container-fluid">
             <div class="columns">
                 <div class="column is-12">
