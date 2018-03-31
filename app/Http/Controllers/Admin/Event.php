@@ -304,8 +304,10 @@ class Event extends Controller
             $reader   = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
             $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN {$now->year}";
 
-            $queues    = [];
-            $fileNames = [];
+            $queues      = [];
+            $fileNames   = [];
+            $spreadsheet = $reader->load(base_path("public/xlsx/$fileTemplate"));
+            $template    = $spreadsheet->getSheetByName('Template');
             foreach ($pEvent['queues'] as &$dv)
             {
                 foreach ($dv as &$qv)
@@ -321,9 +323,7 @@ class Event extends Controller
             {
                 if ($pv != null && key_exists($pv['no'], $queues))
                 {
-                    $queue       = &$queues[$pv['no']];
-                    $spreadsheet = $reader->load(base_path("public/xlsx/$fileTemplate"));
-                    $template    = $spreadsheet->getSheetByName('Template');
+                    $queue = &$queues[$pv['no']];
 
                     $template->setCellValue("G6", $pv['name']);
                     $template->setCellValue("G7", $pv['no']);
@@ -351,10 +351,25 @@ class Event extends Controller
                             case 'Skoliosis' :  $selection = 'E25';break;
                             case 'Kifosis' :  $selection = 'E26';break;
                             case 'Lordosis' :  $selection = 'E27';break;
+                            default : $selection = null;
                         }//@formatter:on
                             if ($selection != null)
                             {
                                 $template->setCellValue($selection, '✓');
+                            }
+                            else
+                            {
+                                foreach (range(24, 27) as $v)
+                                {
+                                    $template->setCellValue("E$v", '');
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (range(24, 27) as $v)
+                            {
+                                $template->setCellValue("E$v", '');
                             }
                         }
 
@@ -367,10 +382,25 @@ class Event extends Controller
                             case 'Deformitas' :  $selection = 'K25';break;
                             case 'Kelemahan' :  $selection = 'K26';break;
                             case 'Kelainan Gait' :  $selection = 'K27';break;
+                            default:$selection = null;
                         }//@formatter:on
                             if ($selection != null)
                             {
                                 $template->setCellValue($selection, '✓');
+                            }
+                            else
+                            {
+                                foreach (range(24, 27) as $v)
+                                {
+                                    $template->setCellValue("K$v", '');
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (range(24, 27) as $v)
+                            {
+                                $template->setCellValue("K$v", '');
                             }
                         }
 
@@ -396,12 +426,28 @@ class Event extends Controller
                             case 'Normal' : $selection = 'E48';break;
                             case 'Juling' :  $selection = 'E49';break;
                             case 'Plus / Minus / Silinder' :  $selection = 'E50';break;
+                            default :$selection = null;
                         }//@formatter:on
                             if ($selection != null)
                             {
                                 $template->setCellValue($selection, '✓');
                             }
+                            else
+                            {
+                                foreach (range(48, 50) as $v)
+                                {
+                                    $template->setCellValue("E$v", '');
+                                }
+                            }
                         }
+                        else
+                        {
+                            foreach (range(48, 50) as $v)
+                            {
+                                $template->setCellValue("E$v", '');
+                            }
+                        }
+
                         if (key_exists('hearing', $process))
                         {
                             $selection = null;
@@ -410,10 +456,25 @@ class Event extends Controller
                             case 'Normal' : $selection = 'K48';break;
                             case 'Tuli' :  $selection = 'K49';break;
                             case 'Serumen Obstruktif' :  $selection = 'K50';break;
+                                default:$selection = null;
                         }//@formatter:on
                             if ($selection != null)
                             {
                                 $template->setCellValue($selection, '✓');
+                            }
+                            else
+                            {
+                                foreach (range(48, 50) as $v)
+                                {
+                                    $template->setCellValue("K$v", '');
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (range(48, 50) as $v)
+                            {
+                                $template->setCellValue("K$v", '');
                             }
                         }
                         if (key_exists('verbal', $process))
@@ -424,10 +485,25 @@ class Event extends Controller
                             case 'Normal' : $selection = 'E54';break;
                             case 'Latah / Gagap' :  $selection = 'E55';break;
                             case 'Tuna Wicara' :  $selection = 'E56';break;
+                            default:$selection = null;
                         }//@formatter:on
                             if ($selection != null)
                             {
                                 $template->setCellValue($selection, '✓');
+                            }
+                            else
+                            {
+                                foreach (range(54, 56) as $v)
+                                {
+                                    $template->setCellValue("E$v", '');
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (range(54, 56) as $v)
+                            {
+                                $template->setCellValue("E$v", '');
                             }
                         }
 
@@ -441,11 +517,67 @@ class Event extends Controller
                             case 'Tidak Disarankan' :  $selection = 'E62';break;
                             case true : $selection = 'E61';break;
                             case false :  $selection = 'E62';break;
+                                default : $selection =null;
                             }//@formatter:on
                             if ($selection != null)
                             {
                                 $template->setCellValue($selection, '✓');
                             }
+                            else
+                            {
+                                foreach (range(61, 62) as $v)
+                                {
+                                    $template->setCellValue("E$v", '');
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (range(61, 62) as $v)
+                            {
+                                $template->setCellValue("E$v", '');
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $template->setCellValue("I13", '');
+                        $template->setCellValue("I14", '');
+                        $template->setCellValue("I15", '');
+                        $template->setCellValue("I16", '');
+                        $template->setCellValue("I17", '');
+                        foreach (range(24, 27) as $v)
+                        {
+                            $template->setCellValue("E$v", '');
+                        }
+                        foreach (range(24, 27) as $v)
+                        {
+                            $template->setCellValue("K$v", '');
+                        }
+                        $template->setCellValue("I31", '');
+                        $template->setCellValue("I32", '');
+                        $template->setCellValue("I34", ' + / —');
+                        $template->setCellValue("I35", 'Normal / tidak');
+                        $template->setCellValue("I39", '');
+                        $template->setCellValue("I40", '+ / —');
+                        $template->setCellValue("M41", '');
+                        $template->setCellValue("I42", 'Normal / tidak');
+                        $template->setCellValue("I43", 'Normal/ obstruksi');
+                        foreach (range(48, 50) as $v)
+                        {
+                            $template->setCellValue("E$v", '');
+                        }
+                        foreach (range(48, 50) as $v)
+                        {
+                            $template->setCellValue("K$v", '');
+                        }
+                        foreach (range(54, 56) as $v)
+                        {
+                            $template->setCellValue("E$v", '');
+                        }
+                        foreach (range(61, 62) as $v)
+                        {
+                            $template->setCellValue("E$v", '');
                         }
                     }
 
