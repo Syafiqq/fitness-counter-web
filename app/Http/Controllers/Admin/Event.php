@@ -306,7 +306,7 @@ class Event extends Controller
 
             $queues      = [];
             $fileNames   = [];
-            $spreadsheet = $reader->load(base_path("public/xlsx/$fileTemplate"));
+            $spreadsheet = $reader->load(base_path("public_html/xlsx/$fileTemplate"));
             $template    = $spreadsheet->getSheetByName('Template');
             foreach ($pEvent['queues'] as &$dv)
             {
@@ -659,7 +659,7 @@ class Event extends Controller
                 if ($pv != null && key_exists($pv['no'], $queues))
                 {
                     $queue       = &$queues[$pv['no']];
-                    $spreadsheet = $reader->load(base_path("public/xlsx/$fileTemplate"));
+                    $spreadsheet = $reader->load(base_path("public_html/xlsx/$fileTemplate"));
                     $template    = $spreadsheet->getSheetByName('Template');
 
                     $template->setCellValue("G6", $pv['name']);
@@ -882,7 +882,7 @@ class Event extends Controller
             $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
             $drawing->setName('Logo');
             $drawing->setDescription('Logo');
-            $drawing->setPath(base_path('/public/img/logo-sbmptn.png'));
+            $drawing->setPath(base_path('/public_html/img/logo-sbmptn.png'));
             $drawing->setResizeProportional(true);
             $drawing->setWidthAndHeight(150, 120);
             $drawing->setCoordinates('C1');
