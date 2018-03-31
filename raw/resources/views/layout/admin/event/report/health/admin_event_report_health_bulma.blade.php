@@ -321,40 +321,66 @@
                                         </div>
                                     </div>
                                 </article>
-
-                                <h3>Indera dan Verbal</h3>
-                                Mata (penglihatan) : <br>
-                                <input id="vision-1" type="radio" value="Normal" v-model="processed.pVal.medical.vision">
-                                <label for="vision-1">Normal</label>
                                 <br>
-                                <input id="vision-2" type="radio" value="Juling" v-model="processed.pVal.medical.vision">
-                                <label for="vision-2">Juling</label>
                                 <br>
-                                <input id="vision-3" type="radio" value="Plus / Minus / Silinder" v-model="processed.pVal.medical.vision">
-                                <label for="vision-3">Plus / Minus / Silinder</label>
-                                <br>
-
-                                Telinga (pendengaran) : <br>
-                                <input id="hearing-1" type="radio" value="Normal" v-model="processed.pVal.medical.hearing">
-                                <label for="hearing-1">Normal</label>
-                                <br>
-                                <input id="hearing-2" type="radio" value="Tuli" v-model="processed.pVal.medical.hearing">
-                                <label for="hearing-2">Tuli</label>
-                                <br>
-                                <input id="hearing-3" type="radio" value="Serumen Obstruktif" v-model="processed.pVal.medical.hearing">
-                                <label for="hearing-3">Serumen Obstruktif</label>
-                                <br>
-
-                                Verbal : <br>
-                                <input id="verbal-1" type="radio" value="Normal" v-model="processed.pVal.medical.verbal">
-                                <label for="verbal-1">Normal</label>
-                                <br>
-                                <input id="verbal-2" type="radio" value="Latah / Gagap" v-model="processed.pVal.medical.verbal">
-                                <label for="verbal-2">Latah / Gagap</label>
-                                <br>
-                                <input id="verbal-3" type="radio" value="Tuna Wicara" v-model="processed.pVal.medical.verbal">
-                                <label for="verbal-3">Tuna Wicara</label>
-                                <br>
+                                <article class="message">
+                                    <div class="message-header">
+                                        <p class="message-title">Indera dan Verbal</p>
+                                    </div>
+                                    <div class="message-body">
+                                        <div class="field">
+                                            <label class="label">Mata (penglihatan) :</label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="vision-1" type="radio" value="Normal" v-model="processed.pVal.medical.vision">
+                                                    Normal
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="vision-2" type="radio" value="Juling" v-model="processed.pVal.medical.vision">
+                                                    Juling
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="vision-3" type="radio" value="Plus / Minus / Silinder" v-model="processed.pVal.medical.vision">
+                                                    Plus / Minus / Silinder
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Telinga (pendengaran) : </label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="hearing-1" type="radio" value="Normal" v-model="processed.pVal.medical.hearing">
+                                                    Normal
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="hearing-2" type="radio" value="Tuli" v-model="processed.pVal.medical.hearing">
+                                                    Tuli
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="hearing-3" type="radio" value="Serumen Obstruktif" v-model="processed.pVal.medical.hearing">
+                                                    Serumen Obstruktif
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Verbal : </label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="verbal-1" type="radio" value="Normal" v-model="processed.pVal.medical.verbal">
+                                                    Normal
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="verbal-2" type="radio" value="Latah / Gagap" v-model="processed.pVal.medical.verbal">
+                                                    Latah / Gagap
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="verbal-3" type="radio" value="Tuna Wicara" v-model="processed.pVal.medical.verbal">
+                                                    Tuna Wicara
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
 
                                 <h3>Kesimpulan</h3>
                                 Setelah mempertimbangkan hasil pemeriksaan, yang bersangkutan dinyatakan :<br>
