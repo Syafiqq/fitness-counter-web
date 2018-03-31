@@ -166,7 +166,7 @@
         <button @click="downloadReport">Download Laporan</button>
         <hr>
         <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
-            <button slot="edit" slot-scope="props" @click="editParticipant(props.row)">Edit</button>
+            <button slot="action" slot-scope="props" @click="editParticipant(props.row)">Edit</button>
         </v-client-table>
     </div>
 @endsection

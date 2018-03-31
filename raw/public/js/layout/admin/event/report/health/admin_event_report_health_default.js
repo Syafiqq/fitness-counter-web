@@ -26,7 +26,7 @@
                     }
                 },
                 vault: {},
-                qt_columns: ['pno', 'pnm', 'pfs', 'abmi', 'ppos', 'kvh', 'pbr', 'vma', 'cco', 'edit'],
+                qt_columns: ['pno', 'pnm', 'pfs', 'abmi', 'ppos', 'kvh', 'pbr', 'vma', 'cco', 'action'],
                 queues: [],
                 qt_options: {
                     uniqueKey: 'pno',
@@ -40,7 +40,7 @@
                         pbr: 'Pernapasan',
                         vma: 'Mata',
                         cco: 'Kesimpulan',
-                        edit: 'Edit',
+                        action: 'Aksi',
                     },
                     sortable: ['pno', 'pnm', 'pfs', 'abmi', 'ppos', 'kvh', 'pbr', 'vma', 'cco'],
                 }
