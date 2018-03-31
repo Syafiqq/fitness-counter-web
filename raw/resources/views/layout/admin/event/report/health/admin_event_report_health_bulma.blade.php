@@ -140,14 +140,17 @@
                                                     <input id="posture-1" type="radio" value="Normal" v-model="processed.pVal.medical.posture">
                                                     Normal
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="posture-2" type="radio" value="Skoliosis" v-model="processed.pVal.medical.posture">
                                                     Skoliosis
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="posture-3" type="radio" value="Kifosis" v-model="processed.pVal.medical.posture">
                                                     Kifosis
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="posture-4" type="radio" value="Lordosis" v-model="processed.pVal.medical.posture">
                                                     Lordosis
@@ -161,14 +164,17 @@
                                                     <input id="gait-1" type="radio" value="Normal" v-model="processed.pVal.medical.gait">
                                                     Normal
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="gait-2" type="radio" value="Deformitas" v-model="processed.pVal.medical.gait">
                                                     Deformitas
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="gait-3" type="radio" value="Kelemahan" v-model="processed.pVal.medical.gait">
                                                     Kelemahan
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="gait-4" type="radio" value="Kelainan Gait" v-model="processed.pVal.medical.gait">
                                                     Kelainan Gait
@@ -335,10 +341,12 @@
                                                     <input id="vision-1" type="radio" value="Normal" v-model="processed.pVal.medical.vision">
                                                     Normal
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="vision-2" type="radio" value="Juling" v-model="processed.pVal.medical.vision">
                                                     Juling
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="vision-3" type="radio" value="Plus / Minus / Silinder" v-model="processed.pVal.medical.vision">
                                                     Plus / Minus / Silinder
@@ -352,10 +360,12 @@
                                                     <input id="hearing-1" type="radio" value="Normal" v-model="processed.pVal.medical.hearing">
                                                     Normal
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="hearing-2" type="radio" value="Tuli" v-model="processed.pVal.medical.hearing">
                                                     Tuli
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="hearing-3" type="radio" value="Serumen Obstruktif" v-model="processed.pVal.medical.hearing">
                                                     Serumen Obstruktif
@@ -369,10 +379,12 @@
                                                     <input id="verbal-1" type="radio" value="Normal" v-model="processed.pVal.medical.verbal">
                                                     Normal
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="verbal-2" type="radio" value="Latah / Gagap" v-model="processed.pVal.medical.verbal">
                                                     Latah / Gagap
                                                 </label>
+                                                <br>
                                                 <label class="radio">
                                                     <input id="verbal-3" type="radio" value="Tuna Wicara" v-model="processed.pVal.medical.verbal">
                                                     Tuna Wicara
@@ -381,18 +393,44 @@
                                         </div>
                                     </div>
                                 </article>
-
-                                <h3>Kesimpulan</h3>
-                                Setelah mempertimbangkan hasil pemeriksaan, yang bersangkutan dinyatakan :<br>
-                                <input id="conclusion-1" type="radio" value="Disarankan" v-model="processed.pVal.medical.conclusion">
-                                <label for="conclusion-1">Disarankan</label>
                                 <br>
-                                <input id="conclusion-2" type="radio" value="Tidak Disarankan" v-model="processed.pVal.medical.conclusion">
-                                <label for="conclusion-2">Tidak Disarankan</label>
                                 <br>
+                                <article class="message">
+                                    <div class="message-header">
+                                        <p class="message-title">Kesimpulan</p>
+                                    </div>
+                                    <div class="message-body">
+                                        <div class="field">
+                                            <label class="label">Setelah mempertimbangkan hasil pemeriksaan, yang bersangkutan dinyatakan :</label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="conclusion-1" type="radio" value="Disarankan" v-model="processed.pVal.medical.conclusion">
+                                                    Disarankan
+                                                </label>
+                                                <br>
+                                                <label class="radio">
+                                                    <input id="conclusion-2" type="radio" value="Tidak Disarankan" v-model="processed.pVal.medical.conclusion">
+                                                    Tidak Disarankan
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <br>
+                                <br>
+                                <div class="field is-grouped is-grouped-right">
+                                    <p class="control">
+                                        <a @click="saveChanges" class="button is-primary">
+                                            Simpan
+                                        </a>
+                                    </p>
+                                    <p class="control">
+                                        <a @click="$modal.hide('editable-modal')" class="button is-light">
+                                            Cancel
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
-                            <button @click="saveChanges">Simpan</button>
-                            <button @click="$modal.hide('editable-modal')">Cancel</button>
                             {{-- @formatter:on --}}
                         </div>
                     </div>
