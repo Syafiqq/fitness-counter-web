@@ -183,7 +183,6 @@
                                     <div class="message-header">
                                         <p class="message-title">Fungsi Kardiovaskular *)</p>
                                     </div>
-                                    <br>
                                     <div class="message-body">
                                         <div class="field">
                                             <label class="label">Denyut nadi istirahat : </label>
@@ -248,32 +247,80 @@
                                             </div>
                                             <p class="help is-info">(pilih salah satu)</p>
                                         </div>
-                                        <br>
                                     </div>
                                 </article>
-                                <h3>Fungsi Pernapasan *)</h3>
-                                Frekuensi pernapasan : <br>
-                                <input type="text" id="medical-frequency" v-model="processed.pVal.medical.frequency"> x/ menit (normal: 18 – 24)<br>
-                                Tanda retraksi : <br>
-                                <input id="retraction-1" type="radio" value="+" v-model="processed.pVal.medical.retraction">
-                                <label for="retraction-1">+</label>
-                                <input id="retraction-2" type="radio" value="–" v-model="processed.pVal.medical.retraction">
-                                <label for="retraction-2">–</label>
-                                (pilih salah satu)<br>
-                                Lokasi retraksi : <br>
-                                <input type="text" id="medical-r_location" v-model="processed.pVal.medical.r_location"><br>
-                                Suara napas : <br>
-                                <input id="breath-1" type="radio" value="Normal" v-model="processed.pVal.medical.breath">
-                                <label for="breath-1">Normal</label>
-                                <input id="breath-2" type="radio" value="Tidak" v-model="processed.pVal.medical.breath">
-                                <label for="breath-2">Tidak</label>
-                                (pilih salah satu)<br>
-                                Saluran napas : <br>
-                                <input id="b_pipeline-1" type="radio" value="Normal" v-model="processed.pVal.medical.b_pipeline">
-                                <label for="b_pipeline-1">Normal</label>
-                                <input id="b_pipeline-2" type="radio" value="Obstruksi" v-model="processed.pVal.medical.b_pipeline">
-                                <label for="b_pipeline-2">Obstruksi</label>
-                                (pilih salah satu)<br>
+                                <br>
+                                <br>
+                                <article class="message">
+                                    <div class="message-header">
+                                        <p class="message-title">Fungsi Pernapasan *)</p>
+                                    </div>
+                                    <div class="message-body">
+                                        <div class="field">
+                                            <label class="label">Frekuensi pernapasan : </label>
+                                            <div class="field has-addons">
+                                                <p class="control is-expanded">
+                                                    <input type="text" class="input" id="medical-frequency" v-model="processed.pVal.medical.frequency">
+                                                </p>
+                                                <p class="control">
+                                                    <a class="button is-static">
+                                                        x/ menit (normal: 18 – 24)
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Tanda retraksi : </label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="retraction-1" type="radio" value="+" v-model="processed.pVal.medical.retraction">
+                                                    +
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="retraction-2" type="radio" value="–" v-model="processed.pVal.medical.retraction">
+                                                    –
+                                                </label>
+                                            </div>
+                                            <p class="help is-info">(pilih salah satu)</p>
+                                        </div>
+                                        <div class="field" v-if="processed.pVal.medical.retraction === '+'">
+                                            <label class="label">Lokasi retraksi : </label>
+                                            <div class="field">
+                                                <p class="control is-expanded">
+                                                    <input type="text" class="input" id="medical-r_location" v-model="processed.pVal.medical.r_location"><br>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Suara napas : </label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="breath-1" type="radio" value="Normal" v-model="processed.pVal.medical.breath">
+                                                    Normal
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="breath-2" type="radio" value="Tidak" v-model="processed.pVal.medical.breath">
+                                                    Tidak
+                                                </label>
+                                            </div>
+                                            <p class="help is-info">(pilih salah satu)</p>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Saluran napas : </label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="b_pipeline-1" type="radio" value="Normal" v-model="processed.pVal.medical.b_pipeline">
+                                                    Normal
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="b_pipeline-2" type="radio" value="Obstruksi" v-model="processed.pVal.medical.b_pipeline">
+                                                    Obstruksi
+                                                </label>
+                                            </div>
+                                            <p class="help is-info">(pilih salah satu)</p>
+                                        </div>
+                                    </div>
+                                </article>
 
                                 <h3>Indera dan Verbal</h3>
                                 Mata (penglihatan) : <br>
