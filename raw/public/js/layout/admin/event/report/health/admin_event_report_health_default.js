@@ -106,7 +106,7 @@
                         this.$modal.show('editable-modal');
                     }
                 },
-                downloadReport: function () {
+                downloadReportList: function () {
                     var that = this;
                     NProgress.start();
                     this.$swal({
@@ -116,7 +116,57 @@
                         onOpen: function () {
                             that.$swal.showLoading();
                             axios.post(
-                                app.home + '/' + app.role + '/event/' + app.event + '/publish/health'
+                                app.home + '/' + app.role + '/event/' + app.event + '/publish/health/list'
+                                , {
+                                    event: 1,
+                                    preset: 2,
+                                    participant: 3,
+                                }
+                                , {
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json;charset=UTF-8',
+                                    }
+                                }
+                            )
+                                .then(function (response) {
+                                    console.log(response);
+                                    that.$swal.close();
+                                    var $a = $("<a>");
+                                    $a.attr("href", response['data']['data']['download']['content']);
+                                    $("body").append($a);
+                                    $a.attr("download", response['data']['data']['download']['filename']);
+                                    $a[0].click();
+                                    $a.remove();
+                                    NProgress.done();
+
+                                })
+                                .catch(function (error) {
+                                    that.$swal({
+                                        type: 'error',
+                                        title: 'Pemrosesan Gagal',
+                                    });
+                                    NProgress.done();
+                                });
+                        },
+                        preConfirm: function () {
+
+                        },
+                    }).then(function (result) {
+                        console.log("swal result" + result)
+                    });
+                },
+                downloadReportBunch: function () {
+                    var that = this;
+                    NProgress.start();
+                    this.$swal({
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        title: 'Tunggu Sebentar',
+                        onOpen: function () {
+                            that.$swal.showLoading();
+                            axios.post(
+                                app.home + '/' + app.role + '/event/' + app.event + '/publish/health/bunch'
                                 , {
                                     event: 1,
                                     preset: 2,

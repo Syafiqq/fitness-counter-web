@@ -163,7 +163,8 @@
                 </button>
             </div>
         </modal>
-        <button @click="downloadReport">Download Laporan</button>
+        <button @click="downloadReportList">Download Laporan Keputusan</button>
+        <button @click="downloadReportBunch">Download Laporan Individu</button>
         <hr>
         <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
             <button slot="action" slot-scope="props" @click="editParticipant(props.row)">Edit</button>
