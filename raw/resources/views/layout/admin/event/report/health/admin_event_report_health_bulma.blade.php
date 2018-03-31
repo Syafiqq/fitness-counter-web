@@ -126,34 +126,57 @@
                                         </div>
                                     </div>
                                 </article>
-                                <h3>Postur dan Anggota Gerak</h3>
-                                Postur : <br>
-                                <input id="posture-1" type="radio" value="Normal" v-model="processed.pVal.medical.posture">
-                                <label for="posture-1">Normal</label>
                                 <br>
-                                <input id="posture-2" type="radio" value="Skoliosis" v-model="processed.pVal.medical.posture">
-                                <label for="posture-2">Skoliosis</label>
                                 <br>
-                                <input id="posture-3" type="radio" value="Kifosis" v-model="processed.pVal.medical.posture">
-                                <label for="posture-3">Kifosis</label>
-                                <br>
-                                <input id="posture-4" type="radio" value="Lordosis" v-model="processed.pVal.medical.posture">
-                                <label for="posture-4">Lordosis</label>
-                                <br>
-
-                                Anggota gerak : <br>
-                                <input id="gait-1" type="radio" value="Normal" v-model="processed.pVal.medical.gait">
-                                <label for="gait-1">Normal</label>
-                                <br>
-                                <input id="gait-2" type="radio" value="Deformitas" v-model="processed.pVal.medical.gait">
-                                <label for="gait-2">Deformitas</label>
-                                <br>
-                                <input id="gait-3" type="radio" value="Kelemahan" v-model="processed.pVal.medical.gait">
-                                <label for="gait-3">Kelemahan</label>
-                                <br>
-                                <input id="gait-4" type="radio" value="Kelainan Gait" v-model="processed.pVal.medical.gait">
-                                <label for="gait-4">Kelainan Gait</label>
-                                <br>
+                                <article class="message">
+                                    <div class="message-header">
+                                        <p class="message-title">Postur dan Anggota Gerak</p>
+                                    </div>
+                                    <div class="message-body">
+                                        <div class="field">
+                                            <label class="label">Postur</label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="posture-1" type="radio" value="Normal" v-model="processed.pVal.medical.posture">
+                                                    Normal
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="posture-2" type="radio" value="Skoliosis" v-model="processed.pVal.medical.posture">
+                                                    Skoliosis
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="posture-3" type="radio" value="Kifosis" v-model="processed.pVal.medical.posture">
+                                                    Kifosis
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="posture-4" type="radio" value="Lordosis" v-model="processed.pVal.medical.posture">
+                                                    Lordosis
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Anggota gerak :</label>
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input id="gait-1" type="radio" value="Normal" v-model="processed.pVal.medical.gait">
+                                                    Normal
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="gait-2" type="radio" value="Deformitas" v-model="processed.pVal.medical.gait">
+                                                    Deformitas
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="gait-3" type="radio" value="Kelemahan" v-model="processed.pVal.medical.gait">
+                                                    Kelemahan
+                                                </label>
+                                                <label class="radio">
+                                                    <input id="gait-4" type="radio" value="Kelainan Gait" v-model="processed.pVal.medical.gait">
+                                                    Kelainan Gait
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
 
                                 <h3>Fungsi Kardiovaskular *)</h3>
                                 Denyut nadi istirahat : <br>
