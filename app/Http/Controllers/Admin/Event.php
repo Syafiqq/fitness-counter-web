@@ -296,7 +296,7 @@ class Event extends Controller
             $now = \Carbon\Carbon::now();
             /** @var Spreadsheet $spreadsheet */
             $spreadsheet = new Spreadsheet();
-            $filename    = "Daftar Nilai Ujian Keterampilan Bidang Olahraga SBMPTN {$now->year}";
+            $filename    = "Daftar Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN {$now->year}";
 
             // Set document properties
             $spreadsheet->getProperties()->setCreator('Universitas Negeri Malang')
