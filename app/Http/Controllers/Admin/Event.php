@@ -298,7 +298,7 @@ class Event extends Controller
             $now          = \Carbon\Carbon::now();
             $fileTemplate = "Template_{$now->year}.xlsx";
             $dir          = uniqid('xlsx');
-            $saveDir      = storage_path("app/public/xlsx/$dir");
+            $saveDir      = base_path("/public/xlsx/compress/$dir");
             mkdir($saveDir, 0777, true);
             /** @var Spreadsheet $spreadsheet */
             $reader   = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
