@@ -100,8 +100,8 @@
                     this.processed['oVal'] = app.vault[aVal['pdk']][aVal['pqu']];
                     filterEdit(this.processed['oVal'], this.processed['pVal']);
                     if (_.filter(this.processed.pVal, function (o) {
-                            return o.show;
-                        }).length > 0)
+                        return o.show;
+                    }).length > 0)
                     {
                         this.$modal.show('editable-modal');
                     }
@@ -153,50 +153,7 @@
                     });
                 },
                 downloadReportBunch: function () {
-                    var that = this;
-                    NProgress.start();
-                    this.$swal({
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        title: 'Tunggu Sebentar',
-                        onOpen: function () {
-                            that.$swal.showLoading();
-                            axios.post(
-                                app.home + '/' + app.role + '/event/' + app.event + '/publish/health/bunch'
-                                , {}
-                                , {
-                                    headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json;charset=UTF-8',
-                                    }
-                                }
-                            )
-                                .then(function (response) {
-                                    console.log(response);
-                                    that.$swal.close();
-                                    var $a = $("<a>");
-                                    $a.attr("href", response['data']['data']['download']['content']);
-                                    $("body").append($a);
-                                    $a.attr("download", response['data']['data']['download']['filename']);
-                                    $a[0].click();
-                                    $a.remove();
-                                    NProgress.done();
-
-                                })
-                                .catch(function (error) {
-                                    that.$swal({
-                                        type: 'error',
-                                        title: 'Pemrosesan Gagal',
-                                    });
-                                    NProgress.done();
-                                });
-                        },
-                        preConfirm: function () {
-
-                        },
-                    }).then(function (result) {
-                        console.log("swal result" + result)
-                    });
+                    window.location = app.home + '/' + app.role + '/event/' + app.event + '/publish/health/bunch';
                 },
                 downloadReportOnce: function (val) {
                     var that = this;
