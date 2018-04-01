@@ -298,7 +298,7 @@ class Event extends Controller
             $now          = \Carbon\Carbon::now();
             $fileTemplate = "Template_{$now->year}.xlsx";
             $dir          = uniqid('xlsx');
-            $saveDir      = storage_path("app/public/xlsx/$dir");
+            $saveDir      = base_path("/public/xlsx/compress/$dir");
             mkdir($saveDir, 0777, true);
             /** @var Spreadsheet $spreadsheet */
             $reader   = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
@@ -601,20 +601,12 @@ class Event extends Controller
             header("Last-Modified: {$now->toRfc7231String()}"); // always modified
             header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
             header('Pragma: public'); // HTTP/1.0
-            ob_start();
             readfile("$saveDir/$filename.zip");
-            $zipData = ob_get_contents();
-            ob_end_clean();
-
-            return response()->json(PopoMapper::jsonResponse(200, 'success', ['download' => ['content' => "data:application/zip;base64," . base64_encode($zipData), 'filename' => $filename . '.zip']]), 200);
         }
         catch (\Exception $e)
         {
             \Illuminate\Support\Facades\Log::debug($e);
         }
-
-        return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
-
     }
 
     public function getPublishHealthReportOnce(FirebaseConnection $firebase, Request $request, $event)
