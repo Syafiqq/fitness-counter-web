@@ -18,6 +18,13 @@
         <input type="radio" id="two" value="0" v-model="f_same">
         <label for="two">Wajah Tidak Mirip</label>
         <br>
+        <br>
+        <input type="radio" id="three" value="l" v-model="f_gender">
+        <label for="three">Laki-laki</label>
+        <br>
+        <input type="radio" id="four" value="p" v-model="f_gender">
+        <label for="four">Perempuan</label>
+        <br>
         <button @click="openModal" :disabled="is_process">Daftarkan</button>
     </div>
 @endsection

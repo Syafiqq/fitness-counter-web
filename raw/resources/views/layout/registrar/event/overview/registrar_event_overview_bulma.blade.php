@@ -27,6 +27,18 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="field">
+                                <div class="control">
+                                    <label class="radio" style="vertical-align: center">
+                                        <input type="radio" id="three" value="l" v-model="f_gender">
+                                        Laki - Laki
+                                    </label>
+                                    <label class="radio" style="vertical-align: center">
+                                        <input type="radio" id="four" value="p" v-model="f_gender">
+                                        Perempuan
+                                    </label>
+                                </div>
+                            </div>
                             <div class="field is-grouped">
                                 <p class="control is-expanded">
                                     <input @keyup.enter="openModal" class="input" type="text " placeholder="No. Peserta" v-model="f_participant" required :disabled="is_process">
