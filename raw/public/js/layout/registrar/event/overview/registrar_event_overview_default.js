@@ -30,7 +30,7 @@
                             showLoaderOnConfirm: true,
                             preConfirm: function () {
                                 return new Promise(function (resolve) {
-                                    var _stamp = moment('2018-03-13', 'YYYY-MM-DD');
+                                    var _stamp = moment();
                                     NProgress.configure({parent: '.swal2-modal', showSpinner: false});
                                     NProgress.start();
                                     axios.post(
@@ -39,7 +39,7 @@
                                             event: app.event,
                                             preset: app.preset,
                                             participant: app.f_participant,
-                                            stamp: (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYY-MM-DD')
+                                            stamp: (_stamp = _stamp == null ? moment() : _stamp).format('YYYY-MM-DD')
                                         }
                                         , {
                                             headers: {
@@ -59,11 +59,11 @@
                                             {
                                                 response.data.data.same   = Number(app.f_same);
                                                 response.data.data.gender = app.f_gender;
-                                                response.data.data.date   = (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYY-MM-DD');
+                                                response.data.data.date   = (_stamp = _stamp == null ? moment() : _stamp).format('YYYY-MM-DD');
                                                 registerCallback = createNewPresetQueue(firebase, {
                                                     queue: response.data.data.queue,
                                                     participant: response.data.data,
-                                                    stamp: (_stamp = _stamp == null ? moment('2018-03-13', 'YYYY-MM-DD') : _stamp).format('YYYYMMDD')
+                                                    stamp: (_stamp = _stamp == null ? moment() : _stamp).format('YYYYMMDD')
                                                 }, app.preset)
                                             }
                                             if (registerCallback != null)

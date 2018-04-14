@@ -39,7 +39,7 @@
         function listParticipant(event)
         {
             firebase.database().ref(DataMapper.Event(null, null, event)['events'] + '/preset_active').once('value').then(function (preset) {
-                firebase.database().ref(DataMapper.PresetQueue(preset.val(), moment('2018-03-13', 'YYYY-MM-DD').format('YYYYMMDD'))['presets']).on('child_added', function (queue) {
+                firebase.database().ref(DataMapper.PresetQueue(preset.val(), moment().format('YYYYMMDD'))['presets']).on('child_added', function (queue) {
                     var participant = queue.val()['participant'];
                     // @formatter:off
                     if (participant['gender'] != null) participant['gender'] = String(participant['gender']) === 'l' ? 'Laki - Laki' : 'Perempuan';
