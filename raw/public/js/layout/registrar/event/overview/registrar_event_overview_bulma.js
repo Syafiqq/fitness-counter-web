@@ -55,7 +55,7 @@
                                                 resolve(response.data);
                                             };
                                             var registerCallback = undefined;
-                                            if (response.data != null && 'code' in response.data && response.data.code === 200 && response.data.data.queue !== 0)
+                                            if (response.data != null && 'code' in response.data && response.data.code === 200 && response.data.data.queue > 0)
                                             {
                                                 response.data.data.same   = Number(app.f_same);
                                                 response.data.data.gender = app.f_gender;
