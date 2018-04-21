@@ -91,7 +91,7 @@
                             </div>
                             <div class="field is-grouped">
                                 <p class="control is-expanded">
-                                    <input @keyup.enter="openModal" class="input" type="text " placeholder="No. Peserta" v-model="f_participant" required :disabled="is_process">
+                                    <input @keyup.enter="openModal" class="input" type="text " placeholder="No. SBMPTN" v-model="f_participant" required :disabled="is_process">
                                 </p>
                                 <p class="control">
                                     <a @click="openModal" :disabled="is_process" class="button is-info">
