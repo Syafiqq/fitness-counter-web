@@ -15,7 +15,7 @@
                 <a class="navbar-item brand-text" href="{{route("$group.dashboard.home")}}">
                     <strong>SkillTest</strong>
                 </a>
-                <div class="navbar-burger burger" data-target="navMenu">
+                <div id="burger" class="navbar-burger burger" data-target="navMenu">
                     <span></span>
                     <span></span>
                     <span></span>
