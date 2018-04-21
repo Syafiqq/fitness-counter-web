@@ -48,9 +48,9 @@
                                     </div>
                                 </article>
                             </div>
-                            <br>
-                            <br>
                             <div v-if="processed.pVal.illinois.show">
+                                <br>
+                                <br>
                                 <article class="message">
                                     <div class="message-header">
                                         <p class="message-title">Illinois</p>
@@ -99,9 +99,9 @@
                                     </div>
                                 </article>
                             </div>
-                            <br>
-                            <br>
                             <div v-if="processed.pVal.push.show">
+                                <br>
+                                <br>
                                 <article class="message">
                                     <div class="message-header">
                                         <p class="message-title">Push Up</p>
@@ -127,9 +127,9 @@
                                     </div>
                                 </article>
                             </div>
-                            <br>
-                            <br>
                             <div v-if="processed.pVal.run.show">
+                                <br>
+                                <br>
                                 <article class="message">
                                     <div class="message-header">
                                         <p class="message-title">Lari 1600 m</p>
@@ -204,9 +204,9 @@
                                     </div>
                                 </article>
                             </div>
-                            <br>
-                            <br>
                             <div v-if="processed.pVal.throwing.show">
+                                <br>
+                                <br>
                                 <article class="message">
                                     <div class="message-header">
                                         <p class="message-title">Lempar Tangkap Bola</p>
@@ -232,9 +232,9 @@
                                     </div>
                                 </article>
                             </div>
-                            <br>
-                            <br>
                             <div v-if="processed.pVal.vertical.show">
+                                <br>
+                                <br>
                                 <article class="message">
                                     <div class="message-header">
                                         <p class="message-title">Vertical Jump</p>
