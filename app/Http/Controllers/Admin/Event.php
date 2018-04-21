@@ -7,6 +7,7 @@ use App\Firebase\FirebaseConnection;
 use App\Firebase\PopoMapper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -605,9 +606,10 @@ class Event extends Controller
         }
         catch (\Exception $e)
         {
+            Log::error($e);
             if ($request->wantsJson())
             {
-                response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
             }
             else
             {
@@ -791,7 +793,7 @@ class Event extends Controller
 
             if ($spreadsheet == null)
             {
-                return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
+                throw new \Exception();
             }
             // Redirect output to a client’s web browser (Xlsx)
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -807,20 +809,22 @@ class Event extends Controller
             header('Pragma: public'); // HTTP/1.0
 
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-            ob_start();
-            $writer->save("php://output");
-            $xlsData = ob_get_contents();
-            ob_end_clean();
+            $writer->save('php://output');
 
-            return response()->json(PopoMapper::jsonResponse(200, 'success', ['download' => ['content' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($xlsData), 'filename' => $filename . '.xlsx']]), 200);
+            return null;
         }
         catch (\Exception $e)
         {
-            \Illuminate\Support\Facades\Log::debug($e);
+            Log::error($e);
+            if ($request->wantsJson())
+            {
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            else
+            {
+                return redirect()->back()->with('cbk_msg', ['notify' => ["Terjadi Kesalahan"]]);
+            }
         }
-
-        return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
-
     }
 
     public function getPublishHealth(FirebaseConnection $firebase, $event)
