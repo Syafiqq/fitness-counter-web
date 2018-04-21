@@ -86,10 +86,10 @@ gulp.task('minify-public-xlsx', function () {
         .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('minify-resources-views-1', function () {
-    return gulp.src(['./raw/resources/views/**/*.{php,blade.php,html}'], {dot: true, base: './raw/resources/views/'})
+gulp.task('minify-resources-views', function () {
+    return gulp.src(['./storage/framework/views/**/*.{php,html}'], {dot: true, base: './storage/framework/views/'})
         .pipe(phpMinify({silent: true}))
-        /*.pipe(htmlmin({
+        .pipe(htmlmin({
             collapseWhitespace: true,
             removeAttributeQuotes: true,
             processConditionalComments: true,
@@ -98,8 +98,8 @@ gulp.task('minify-resources-views-1', function () {
             minifyCSS: true,
             removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true
-        }))*/
-        .pipe(gulp.dest('./resources/views/'));
+        }))
+        .pipe(gulp.dest('./storage/framework/views/'))
 });
 
 gulp.task('minify-resources-views-2', function () {
