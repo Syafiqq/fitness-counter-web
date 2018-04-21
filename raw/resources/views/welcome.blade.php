@@ -24,7 +24,7 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
                 <div class="container">
                     <div class="navbar-brand">
                         <a class="navbar-item" href="{{ url('/') }}">
-                            <img src="{{asset('/img/logo-sbmptn.png')}}" alt="Logo">
+                            <img src="{{asset('/img/ic_launcher_r_round.png')}}" alt="Logo">
                         </a>
                         <span class="navbar-burger burger" data-target="navbarMenu">
                           <span></span>
@@ -66,7 +66,7 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <h1 class="title">
-                        SBMPTN
+                        SkillTest
                     </h1>
                     <h2 class="subtitle">
                         Sistem perekaman data ujian praktik Olahraga SBMPTN
