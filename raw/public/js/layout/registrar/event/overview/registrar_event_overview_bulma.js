@@ -178,10 +178,14 @@
             }
             removeCurtain();
         });
-        $('nav.navbar').removeClass('is-white').addClass('is-info');
+        var burger = document.querySelector('#burger-new');
+        var menu   = document.querySelector('#' + burger.dataset.target);
+        burger.addEventListener('click', function () {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+        });
     });
     /*
      * Run right away
      * */
-
 })(jQuery);
