@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FirebaseServiceProvider::class,
+        Melihovv\LaravelCompileViews\ServiceProvider::class,
 
     ],
 
@@ -229,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'FormFacade' => Collective\Html\FormFacade::class,
         'HtmlFacade' => Collective\Html\HtmlFacade::class,
+        'HTMLMinFacade' => HTMLMin\HTMLMin\Facades\HTMLMin::class,
 
     ],
 
