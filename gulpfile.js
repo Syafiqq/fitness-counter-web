@@ -205,8 +205,11 @@ gulp.task('cleaning-generated-file-hard', function () {
     return del(gdel.delHard(), {dot: true});
 });
 
+gulp.task('cleaning-cache', shell.task('php artisan cache:clear; php artisan config:clear; php artisan route:clear; php artisan view:clear'));
+
 gulp.task('clean-everything', function (callback) {
     runSequence('cleaning-generated-file-light',
         'cleaning-generated-file-hard',
+        'cleaning-cache',
         callback);
 });
