@@ -312,7 +312,7 @@ class Event extends Controller
             {
                 foreach ($dv as &$qv)
                 {
-                    if ($qv != null)
+                    if ($qv != null && key_exists('participant', $qv))
                     {
                         $queues[$qv['participant']['no']] = &$qv;
                     }
@@ -639,7 +639,7 @@ class Event extends Controller
             {
                 foreach ($dv as &$qv)
                 {
-                    if ($qv != null && $qv['participant']['no'] == $participant)
+                    if ($qv != null && key_exists('participant', $qv) && $qv['participant']['no'] == $participant)
                     {
                         $queues[$qv['participant']['no']] = &$qv;
                     }
@@ -951,7 +951,7 @@ class Event extends Controller
             {
                 foreach ($dv as &$qv)
                 {
-                    if ($qv != null)
+                    if ($qv != null && key_exists('participant', $qv))
                     {
                         $queues[$qv['participant']['no']] = &$qv;
                     }
