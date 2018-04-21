@@ -278,7 +278,7 @@ class Event extends Controller
 
     }
 
-    public function getPublishHealthReport(FirebaseConnection $firebase, $event)
+    public function getPublishHealthReport(Request $request, FirebaseConnection $firebase, $event)
     {
         $jEvent = $firebase
             ->getConnection()
@@ -605,7 +605,14 @@ class Event extends Controller
         }
         catch (\Exception $e)
         {
-            \Illuminate\Support\Facades\Log::debug($e);
+            if ($request->wantsJson())
+            {
+                response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            else
+            {
+                return redirect()->back()->with('cbk_msg', ['notify' => ["Terjadi Kesalahan"]]);
+            }
         }
     }
 
