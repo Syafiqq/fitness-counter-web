@@ -174,11 +174,14 @@ gulp.task('minify-everything-hard', function (callback) {
 
 gulp.task('compile-view-cache', shell.task('php artisan view:compile'));
 
+gulp.task('caching-configuration', shell.task('php artisan config:cache; php artisan route:cache;'));
+
 gulp.task('minify-everything', function (callback) {
     runSequence('minify-everything-light',
         'minify-everything-hard',
         'compile-view-cache',
         'minify-resources-views-compiled',
+        'caching-configuration',
         callback);
 });
 
