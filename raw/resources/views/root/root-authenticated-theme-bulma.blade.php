@@ -67,6 +67,12 @@
 @section('head-css-post')
     @parent
     <link rel="stylesheet" href="{{asset('/css/root/root-authenticated-theme-bulma.min.css')}}">
+    <style>
+        .columns {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    </style>
 @endsection
 @section('body-js-lower-post')
     @parent
