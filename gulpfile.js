@@ -86,7 +86,7 @@ gulp.task('minify-public-xlsx', function () {
         .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('minify-resources-views', function () {
+gulp.task('minify-resources-views-compiled', function () {
     return gulp.src(['./storage/framework/views/**/*.{php,html}'], {dot: true, base: './storage/framework/views/'})
         .pipe(phpMinify({silent: true}))
         .pipe(htmlmin({
@@ -172,7 +172,7 @@ gulp.task('minify-everything', function (callback) {
     runSequence('minify-everything-light',
         'minify-everything-hard',
         'compile-view-cache',
-        'minify-resources-views',
+        'minify-resources-views-compiled',
         callback);
 });
 
