@@ -416,20 +416,18 @@
                                         </div>
                                     </div>
                                 </article>
-                                <br>
-                                <br>
-                                <div class="field is-grouped is-grouped-right">
-                                    <p class="control">
-                                        <a @click="saveChanges" class="button is-primary">
-                                            Simpan
-                                        </a>
-                                    </p>
-                                    <p class="control">
-                                        <a @click="$modal.hide('editable-modal')" class="button is-light">
-                                            Cancel
-                                        </a>
-                                    </p>
-                                </div>
+                            </div>
+                            <div class="field is-grouped is-grouped-right" style="margin-top: 20px;">
+                                <p class="control">
+                                    <a @click="saveChanges" class="button is-primary">
+                                        Simpan
+                                    </a>
+                                </p>
+                                <p class="control">
+                                    <a @click="$modal.hide('editable-modal')" class="button is-light">
+                                        Cancel
+                                    </a>
+                                </p>
                             </div>
                             {{-- @formatter:on --}}
                         </div>
