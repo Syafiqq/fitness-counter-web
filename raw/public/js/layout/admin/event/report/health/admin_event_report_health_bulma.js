@@ -438,7 +438,7 @@
                         app.vault[datedQueue.key] = {};
                     }
                     _.forEach(datedQueue.val(), function (queue) {
-                        if (queue != null && queue.participant.queue != null)
+                        if (queue != null && 'participant' in queue && queue.participant.queue != null)
                         {
                             app.queues.push(filterQueue(queue));
                             app.vault[datedQueue.key][queue.participant.queue] = queue;
