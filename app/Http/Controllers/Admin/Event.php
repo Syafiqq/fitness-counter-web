@@ -303,7 +303,7 @@ class Event extends Controller
             mkdir($saveDir, 0777, true);
             /** @var Spreadsheet $spreadsheet */
             $reader   = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
-            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN {$now->year}";
+            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN Kolektif {$now->year}";
 
             $queues      = [];
             $fileNames   = [];
@@ -640,7 +640,7 @@ class Event extends Controller
             $fileTemplate = "Template_{$now->year}.xlsx";
             /** @var Spreadsheet $spreadsheet */
             $reader   = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
-            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN {$now->year}";
+            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN Individu {$now->year}";
 
             $queues    = [];
             $fileNames = [];
