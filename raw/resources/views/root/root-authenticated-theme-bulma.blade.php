@@ -22,7 +22,7 @@
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-item brand-text" href="{{route("$group.dashboard.home")}}">
-                        <strong>SBMPTN</strong>
+                        <strong>SkillTest</strong>
                     </a>
                     <div class="navbar-burger burger" data-target="navMenu">
                         <span></span>

@@ -4,7 +4,7 @@
 $form = \Collective\Html\FormFacade::getFacadeRoot();
 ?>
 @section('head-title')
-    <title>SBMPTN</title>
+    <title>SkillTest</title>
 @endsection
 
 @section('head-description')
