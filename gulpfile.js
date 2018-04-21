@@ -102,22 +102,6 @@ gulp.task('minify-resources-views', function () {
         .pipe(gulp.dest('./storage/framework/views/'))
 });
 
-gulp.task('minify-resources-views-2', function () {
-    return gulp.src(['./resources/views/**/*.{php,blade.php,html}'], {dot: true, base: './resources/views/'})
-        .pipe(phpMinify({silent: true}))
-        /*.pipe(htmlmin({
-            collapseWhitespace: true,
-            removeAttributeQuotes: true,
-            processConditionalComments: true,
-            removeComments: true,
-            minifyJS: true,
-            minifyCSS: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true
-        }))*/
-        .pipe(gulp.dest('./resources/views/'));
-});
-
 gulp.task('move-public-assets-vendor', function () {
     return gulp.src(assets.concat(gpath.assetsVendorResource(true, '*.{js,css,json,png,jpg,jpeg,gif,svg}')),
         {dot: true, base: './node_modules/'})
