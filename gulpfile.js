@@ -86,10 +86,10 @@ gulp.task('minify-public-xlsx', function () {
         .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('minify-resources-views-1', function () {
-    return gulp.src(['./raw/resources/views/**/*.{php,blade.php,html}'], {dot: true, base: './raw/resources/views/'})
+gulp.task('minify-resources-views', function () {
+    return gulp.src(['./storage/framework/views/**/*.{php,html}'], {dot: true, base: './storage/framework/views/'})
         .pipe(phpMinify({silent: true}))
-        /*.pipe(htmlmin({
+        .pipe(htmlmin({
             collapseWhitespace: true,
             removeAttributeQuotes: true,
             processConditionalComments: true,
@@ -98,24 +98,8 @@ gulp.task('minify-resources-views-1', function () {
             minifyCSS: true,
             removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true
-        }))*/
-        .pipe(gulp.dest('./resources/views/'));
-});
-
-gulp.task('minify-resources-views-2', function () {
-    return gulp.src(['./resources/views/**/*.{php,blade.php,html}'], {dot: true, base: './resources/views/'})
-        .pipe(phpMinify({silent: true}))
-        /*.pipe(htmlmin({
-            collapseWhitespace: true,
-            removeAttributeQuotes: true,
-            processConditionalComments: true,
-            removeComments: true,
-            minifyJS: true,
-            minifyCSS: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true
-        }))*/
-        .pipe(gulp.dest('./resources/views/'));
+        }))
+        .pipe(gulp.dest('./storage/framework/views/'))
 });
 
 gulp.task('move-public-assets-vendor', function () {
@@ -172,7 +156,6 @@ gulp.task('minify-everything-light', function (callback) {
         'move-public-assets',
         'move-public-minified-assets',
         ['minify-public-img', 'minify-public-xlsx', 'minify-public-js', 'minify-public-css', 'minify-public-json'],
-        'minify-resources-views-1',
         callback);
 });
 
@@ -183,9 +166,13 @@ gulp.task('minify-everything-hard', function (callback) {
         callback);
 });
 
+gulp.task('compile-view-cache', shell.task('php artisan view:compile'));
+
 gulp.task('minify-everything', function (callback) {
     runSequence('minify-everything-light',
         'minify-everything-hard',
+        'compile-view-cache',
+        'minify-resources-views',
         callback);
 });
 
@@ -221,8 +208,11 @@ gulp.task('cleaning-generated-file-hard', function () {
     return del(gdel.delHard(), {dot: true});
 });
 
+gulp.task('cleaning-cache', shell.task('php artisan cache:clear; php artisan config:clear; php artisan route:clear; php artisan view:clear'));
+
 gulp.task('clean-everything', function (callback) {
     runSequence('cleaning-generated-file-light',
         'cleaning-generated-file-hard',
+        'cleaning-cache',
         callback);
 });
