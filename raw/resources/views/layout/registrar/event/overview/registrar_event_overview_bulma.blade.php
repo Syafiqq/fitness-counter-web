@@ -29,13 +29,13 @@
                             <a class="navbar-item brand-text" href="{{route("$group.dashboard.home")}}">
                                 <strong>SkillTest</strong>
                             </a>
-                            <div id="burger-new" class="navbar-burger burger" data-target="navMenus">
+                            <div id="burger" class="navbar-burger burger" data-target="navMenu">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
                         </div>
-                        <div id="navMenus" class="navbar-menu">
+                        <div id="navMenu" class="navbar-menu">
                             <div class="navbar-start">
                                 @stack('pre-add-auth-header-menu-start')
                             </div>
