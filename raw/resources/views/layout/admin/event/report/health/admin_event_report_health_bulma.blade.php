@@ -482,6 +482,7 @@
 
 @section('body-js-lower-post')
     @parent
+    <script type="text/javascript" src="{{asset('/js/common/common-download.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/model/firebase/TesterEvaluator.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/layout/admin/event/report/health/admin_event_report_health_bulma.min.js')}}"></script>
 @endsection
