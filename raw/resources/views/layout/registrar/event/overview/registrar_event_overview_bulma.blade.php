@@ -23,19 +23,19 @@
         ?>
         <section class="hero is-info is-fullheight">
             <div class="hero-head">
-                <nav class="navbar is-black is-inverted is-info">
+                <nav class="navbar is-info">
                     <div class="container">
                         <div class="navbar-brand">
                             <a class="navbar-item brand-text" href="{{route("$group.dashboard.home")}}">
                                 <strong>SkillTest</strong>
                             </a>
-                            <div class="navbar-burger burger" data-target="navMenu">
+                            <div id="burger-new" class="navbar-burger burger" data-target="navMenus">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
                         </div>
-                        <div id="navMenu" class="navbar-menu">
+                        <div id="navMenus" class="navbar-menu">
                             <div class="navbar-start">
                                 @stack('pre-add-auth-header-menu-start')
                             </div>
