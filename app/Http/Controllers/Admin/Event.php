@@ -7,6 +7,7 @@ use App\Firebase\FirebaseConnection;
 use App\Firebase\PopoMapper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -67,7 +68,7 @@ class Event extends Controller
         return view("layout.admin.event.report.health.admin_event_report_health_{$this->theme}", compact('meta'));
     }
 
-    public function getPublishEvaluation(FirebaseConnection $firebase, $event)
+    public function getPublishEvaluation(Request $request, FirebaseConnection $firebase, $event)
     {
         $jEvent = $firebase
             ->getConnection()
@@ -202,7 +203,7 @@ class Event extends Controller
             {
                 foreach ($dv as &$qv)
                 {
-                    if ($qv != null)
+                    if ($qv != null && key_exists('participant', $qv))
                     {
                         $queues[$qv['participant']['no']] = &$qv;
                     }
@@ -262,23 +263,25 @@ class Event extends Controller
             header('Pragma: public'); // HTTP/1.0
 
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-            ob_start();
             $writer->save("php://output");
-            $xlsData = ob_get_contents();
-            ob_end_clean();
 
-            return response()->json(PopoMapper::jsonResponse(200, 'success', ['download' => ['content' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($xlsData), 'filename' => $filename . '.xlsx']]), 200);
+            return null;
         }
         catch (\Exception $e)
         {
-            \Illuminate\Support\Facades\Log::debug($e);
+            Log::error($e);
+            if ($request->wantsJson())
+            {
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            else
+            {
+                return redirect()->back()->with('cbk_msg', ['notify' => ["Terjadi Kesalahan"]]);
+            }
         }
-
-        return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
-
     }
 
-    public function getPublishHealthReport(FirebaseConnection $firebase, $event)
+    public function getPublishHealthReport(Request $request, FirebaseConnection $firebase, $event)
     {
         $jEvent = $firebase
             ->getConnection()
@@ -302,7 +305,7 @@ class Event extends Controller
             mkdir($saveDir, 0777, true);
             /** @var Spreadsheet $spreadsheet */
             $reader   = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
-            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN {$now->year}";
+            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN Kolektif {$now->year}";
 
             $queues      = [];
             $fileNames   = [];
@@ -312,7 +315,7 @@ class Event extends Controller
             {
                 foreach ($dv as &$qv)
                 {
-                    if ($qv != null)
+                    if ($qv != null && key_exists('participant', $qv))
                     {
                         $queues[$qv['participant']['no']] = &$qv;
                     }
@@ -605,7 +608,15 @@ class Event extends Controller
         }
         catch (\Exception $e)
         {
-            \Illuminate\Support\Facades\Log::debug($e);
+            Log::error($e);
+            if ($request->wantsJson())
+            {
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            else
+            {
+                return redirect()->back()->with('cbk_msg', ['notify' => ["Terjadi Kesalahan"]]);
+            }
         }
     }
 
@@ -631,7 +642,7 @@ class Event extends Controller
             $fileTemplate = "Template_{$now->year}.xlsx";
             /** @var Spreadsheet $spreadsheet */
             $reader   = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
-            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN {$now->year}";
+            $filename = "Daftar Nilai Kesehatan Ujian Keterampilan Bidang Olahraga SBMPTN Individu {$now->year}";
 
             $queues    = [];
             $fileNames = [];
@@ -639,7 +650,7 @@ class Event extends Controller
             {
                 foreach ($dv as &$qv)
                 {
-                    if ($qv != null && $qv['participant']['no'] == $participant)
+                    if ($qv != null && key_exists('participant', $qv) && $qv['participant']['no'] == $participant)
                     {
                         $queues[$qv['participant']['no']] = &$qv;
                     }
@@ -784,7 +795,7 @@ class Event extends Controller
 
             if ($spreadsheet == null)
             {
-                return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
+                throw new \Exception();
             }
             // Redirect output to a client’s web browser (Xlsx)
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -800,23 +811,25 @@ class Event extends Controller
             header('Pragma: public'); // HTTP/1.0
 
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-            ob_start();
-            $writer->save("php://output");
-            $xlsData = ob_get_contents();
-            ob_end_clean();
+            $writer->save('php://output');
 
-            return response()->json(PopoMapper::jsonResponse(200, 'success', ['download' => ['content' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($xlsData), 'filename' => $filename . '.xlsx']]), 200);
+            return null;
         }
         catch (\Exception $e)
         {
-            \Illuminate\Support\Facades\Log::debug($e);
+            Log::error($e);
+            if ($request->wantsJson())
+            {
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            else
+            {
+                return redirect()->back()->with('cbk_msg', ['notify' => ["Terjadi Kesalahan"]]);
+            }
         }
-
-        return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
-
     }
 
-    public function getPublishHealth(FirebaseConnection $firebase, $event)
+    public function getPublishHealth(Request $request, FirebaseConnection $firebase, $event)
     {
         $jEvent = $firebase
             ->getConnection()
@@ -951,7 +964,7 @@ class Event extends Controller
             {
                 foreach ($dv as &$qv)
                 {
-                    if ($qv != null)
+                    if ($qv != null && key_exists('participant', $qv))
                     {
                         $queues[$qv['participant']['no']] = &$qv;
                     }
@@ -1010,20 +1023,20 @@ class Event extends Controller
             header('Pragma: public'); // HTTP/1.0
 
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-            ob_start();
             $writer->save("php://output");
-            $xlsData = ob_get_contents();
-            ob_end_clean();
-
-            return response()->json(PopoMapper::jsonResponse(200, 'success', ['download' => ['content' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($xlsData), 'filename' => $filename . '.xlsx']]), 200);
         }
         catch (\Exception $e)
         {
-            \Illuminate\Support\Facades\Log::debug($e);
+            Log::error($e);
+            if ($request->wantsJson())
+            {
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            else
+            {
+                return redirect()->back()->with('cbk_msg', ['notify' => ["Terjadi Kesalahan"]]);
+            }
         }
-
-        return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
-
     }
 
     private function compress_and_packing($filename, $path, $data)

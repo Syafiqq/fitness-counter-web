@@ -55,7 +55,7 @@
                                                 resolve(response.data);
                                             };
                                             var registerCallback = undefined;
-                                            if (response.data != null && 'code' in response.data && response.data.code === 200 && response.data.data.queue !== 0)
+                                            if (response.data != null && 'code' in response.data && response.data.code === 200 && response.data.data.queue > 0)
                                             {
                                                 response.data.data.same   = Number(app.f_same);
                                                 response.data.data.gender = app.f_gender;
@@ -176,10 +176,14 @@
             }
             removeCurtain();
         });
-        $('nav.navbar').removeClass('is-white').addClass('is-info');
+        var burger = document.querySelector('#burger');
+        var menu   = document.querySelector('#' + burger.dataset.target);
+        burger.addEventListener('click', function () {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+        });
     });
     /*
      * Run right away
      * */
-
 })(jQuery);

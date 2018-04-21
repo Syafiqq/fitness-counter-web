@@ -21,7 +21,7 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
                     <p class="subtitle has-text-grey">Please login to proceed.</p>
                     <div class="box">
                         <figure class="avatar">
-                            <img src="{{asset('/img/logo-sbmptn.png')}}" width="128">
+                            <img src="{{asset('/img/ic_launcher_r_round.png')}}" width="128">
                         </figure>
                         {!! $form->open(['route' => 'auth.login.post', 'method' => 'post']) !!}
                         <div class="field">

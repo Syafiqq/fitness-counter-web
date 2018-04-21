@@ -148,8 +148,8 @@
                     this.processed['oVal'] = app.vault[aVal['pdk']][aVal['pqu']];
                     filterEdit(this.processed['oVal'], this.processed['pVal']);
                     if (_.filter(this.processed.pVal, function (o) {
-                            return o.show;
-                        }).length > 0)
+                        return o.show;
+                    }).length > 0)
                     {
                         this.$modal.show('editable-modal');
                     }
@@ -206,6 +206,7 @@
                                     participant: 3,
                                 }
                                 , {
+                                    responseType: 'blob',
                                     headers: {
                                         'Accept': 'application/json',
                                         'Content-Type': 'application/json;charset=UTF-8',
@@ -214,12 +215,10 @@
                             )
                                 .then(function (response) {
                                     that.$swal.close();
-                                    var $a = $("<a>");
-                                    $a.attr("href", response['data']['data']['download']['content']);
-                                    $("body").append($a);
-                                    $a.attr("download", response['data']['data']['download']['filename']);
-                                    $a[0].click();
-                                    $a.remove();
+                                    if ('data' in response && 'headers' in response && 'content-disposition' in response.headers && 'content-type' in response.headers)
+                                    {
+                                        fileDownload(response.data, getFilename(response.headers['content-disposition'], response.headers['content-type']));
+                                    }
                                     NProgress.done();
 
                                 })
@@ -606,7 +605,7 @@
                         app.vault[datedQueue.key] = {};
                     }
                     _.forEach(datedQueue.val(), function (queue) {
-                        if (queue != null && queue.participant.queue != null)
+                        if (queue != null && 'participant' in queue && queue.participant.queue != null)
                         {
                             app.queues.push(filterQueue(queue));
                             app.vault[datedQueue.key][queue.participant.queue] = queue;

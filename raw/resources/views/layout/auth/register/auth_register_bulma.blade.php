@@ -22,7 +22,7 @@ $form = \Collective\Html\FormFacade::getFacadeRoot();
                         <p class="subtitle has-text-grey">Please Register to have access.</p>
                         <div class="box">
                             <figure class="avatar">
-                                <img src="{{asset('/img/logo-sbmptn.png')}}" width="128">
+                                <img src="{{asset('/img/ic_launcher_r_round.png')}}" width="128">
                             </figure>
                             <div class="field">
                                 <div class="control">
