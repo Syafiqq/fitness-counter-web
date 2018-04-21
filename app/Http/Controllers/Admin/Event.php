@@ -827,7 +827,7 @@ class Event extends Controller
         }
     }
 
-    public function getPublishHealth(FirebaseConnection $firebase, $event)
+    public function getPublishHealth(Request $request, FirebaseConnection $firebase, $event)
     {
         $jEvent = $firebase
             ->getConnection()
@@ -1021,20 +1021,20 @@ class Event extends Controller
             header('Pragma: public'); // HTTP/1.0
 
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-            ob_start();
             $writer->save("php://output");
-            $xlsData = ob_get_contents();
-            ob_end_clean();
-
-            return response()->json(PopoMapper::jsonResponse(200, 'success', ['download' => ['content' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($xlsData), 'filename' => $filename . '.xlsx']]), 200);
         }
         catch (\Exception $e)
         {
-            \Illuminate\Support\Facades\Log::debug($e);
+            Log::error($e);
+            if ($request->wantsJson())
+            {
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            else
+            {
+                return redirect()->back()->with('cbk_msg', ['notify' => ["Terjadi Kesalahan"]]);
+            }
         }
-
-        return response()->json(PopoMapper::jsonResponse(500, 'failed', []), 500);
-
     }
 
     private function compress_and_packing($filename, $path, $data)
