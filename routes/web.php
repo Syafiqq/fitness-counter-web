@@ -13,9 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware(['web', 'guest']);
+Route::get('/', 'RootController@welcome')->name('root')->middleware(['web', 'guest']);
 
 Route::prefix('/auth')->namespace('Auth')->middleware(['web'])->group(function () {
     Route::middleware(['guest'])->group(function () {
