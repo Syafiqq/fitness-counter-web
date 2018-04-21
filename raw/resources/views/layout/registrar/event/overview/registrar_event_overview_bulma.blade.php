@@ -7,10 +7,60 @@
     <meta name="description" content="Overview">
 @endsection
 
+@section('body-authenticated-navbar')
+@endsection
 @section('body-content')
     @parent
     <div id="app">
-        <section class="hero is-info is-large">
+        <?php
+        $group = strtolower(\Illuminate\Support\Facades\Auth::user()->getRole());
+        $roles = \Illuminate\Support\Facades\App::call(\App\Helper\UserHelper::class . "::getUserRole", [\Illuminate\Support\Facades\Auth::user()]);
+        unset($roles['tester']);
+        foreach ($roles as $krole => &$role)
+        {
+            $role = ucfirst($krole);
+        }
+        ?>
+        <section class="hero is-info is-fullheight">
+            <div class="hero-head">
+                <nav class="navbar is-black is-inverted is-info">
+                    <div class="container">
+                        <div class="navbar-brand">
+                            <a class="navbar-item brand-text" href="{{route("$group.dashboard.home")}}">
+                                <strong>SkillTest</strong>
+                            </a>
+                            <div class="navbar-burger burger" data-target="navMenu">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div id="navMenu" class="navbar-menu">
+                            <div class="navbar-start">
+                                @stack('pre-add-auth-header-menu-start')
+                            </div>
+                            <div class="navbar-end">
+                                @stack('pre-add-auth-header-menu-end')
+                                @if(count($roles) > 1)
+                                    <div class="navbar-item has-dropdown is-hoverable">
+                                        <a class="navbar-link" href="javascript:void(0)">
+                                            Peran
+                                        </a>
+                                        <div class="navbar-dropdown is-boxed">
+                                            @foreach ($roles as $krole => &$role)
+                                                <a class="navbar-item is-black" href="{{route('auth.switch.role', [$krole])}}">
+                                                    {{$role}}
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+                                {!! link_to_route('logout', 'Logout', [], ['class' => 'navbar-item', 'style'=> 'margin-left:10px;']) !!}
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
             <div class="hero-body">
                 <div class="container has-text-centered">
                     <div class="column is-6 is-offset-3">
