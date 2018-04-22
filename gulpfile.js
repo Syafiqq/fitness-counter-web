@@ -104,7 +104,7 @@ gulp.task('minify-resources-views-compiled', function () {
             removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true
         }))
-        .pipe(gulp.dest('./storage/framework/views/'))
+        .pipe(gulp.dest('./storage/framework/views/'));
 });
 
 gulp.task('move-public-assets-vendor', function () {
@@ -180,8 +180,8 @@ gulp.task('minify-everything', function (callback) {
     runSequence('minify-everything-light',
         'minify-everything-hard',
         'compile-view-cache',
-        'minify-resources-views-compiled',
         'caching-configuration',
+        'minify-resources-views-compiled',
         callback);
 });
 
