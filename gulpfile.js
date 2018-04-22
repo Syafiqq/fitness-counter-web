@@ -87,6 +87,11 @@ gulp.task('minify-public-xlsx', function () {
 });
 
 gulp.task('minify-resources-views', function () {
+    return gulp.src(['./raw/resources/views/**/*.{php,blade.php,html}'], {dot: true, base: './raw/resources/views/'})
+        .pipe(gulp.dest('./resources/views/'));
+});
+
+gulp.task('minify-resources-views-compiled', function () {
     return gulp.src(['./storage/framework/views/**/*.{php,html}'], {dot: true, base: './storage/framework/views/'})
         .pipe(phpMinify({silent: true}))
         .pipe(htmlmin({
@@ -99,7 +104,7 @@ gulp.task('minify-resources-views', function () {
             removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true
         }))
-        .pipe(gulp.dest('./storage/framework/views/'))
+        .pipe(gulp.dest('./storage/framework/views/'));
 });
 
 gulp.task('move-public-assets-vendor', function () {
@@ -156,6 +161,7 @@ gulp.task('minify-everything-light', function (callback) {
         'move-public-assets',
         'move-public-minified-assets',
         ['minify-public-img', 'minify-public-xlsx', 'minify-public-js', 'minify-public-css', 'minify-public-json'],
+        'minify-resources-views',
         callback);
 });
 
@@ -174,8 +180,8 @@ gulp.task('minify-everything', function (callback) {
     runSequence('minify-everything-light',
         'minify-everything-hard',
         'compile-view-cache',
-        'minify-resources-views',
         'caching-configuration',
+        'minify-resources-views-compiled',
         callback);
 });
 
