@@ -184,7 +184,7 @@ gulp.task('minify-everything', function (callback) {
         'minify-everything-light',
         'minify-everything-hard',
         'compile-view-cache',
-        'caching-configuration',
+        //'caching-configuration',
         'minify-resources-views-compiled',
         callback);
 });
