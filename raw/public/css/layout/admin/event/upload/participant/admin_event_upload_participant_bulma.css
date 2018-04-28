@@ -1,0 +1,20 @@
+table.VueTables__table tr td:nth-child(1) {
+    width: 30%;
+}
+
+div.columns {
+    margin-left: 0;
+}
+
+p.message-title {
+    font-size: 1.5rem;
+    font-weight: bold
+}
+
+table.VueTables__table tr td:nth-child(2) {
+    width: 50%;
+}
+
+table.VueTables__table tr td:nth-child(3) {
+    width: 20%;
+}
