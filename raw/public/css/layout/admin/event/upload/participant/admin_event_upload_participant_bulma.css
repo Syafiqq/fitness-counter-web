@@ -18,3 +18,7 @@ table.VueTables__table tr td:nth-child(2) {
 table.VueTables__table tr td:nth-child(3) {
     width: 20%;
 }
+
+.events-card .card-table {
+    max-height: inherit;
+}
