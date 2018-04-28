@@ -24,7 +24,49 @@
             computed: {},
             methods: {
                 downloadTemplate: function () {
+                    var that = this;
+                    NProgress.start();
+                    this.$swal({
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        title: 'Tunggu Sebentar',
+                        onOpen: function () {
+                            that.$swal.showLoading();
+                            axios.get(
+                                app.home + '/' + app.role + '/event/' + app.event + '/upload/participant/template'
+                                , {}
+                                , {
+                                    responseType: 'blob',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json;charset=UTF-8',
+                                    }
+                                }
+                            )
+                                .then(function (response) {
+                                    console.log(response);
+                                    that.$swal.close();
+                                    if ('data' in response && 'headers' in response && 'content-disposition' in response.headers && 'content-type' in response.headers)
+                                    {
+                                        fileDownload(response.data, getFilename(response.headers['content-disposition'], response.headers['content-type']));
+                                    }
+                                    NProgress.done();
 
+                                })
+                                .catch(function (error) {
+                                    that.$swal({
+                                        type: 'error',
+                                        title: 'Pemrosesan Gagal',
+                                    });
+                                    NProgress.done();
+                                });
+                        },
+                        preConfirm: function () {
+
+                        },
+                    }).then(function (result) {
+                        console.log("swal result" + result)
+                    });
                 },
                 uploadParticipant: function () {
                     this.$refs.upload.click()
