@@ -77,14 +77,21 @@
 
         function listParticipant(event)
         {
-
+            firebase.database().ref(DataMapper.Event(null, null, event)['events'] + '/participant').once('value').then(function (participant) {
+                _.forEach(participant.val(), function (queue) {
+                    if (queue != null && 'no' in queue && 'name' in queue && 'gender' in queue)
+                    {
+                        app.queues.push(queue);
+                    }
+                });
+            });
         }
 
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
                 console.log(user.email);
-                //listParticipant(app.event);
+                listParticipant(app.event);
             } else
             {
                 // User is signed out.
