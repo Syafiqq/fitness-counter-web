@@ -44,7 +44,6 @@
                                 }
                             )
                                 .then(function (response) {
-                                    console.log(response);
                                     that.$swal.close();
                                     if ('data' in response && 'headers' in response && 'content-disposition' in response.headers && 'content-type' in response.headers)
                                     {
@@ -65,14 +64,12 @@
 
                         },
                     }).then(function (result) {
-                        console.log("swal result" + result)
                     });
                 },
                 uploadParticipant: function () {
                     this.$refs.upload.click()
                 },
                 notifyFileInput: function (event) {
-                    console.log(event.target.files);
                     var that = this;
                     if (event.target.files.length > 0)
                     {
@@ -124,7 +121,6 @@
 
                             },
                         }).then(function (result) {
-                            console.log("swal result" + result)
                         });
                     }
                 }
@@ -148,7 +144,6 @@
         firebase.auth().onAuthStateChanged(function (user) {
             if (user)
             {
-                console.log(user.email);
                 listParticipant(app.event);
             } else
             {

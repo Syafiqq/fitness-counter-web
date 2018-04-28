@@ -168,7 +168,6 @@
                                 }
                             )
                                 .then(function (response) {
-                                    console.log(response);
                                     that.$swal.close();
                                     if ('data' in response && 'headers' in response && 'content-disposition' in response.headers && 'content-type' in response.headers)
                                     {
@@ -189,7 +188,6 @@
 
                         },
                     }).then(function (result) {
-                        console.log("swal result" + result)
                     });
                 },
                 downloadReportOnce: function (val) {
