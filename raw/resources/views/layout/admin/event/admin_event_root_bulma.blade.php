@@ -20,6 +20,7 @@
             {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.report.health', 'Report Kesehatan', [$meta['event']], ['class' => 'navbar-item']) !!}
         </div>
     </div>
+    {!! link_to_route(\Illuminate\Support\Facades\Auth::user()->getRole().'.event.upload.participant', 'Upload Peserta', [$meta['event']], ['class' => 'navbar-item']) !!}
 @endpush
 
 @section('head-meta')
