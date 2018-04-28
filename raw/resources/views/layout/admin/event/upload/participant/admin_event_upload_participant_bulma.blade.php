@@ -30,6 +30,7 @@
                                 <span class="icon"><i class="fa fa-download"></i></span>
                                 Download Template
                             </a>
+                            <input type="file" name="upload" id="upload" style="display: none" ref="upload" accept="text/csv, .csv">
                             <a @click="uploadParticipant" href="javascript:void(0)" class="card-footer-item is-info">
                                 <span class="icon"><i class="fa fa-upload"></i></span>
                                 Upload Data
