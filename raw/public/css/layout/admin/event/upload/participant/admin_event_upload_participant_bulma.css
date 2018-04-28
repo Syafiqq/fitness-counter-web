@@ -21,4 +21,5 @@ table.VueTables__table tr td:nth-child(3) {
 
 .events-card .card-table {
     max-height: inherit;
+    overflow-y: hidden;
 }
