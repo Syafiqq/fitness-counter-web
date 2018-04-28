@@ -6,6 +6,7 @@ use App\Firebase\DataMapper;
 use App\Firebase\FirebaseConnection;
 use App\Firebase\PopoMapper;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -61,7 +62,23 @@ class Event extends Controller
 
     public function getUploadParticipantTemplate($event)
     {
+        $now      = Carbon::now();
+        $filename = 'Template Peserta.csv';
+        $dirFile  = base_path("public/csv/$filename");
+        // Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: text/csv');
+        header("Content-Disposition: attachment;filename=\"$filename\"");
+        header("Content-length: " . filesize($dirFile));
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
 
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header("Last-Modified: {$now->toRfc7231String()}"); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+        readfile($dirFile);
     }
 
     public function getUploadParticipantUpload($event)
