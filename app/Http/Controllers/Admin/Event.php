@@ -65,7 +65,7 @@ class Event extends Controller
     {
         $now      = Carbon::now();
         $filename = 'Template Peserta.csv';
-        $dirFile  = base_path("public/csv/$filename");
+        $dirFile  = base_path("public_html/csv/$filename");
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: text/csv');
         header("Content-Disposition: attachment;filename=\"$filename\"");
