@@ -6,9 +6,11 @@ use App\Firebase\DataMapper;
 use App\Firebase\FirebaseConnection;
 use App\Firebase\PopoMapper;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use ZipArchive;
@@ -48,6 +50,82 @@ class Event extends Controller
         ];
 
         return view("layout.admin.event.management.tester.admin_event_management_tester_{$this->theme}", compact('meta'));
+    }
+
+    public function getUploadParticipant($event)
+    {
+        $meta = [
+            'event' => $event
+        ];
+
+        return view("layout.admin.event.upload.participant.admin_event_upload_participant_{$this->theme}", compact('meta'));
+    }
+
+    public function getUploadParticipantTemplate($event)
+    {
+        $now      = Carbon::now();
+        $filename = 'Template Peserta.csv';
+        $dirFile  = base_path("public/csv/$filename");
+        // Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: text/csv');
+        header("Content-Disposition: attachment;filename=\"$filename\"");
+        header("Content-length: " . filesize($dirFile));
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header("Last-Modified: {$now->toRfc7231String()}"); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+        readfile($dirFile);
+    }
+
+    public function getUploadParticipantUpload(FirebaseConnection $firebase, Request $request, $event)
+    {
+        $file = null;
+        if ($request->has('upload') && $request->file('upload')->isValid())
+        {
+            try
+            {
+                $file   = $request->file('upload');
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+                $reader->setSheetIndex(0);
+                $spreadsheet = $reader->load($file->path());
+                $spreadsheet->setActiveSheetIndex(0);
+                $worksheet    = $spreadsheet->getActiveSheet();
+                $c            = 2;
+                $participants = [];
+                $no           = $name = $gender = null;
+                while ((strlen($no = trim($worksheet->getCell("A{$c}"))) > 0) && (strlen($name = trim($worksheet->getCell("B{$c}"))) > 0) && (strlen($gender = trim($worksheet->getCell("C{$c}"))) > 0) && (($gender == 'l') || ($gender == 'p')))
+                {
+                    $participants[$no] = compact('no', 'name', 'gender');
+                    ++$c;
+                }
+                $firebase
+                    ->getConnection()
+                    ->getDatabase()
+                    ->getReference(DataMapper::event(null, null, $event)['events'] . "/participant")
+                    ->set($participants);
+
+                return response()->json(PopoMapper::jsonResponse(200, 'OK', []), 200);
+            }
+            catch (Exception $e)
+            {
+                Log::error($e);
+
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            catch (\PhpOffice\PhpSpreadsheet\Exception $e)
+            {
+                Log::error($e);
+
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+        }
+
+        return response()->json(PopoMapper::jsonResponse(422, 'Unprocessed Entity', ['Data Tidak Valid']), 422);
     }
 
     public function getEvaluationReport($event)
