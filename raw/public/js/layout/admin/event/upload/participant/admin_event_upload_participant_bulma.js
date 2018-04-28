@@ -27,7 +27,7 @@
 
                 },
                 uploadParticipant: function () {
-
+                    this.$refs.upload.click()
                 }
             },
 
