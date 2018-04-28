@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use ZipArchive;
@@ -81,9 +82,50 @@ class Event extends Controller
         readfile($dirFile);
     }
 
-    public function getUploadParticipantUpload($event)
+    public function getUploadParticipantUpload(FirebaseConnection $firebase, Request $request, $event)
     {
+        $file = null;
+        if ($request->has('upload') && $request->file('upload')->isValid())
+        {
+            try
+            {
+                $file   = $request->file('upload');
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+                $reader->setSheetIndex(0);
+                $spreadsheet = $reader->load($file->path());
+                $spreadsheet->setActiveSheetIndex(0);
+                $worksheet    = $spreadsheet->getActiveSheet();
+                $c            = 2;
+                $participants = [];
+                $no           = $name = $gender = null;
+                while ((strlen($no = trim($worksheet->getCell("A{$c}"))) > 0) && (strlen($name = trim($worksheet->getCell("B{$c}"))) > 0) && (strlen($gender = trim($worksheet->getCell("C{$c}"))) > 0) && (($gender == 'l') || ($gender == 'p')))
+                {
+                    $participants[$no] = compact('no', 'name', 'gender');
+                    ++$c;
+                }
+                $firebase
+                    ->getConnection()
+                    ->getDatabase()
+                    ->getReference(DataMapper::event(null, null, $event)['events'] . "/participant")
+                    ->set($participants);
 
+                return response()->json(PopoMapper::jsonResponse(200, 'OK', []), 200);
+            }
+            catch (Exception $e)
+            {
+                Log::error($e);
+
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+            catch (\PhpOffice\PhpSpreadsheet\Exception $e)
+            {
+                Log::error($e);
+
+                return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
+            }
+        }
+
+        return response()->json(PopoMapper::jsonResponse(422, 'Unprocessed Entity', ['Data Tidak Valid']), 422);
     }
 
     public function getEvaluationReport($event)
