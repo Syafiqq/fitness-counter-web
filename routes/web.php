@@ -39,7 +39,7 @@ Route::prefix("/$group")->namespace('Admin')->middleware(['web', 'auth', "role:$
             Route::prefix('/participant')->group(function () use ($group) {
                 Route::get('/', 'Event@getUploadParticipant')->name("{$group}.event.upload.participant");
                 Route::get('/template', 'Event@getUploadParticipantTemplate')->name("{$group}.event.upload.participant.template");
-                Route::get('/upload', 'Event@getUploadParticipantUpload')->name("{$group}.event.upload.participant.upload");
+                Route::post('/upload', 'Event@getUploadParticipantUpload')->name("{$group}.event.upload.participant.upload");
             });
         });
         Route::prefix('/report')->group(function () use ($group) {
