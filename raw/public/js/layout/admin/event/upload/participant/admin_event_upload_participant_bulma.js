@@ -70,9 +70,65 @@
                 },
                 uploadParticipant: function () {
                     this.$refs.upload.click()
+                },
+                notifyFileInput: function (event) {
+                    console.log(event.target.files);
+                    var that = this;
+                    if (event.target.files.length > 0)
+                    {
+                        var file = event.target.files[0];
+                        if (file.type !== 'text/csv')
+                        {
+                            this.$swal({
+                                type: 'error',
+                                title: 'File Tidak Valid',
+                            });
+                            return;
+                        }
+
+                        this.$swal({
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            title: 'Tunggu Sebentar',
+                            onOpen: function () {
+                                var formData = new FormData();
+                                formData.append('upload', file);
+                                that.$swal.showLoading();
+                                axios.post(
+                                    app.home + '/' + app.role + '/event/' + app.event + '/upload/participant/upload'
+                                    , formData
+                                    , {
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'multipart/form-data',
+                                        }
+                                    }
+                                )
+                                    .then(function (response) {
+                                        listParticipant(app.event);
+                                        that.$swal({
+                                            type: 'success',
+                                            title: 'Upload Data Berhasil',
+                                        });
+                                        NProgress.done();
+                                    })
+                                    .catch(function (error) {
+                                        that.$swal({
+                                            type: 'error',
+                                            title: 'Pemrosesan Gagal',
+                                        });
+                                        NProgress.done();
+                                    });
+                            },
+                            preConfirm: function () {
+
+                            },
+                        }).then(function (result) {
+                            console.log("swal result" + result)
+                        });
+                    }
                 }
             },
-
         });
 
         function listParticipant(event)
@@ -101,6 +157,11 @@
             }
             removeCurtain();
         });
+        var fileSelector = 'input[type="file"]';
+        $(fileSelector).change(app.notifyFileInput.bind(this));
+        $(fileSelector).on('click', function () {
+            $(this).val("");
+        })
     });
     /*
      * Run right away
