@@ -113,13 +113,13 @@ class Event extends Controller
             }
             catch (Exception $e)
             {
-                Log::error($e);
+                Log::error($e->getMessage());
 
                 return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
             }
             catch (\PhpOffice\PhpSpreadsheet\Exception $e)
             {
-                Log::error($e);
+                Log::error($e->getMessage());
 
                 return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
             }
@@ -347,7 +347,7 @@ class Event extends Controller
         }
         catch (\Exception $e)
         {
-            Log::error($e);
+            Log::error($e->getMessage());
             if ($request->wantsJson())
             {
                 return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
@@ -686,7 +686,7 @@ class Event extends Controller
         }
         catch (\Exception $e)
         {
-            Log::error($e);
+            Log::error($e->getMessage());
             if ($request->wantsJson())
             {
                 return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
@@ -895,7 +895,7 @@ class Event extends Controller
         }
         catch (\Exception $e)
         {
-            Log::error($e);
+            Log::error($e->getMessage());
             if ($request->wantsJson())
             {
                 return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
@@ -1105,7 +1105,7 @@ class Event extends Controller
         }
         catch (\Exception $e)
         {
-            Log::error($e);
+            Log::error($e->getMessage());
             if ($request->wantsJson())
             {
                 return response()->json(PopoMapper::jsonResponse(500, 'Internal Server Error', ['Terjadi Kesalahan']), 500);
