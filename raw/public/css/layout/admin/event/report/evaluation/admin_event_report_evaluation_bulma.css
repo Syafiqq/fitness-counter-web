@@ -46,3 +46,8 @@ table.VueTables__table tr td:nth-child(9) {
 table.VueTables__table tr td:nth-child(10) {
     width: 6%;
 }
+
+.events-card .card-table {
+    max-height: inherit;
+    overflow-y: hidden;
+}

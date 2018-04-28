@@ -444,7 +444,7 @@
                                 Laporan Evaluasi
                             </p>
                         </header>
-                        <div class="card-table is-fullheight" style="height: 900px; max-height: 900px!important;">
+                        <div class="card-table is-fullheight">
                             <div class="content" style="margin: 20px">
                                 <v-client-table :data="queues" :columns="qt_columns" :options="qt_options">
                                     <div slot="action" slot-scope="props">
