@@ -29,4 +29,7 @@
 
 @push('additional-firebase-library')
     <script type="text/javascript" src="{{asset('/vendor/firebase/firebase-database.min.js')}}"></script>
+    @auth
+        <script type="text/javascript" src="{{asset('/js/layout/admin/event/admin_event_root_bulma.min.js')}}"></script>
+    @endauth
 @endpush
