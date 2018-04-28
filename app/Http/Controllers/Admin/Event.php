@@ -59,6 +59,16 @@ class Event extends Controller
         return view("layout.admin.event.upload.participant.admin_event_upload_participant_{$this->theme}", compact('meta'));
     }
 
+    public function getUploadParticipantTemplate($event)
+    {
+
+    }
+
+    public function getUploadParticipantUpload($event)
+    {
+
+    }
+
     public function getEvaluationReport($event)
     {
         $meta = [
