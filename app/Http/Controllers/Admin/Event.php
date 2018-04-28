@@ -50,6 +50,15 @@ class Event extends Controller
         return view("layout.admin.event.management.tester.admin_event_management_tester_{$this->theme}", compact('meta'));
     }
 
+    public function getUploadParticipant($event)
+    {
+        $meta = [
+            'event' => $event
+        ];
+
+        return view("layout.admin.event.upload.participant.admin_event_upload_participant_{$this->theme}", compact('meta'));
+    }
+
     public function getEvaluationReport($event)
     {
         $meta = [
