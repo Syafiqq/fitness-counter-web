@@ -78,9 +78,11 @@
         function listParticipant(event)
         {
             firebase.database().ref(DataMapper.Event(null, null, event)['events'] + '/participant').once('value').then(function (participant) {
+                app.queues.splice(0);
                 _.forEach(participant.val(), function (queue) {
                     if (queue != null && 'no' in queue && 'name' in queue && 'gender' in queue)
                     {
+                        queue.gender = queue.gender === 'l' ? 'Laki - Laki' : 'Perempuan';
                         app.queues.push(queue);
                     }
                 });
