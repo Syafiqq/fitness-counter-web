@@ -1,4 +1,7 @@
 @extends('root.root-firebase-default')
+@section('body-navbar-title')
+    SkillTest
+@endsection
 @section('body-authenticated-navbar')
     <?php
     $group = strtolower(\Illuminate\Support\Facades\Auth::user()->getRole());
@@ -13,7 +16,7 @@
         <div class="container">
             <div class="navbar-brand">
                 <a class="navbar-item brand-text" href="{{route("$group.dashboard.home")}}">
-                    <strong>SkillTest</strong>
+                    <strong id="navbar-title">@yield('body-navbar-title')</strong>
                 </a>
                 <div id="burger" class="navbar-burger burger" data-target="navMenu">
                     <span></span>

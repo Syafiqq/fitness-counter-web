@@ -27,7 +27,7 @@
                     <div class="container">
                         <div class="navbar-brand">
                             <a class="navbar-item brand-text" href="{{route("$group.dashboard.home")}}">
-                                <strong>SkillTest</strong>
+                                <strong id="navbar-title">@yield('body-navbar-title')</strong>
                             </a>
                             <div id="burger" class="navbar-burger burger" data-target="navMenu">
                                 <span></span>
