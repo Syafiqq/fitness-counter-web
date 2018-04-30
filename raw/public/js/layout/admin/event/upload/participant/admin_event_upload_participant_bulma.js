@@ -77,15 +77,6 @@
                     if (event.target.files.length > 0)
                     {
                         var file = event.target.files[0];
-                        if (file.type !== 'text/csv')
-                        {
-                            this.$swal({
-                                type: 'error',
-                                title: 'File Tidak Valid',
-                            });
-                            return;
-                        }
-
                         this.$swal({
                             allowOutsideClick: false,
                             allowEscapeKey: false,
