@@ -162,6 +162,44 @@ class Event extends Controller
 
         try
         {
+            $queues = [];
+            foreach ($pEvent['queues'] as &$dv)
+            {
+                foreach ($dv as &$qv)
+                {
+                    if ($qv != null && key_exists('participant', $qv))
+                    {
+                        $queues[$qv['participant']['no']] = &$qv;
+                    }
+                }
+            }
+
+            uasort($jEvent['participant'], function ($a, $b) use ($queues) {
+                $cmp = [$a['no'] => 0, $b['no'] => 0];
+                foreach ([&$a, &$b] as &$pv)
+                {
+                    $result = 0;
+                    if (key_exists($pv['no'], $queues))
+                    {
+                        $queue = &$queues[$pv['no']];
+                        foreach ($queue as &$kv)
+                        {
+                            if (key_exists('result', $kv))
+                            {
+                                $result += intval($kv['result']);
+                            }
+                        }
+                    }
+                    $cmp[$pv['no']] = $result;
+                }
+                if ($cmp[$a['no']] == $cmp[$b['no']])
+                {
+                    return 0;
+                }
+
+                return ($cmp[$a['no']] < $cmp[$b['no']]) ? 1 : -1;
+            });
+
             /** @var \Carbon\Carbon $now */
             $now = \Carbon\Carbon::now();
             /** @var Spreadsheet $spreadsheet */
@@ -276,17 +314,7 @@ class Event extends Controller
             $centerBlock                            = $leftBlock;
             $centerBlock['alignment']['horizontal'] = Alignment::HORIZONTAL_CENTER;
 
-            $queues = [];
-            foreach ($pEvent['queues'] as &$dv)
-            {
-                foreach ($dv as &$qv)
-                {
-                    if ($qv != null && key_exists('participant', $qv))
-                    {
-                        $queues[$qv['participant']['no']] = &$qv;
-                    }
-                }
-            }
+
             $participantCount = count($jEvent['participant']) + 11;
             $spreadsheet->getActiveSheet()->getStyle("D13:G$participantCount")->applyFromArray($centerBlock);
             $spreadsheet->getActiveSheet()->getStyle("A13:C$participantCount")->applyFromArray($leftBlock);
