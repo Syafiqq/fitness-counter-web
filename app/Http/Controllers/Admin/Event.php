@@ -322,12 +322,13 @@ class Event extends Controller
             $spreadsheet->getActiveSheet()->getStyle("A12:G$participantCount")->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
             $activeSheet = $spreadsheet->getActiveSheet();
             $startCount  = 12;
+            $cL          = 0;
             foreach ($jEvent['participant'] as $pk => &$pv)
             {
                 if ($pv != null)
                 {
                     ++$startCount;
-                    $activeSheet->setCellValue("A$startCount", $pk);
+                    $activeSheet->setCellValue("A$startCount", ++$cL);
                     $activeSheet->setCellValue("B$startCount", $pv['no']);
                     $activeSheet->setCellValue("C$startCount", $pv['name']);
                     $queue = &$queues[$pv['no']];
